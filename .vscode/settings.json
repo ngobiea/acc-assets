@@ -1,0 +1,14 @@
+{
+  "cSpell.words": ["Duden", "hstore"],
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "database": "postgres",
+      "username": "postgres",
+      "name": "localhost"
+    }
+  ]
+}
