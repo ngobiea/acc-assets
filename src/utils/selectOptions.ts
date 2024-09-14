@@ -1,238 +1,933 @@
-const organizationData = {
-  ABC: 'Attitudinal & Behavorial Change',
-  ACC: 'Anti-Corruption Commission',
-  ADG: 'Administrator & Registrar General',
-  AGD: "Accountant General's Department",
-  APRM: 'African Peer Review Mechanism',
-  ASL: 'Audit Sierra Leone',
-  AWC: 'Aberdeen Women Centre',
-  BCC: 'Bo City Council',
-  BDC: 'Bo District Council',
-  BDC1: 'Bonthe District Council',
-  BDC2: 'Bombali District Council',
-  BDS: 'Births And Deaths Department',
-  BMC: 'Bonthe Municipal Council',
-  BSL: 'Bank of Sierra Leone',
-  CAA: 'Civil Aviation Authority',
-  CAC: 'Corporate Affairs Commission',
-  CH: 'Connaught Hospital',
-  CISU: 'Central Intelligence and Security Agency',
-  CM: 'Cabinet Ministers',
-  COLE: 'Council of Legal Education',
-  COMAHS: 'College of Medicine & Allied Health Sciences',
-  CS: 'Cabinet Secretariat',
-  CSTC: 'Civil Service Training College',
-  CTF: 'Conservation Trust Fund',
-  DoC: 'Department of Cooperative',
-  DS: 'Decentralization Secretariat',
-  EBKU: 'Ernest Bai Koroma University',
-  ECSL: 'Electoral Commission Sierra Leone',
-  EDSA: 'Electricity Distribution and Supply Authority',
-  EGTC: 'Electricity Generating Transmission Company',
-  EP: 'Eastern Polytechnic',
-  EPA: 'Environmental Protection Agency',
-  ETU: 'Eastern Technical University',
-  FBC: 'Fourah Bay College',
-  FCC: 'Freetown City Council',
-  FDC: 'Falaba District Council',
-  FIS: 'Faris International Services',
-  FIU: 'Financial Intelligence Unit',
-  FTP: 'Freetown Polytechnic',
-  GPD: 'Government Printing Department',
-  GS: 'Geological Surveys',
-  GTI: 'Government Technical Institute',
-  GVWC: 'Guma Valley Water Company Ltd.',
-  'HIV/AIDS': 'HIV/AIDS Secretariat',
-  HOP: 'House of Parliament (MP)',
-  HRCSL: 'Human Right Commission of Sierra Leone',
-  HRMO: 'Human Resource Management Office',
-  ICPNC: 'Independent Commission For Peace & National Cohesion',
-  ID: 'Immigration Department',
-  IMC: 'Independent Media Commission',
-  IPAM: 'Institute of Public Administration & Management',
-  IPCB: 'Independent Police Complaint Board',
-  IPRP: 'Independent Procurement Review Panel',
-  ITBOACS: 'Income Tax Board of Appellate Board',
-  JLSC: 'Judicial & Legal Service Commission',
-  JSCO: 'Justice Sector Coordination Office',
-  KCC: 'Kenema City Council',
-  KDC: 'Koinadugu District Council',
-  KDC1: 'Kenema District Council',
-  KDC2: 'Karene District Council',
-  KDC3: 'Kambia District Council',
-  KDC4: 'Kono District Council',
-  KDC5: 'Kailahun District Council',
-  KNSCC: 'Koidu New Sembehun City Council',
-  LGC: 'Local Government Commission',
-  LRC: 'The Law Reform Commission',
-  M004: 'Ministry of Agriculture Food Security & Forestry',
-  M011: 'Ministy of Health and Sanitation',
-  M014: 'Ministry of Justice and Attorney - General',
-  M019: 'Ministry of Political and Public Affairs',
-  M020: 'Ministry of Social Welfare',
-  M021: 'Ministy of  Sports',
-  M026: 'Minitry of Youth Affairs',
-  MAFFS: 'Ministry of Agriculture Forestry and Food Security',
-  MBSSE: 'MINISTRY OF BASIC AND SENIOR SECONDARY EDUCATION',
-  MCC: 'Makeni City Council',
-  MDC: 'Moyamba District Council',
-  ME: 'Min. Of Environment',
-  MEP: 'Ministry of Energy & Power',
-  MEST: 'Ministry of Education Science and Technology',
-  MGSCo: 'Mining and General Service CO (SL) Ltd.',
-  MMTU: 'Milton Margai Technical University',
-  MoD: 'Ministry of Defence',
-  MoE: 'Ministry of Energy',
-  MOF: 'Ministry of Finance',
-  MoFAIC: 'Ministry of Foreign Affairs and International Co-operation',
-  MoFMR: 'Ministry of Fisheries and Marine Resources',
-  MOGCA: "Ministry Of Gender & Children's Affairs",
-  MoHS: 'Ministry of Health and Sanitation',
-  MoIA: 'Ministry of Internal Affairs',
-  MOIC: 'Ministry of Information & Civic Education',
-  MoII: 'Min. of Communication & Technology',
-  MOLG: 'Ministry of Local Government',
-  MoLHCP: 'Ministry of Lands Housing & Country Planning ',
-  MoLSS: 'Ministry of Labour and Social Security',
-  MoMMR: 'Ministry of Mines and Mineral Resources',
-  MOPED: 'Ministry Of Planning & Economic Development',
-  MoPPA: 'Ministry of Political and Public Affairs',
-  MoS: 'Ministry of Sport',
-  MoTA: 'Ministry of Transport and Aviation',
-  MoTCA: 'Ministry of Tourism and Cultural Affairs',
-  MoTI: 'Ministry of Trade and Industry',
-  MoWHID: 'Ministry of Works Housing and Infrastructural Development',
-  MoWR: 'Ministry of Water Resources',
-  MoYA: 'Ministry of Youth Affairs',
-  MRC: 'Monuments and Relics Commission',
-  MS: 'Medical Stores',
-  MSU: 'Mechanical Service Unit',
-  MT: 'Meteorological Department',
-  MTHE: 'MINISTRY OF TERTIARY AND HIGHER EDUCATION',
-  MWR: 'Ministry Of Western Region',
-  NACOVERC: 'National COVID Emergency Response Centre',
-  NaCSA: 'National Commission for Social Action',
-  NAGPC: 'National Asset and Government Property Commission',
-  NaMED: 'National Monitoring and Evaluation Directorate',
-  NAO: 'National Authorizing Office',
-  NaSSIT: 'National Social Security and Insurance Trust',
-  NATCOM: 'National Telecommunications Authority',
-  NC3: 'National Cybersecurity Coordination Centre',
-  NCB: 'National Development Bank Limited Company',
-  NCC: 'National Commission for Children',
-  NCCED: 'National Council For Civic Education & Development',
-  NCD: 'National Commission for Democracy',
-  NCDB: 'National Co-operative Development Bank',
-  NCFPD: 'National Commission For People With Disability',
-  NCP: 'National Commission for Privatization',
-  NCRA: 'National Civil Registration Authority',
-  NCT: 'NCTVA',
-  NDLEA: 'National Drug Law Enforcement Agency',
-  NDMA: 'National Disaster Management Agency',
-  NEWRMC: 'National Early Warning & Response Mechanism Coordinating Centre',
-  NFF: 'National Fire Force',
-  NFRA: 'National Fertilizer Regulatory Agency',
-  NHAS: 'National HIV/AIDS Secretariat',
-  NIB: 'National Investment Board',
-  NIC: 'National Insurance Company Limited',
-  NMA: 'NATIONAL MINERAL AGENCY',
-  NMSA: 'National Medical Supplies Agency',
-  NPAA: 'National Protected Area Authority',
-  NPPA: 'National Public Procurement Authority',
-  NRA: 'National Revenue Authority',
-  NSA: 'National Sports Authority',
-  NSC: 'National Sport Council',
-  NSRPA: 'Nuclear Safety & Radiation Protection Authority',
-  NTB: 'National Tourism Board',
-  NU: 'Njala University - Njala Campus',
-  NWRMA: 'National Water Resources Management Agency',
-  NYC: 'National Youth Commission',
-  NYS: 'National Youth Service',
-  O006: 'Open Government Initiative (OGI) Waterloo',
-  OAGMJ: 'Office of the Attorney General and Minister of Justice',
-  OARG: 'Office of Administrator and Registrar General',
-  OCCHO: 'Office of Chief CHO',
-  OCM: 'Office Of The Chief Minister',
-  OCS: 'Office Of Chief Of Staff',
-  OD: 'Office of the Diaspora',
-  OGI: 'Open Government Initiative',
-  OMDS: "Ombudsman's Office",
-  ONS: 'Office of National Security',
-  OP: 'Office Of The President',
-  OVP: 'Office Of The Vice President',
-  P002: 'Peace Mission Training Centre',
-  P005: 'Public Sector Reform Unit (PRSU)',
-  PB: 'Pharmacy Board',
-  PCC: 'Port Loko City Council',
-  PD: 'Petroleum Directorate',
-  PDC: 'Pujehun District Council',
-  PHU: 'Primary Health Unit',
-  PLDC: 'Port Loko District Council',
-  PMB: 'PRODUCE MONITORING BOARD',
-  PMTC: 'Peace Mission Training Center',
-  PPP: 'Public Private Partnership',
-  PPRC: 'Political Parties Registration Commission',
-  PRA: 'Petroleum Regulatory Agency',
-  PSC: 'Public Service Commission',
-  PSCSS: 'Public Sector Commission Sierra Leone',
-  PSS: 'Parliament of Sierra Leone',
-  RAIC: 'Right to Access Information Commission',
-  RCB: 'Rokel Commercial Bank Limited',
-  RMF: 'Road Maintenance Fund',
-  RSLAF: 'Republic of Sierra Leone Armed Force',
-  S003: 'Sierra Leone Extractive Industries Transparency Initiative',
-  S004: 'Sierra Leone Housing Corporation',
-  SALCAB: 'Sierra Leone Cable Network',
-  SALPOST: 'Sierra Leone Postal Services Ltd.',
-  SALWACO: 'Sierra Leone Water Company',
-  SAM: 'Small Arms Commission',
-  SIERRATEL: 'Sierra Leone Telecommunications Company Limited',
-  SLAA: 'Sierra Leone Airport Authority',
-  SLARI: 'Sierra Leone Agriculture Research Institute',
-  SLBC: 'Sierra Leone Broadcasting Corporation',
-  SLCAA: 'Sierra Leone Civil Aviation Authority',
-  SLCB: 'Sierra Leone Commercial Bank Limited Company',
-  SLCS: 'SIERRA LEONE CORRECTIONAL SERVICE',
-  SLDMC: 'Sierra Leone Daily Mail Company',
-  SLeSCA: 'Sierra Leone Seed Certification Agency',
-  SLEWRC: 'S/L Electricity & Water Regulatory Commission',
-  SLFA: 'Sierra Leone Football Association',
-  SLHSC: 'Sierra Leone Health Service Commission',
-  SLICOM: 'SIERRA LEONE INSURANCE COMMISSION',
-  SLIEPA: 'Sierra Leone Investment and Export Promotion Agencies',
-  SLJ: 'Sierra Leone Judiciary',
-  SLLB: 'Sierra Leone Library Board',
-  SLLCA: 'Sierra Leone Local Content Agency',
-  SLMA: 'Sierra Leone Maritime Administration',
-  SLMCCU: 'Sierra Leone Millennium Challenge Coordinating Unit',
-  SLNM: 'Sierra Leone National Museum',
-  SLNSC: 'Sierra Leone National Shipping Company Co. (SLNSC) Limited',
-  SLOAN: 'Sierra Leone Students Loan Scheme',
-  SLP: 'The Sierra Leone Police',
-  SLPA: 'Sierra Leone Ports Authority',
-  SLPMC: 'Sierra Leone Produce Marketing Company',
-  SLPOSB: 'Sierra Leone Post Office Savings Bank',
-  SLRA: 'SIERRA LEONE ROADS AUTHORITY',
-  SLRSA: 'SIERRA LEONE ROAD SAFETY AUTHORITY',
-  SLRTC: 'Sierra Leone Road Transport Corporation  ',
-  SLSB: 'Sierra Leone Standards Bureau',
-  SLSL: 'Sierra Leone State Lottery',
-  SM: 'Stadium Management',
-  SMEDA: 'Small & Medium Enterprises Development Agency',
-  SNA: 'Sierra  National Airlines Limited',
-  SOP: 'House of Parliament (Staff)',
-  SSL: 'Statistics Sierra Leone',
-  T001: 'The Disaster Management Department (DMD)',
-  TDC: 'Tonkolili District Council',
-  TEC: 'Tertiary Education Commission',
-  TRC: 'Truth and Reconciliation Commission',
-  TSC: 'Teaching Service Commission',
-  UADF: 'UNIVERSAL ACCESS DEVELOPMENT FUND',
-  USL: 'University of Sierra Leone',
-  USLTH: 'UNIVERSITY OF SIERRA LEONE TEACHING HOSPITAL COMPLEX',
-  WARDC: 'Western Area Rural District Council',
-};
-
+export const mdaData = [
+  {
+    abbreviation: 'ABC',
+    name: 'Attitudinal & Behavorial Change',
+  },
+  {
+    abbreviation: 'ACC',
+    name: 'Anti-Corruption Commission',
+  },
+  {
+    abbreviation: 'ADG',
+    name: 'Administrator & Registrar General',
+  },
+  {
+    abbreviation: 'AGD',
+    name: "Accountant General's Department",
+  },
+  {
+    abbreviation: 'APRM',
+    name: 'African Peer Review Mechanism',
+  },
+  {
+    abbreviation: 'ASL',
+    name: 'Audit Sierra Leone',
+  },
+  {
+    abbreviation: 'AWC',
+    name: 'Aberdeen Women Centre',
+  },
+  {
+    abbreviation: 'BCC',
+    name: 'Bo City Council',
+  },
+  {
+    abbreviation: 'BDC',
+    name: 'Bo District Council',
+  },
+  {
+    abbreviation: 'BDC1',
+    name: 'Bonthe District Council',
+  },
+  {
+    abbreviation: 'BDC2',
+    name: 'Bombali District Council',
+  },
+  {
+    abbreviation: 'BDS',
+    name: 'Births And Deaths Department',
+  },
+  {
+    abbreviation: 'BMC',
+    name: 'Bonthe Municipal Council',
+  },
+  {
+    abbreviation: 'BSL',
+    name: 'Bank of Sierra Leone',
+  },
+  {
+    abbreviation: 'CAA',
+    name: 'Civil Aviation Authority',
+  },
+  {
+    abbreviation: 'CAC',
+    name: 'Corporate Affairs Commission',
+  },
+  {
+    abbreviation: 'CH',
+    name: 'Connaught Hospital',
+  },
+  {
+    abbreviation: 'CISU',
+    name: 'Central Intelligence and Security Agency',
+  },
+  {
+    abbreviation: 'CM',
+    name: 'Cabinet Ministers',
+  },
+  {
+    abbreviation: 'COLE',
+    name: 'Council of Legal Education',
+  },
+  {
+    abbreviation: 'COMAHS',
+    name: 'College of Medicine & Allied Health Sciences',
+  },
+  {
+    abbreviation: 'CS',
+    name: 'Cabinet Secretariat',
+  },
+  {
+    abbreviation: 'CSTC',
+    name: 'Civil Service Training College',
+  },
+  {
+    abbreviation: 'CTF',
+    name: 'Conservation Trust Fund',
+  },
+  {
+    abbreviation: 'DoC',
+    name: 'Department of Cooperative',
+  },
+  {
+    abbreviation: 'DS',
+    name: 'Decentralization Secretariat',
+  },
+  {
+    abbreviation: 'EBKU',
+    name: 'Ernest Bai Koroma University',
+  },
+  {
+    abbreviation: 'ECSL',
+    name: 'Electoral Commission Sierra Leone',
+  },
+  {
+    abbreviation: 'EDSA',
+    name: 'Electricity Distribution and Supply Authority',
+  },
+  {
+    abbreviation: 'EGTC',
+    name: 'Electricity Generating Transmission Company',
+  },
+  {
+    abbreviation: 'EP',
+    name: 'Eastern Polytechnic',
+  },
+  {
+    abbreviation: 'EPA',
+    name: 'Environmental Protection Agency',
+  },
+  {
+    abbreviation: 'ETU',
+    name: 'Eastern Technical University',
+  },
+  {
+    abbreviation: 'FBC',
+    name: 'Fourah Bay College',
+  },
+  {
+    abbreviation: 'FCC',
+    name: 'Freetown City Council',
+  },
+  {
+    abbreviation: 'FDC',
+    name: 'Falaba District Council',
+  },
+  {
+    abbreviation: 'FIS',
+    name: 'Faris International Services',
+  },
+  {
+    abbreviation: 'FIU',
+    name: 'Financial Intelligence Unit',
+  },
+  {
+    abbreviation: 'FTP',
+    name: 'Freetown Polytechnic',
+  },
+  {
+    abbreviation: 'GPD',
+    name: 'Government Printing Department',
+  },
+  {
+    abbreviation: 'GS',
+    name: 'Geological Surveys',
+  },
+  {
+    abbreviation: 'GTI',
+    name: 'Government Technical Institute',
+  },
+  {
+    abbreviation: 'GVWC',
+    name: 'Guma Valley Water Company Ltd.',
+  },
+  {
+    abbreviation: 'HIV/AIDS',
+    name: 'HIV/AIDS Secretariat',
+  },
+  {
+    abbreviation: 'HOP',
+    name: 'House of Parliament (MP)',
+  },
+  {
+    abbreviation: 'HRCSL',
+    name: 'Human Right Commission of Sierra Leone',
+  },
+  {
+    abbreviation: 'HRMO',
+    name: 'Human Resource Management Office',
+  },
+  {
+    abbreviation: 'ICPNC',
+    name: 'Independent Commission For Peace & National Cohesion',
+  },
+  {
+    abbreviation: 'ID',
+    name: 'Immigration Department',
+  },
+  {
+    abbreviation: 'IMC',
+    name: 'Independent Media Commission',
+  },
+  {
+    abbreviation: 'IPAM',
+    name: 'Institute of Public Administration & Management',
+  },
+  {
+    abbreviation: 'IPCB',
+    name: 'Independent Police Complaint Board',
+  },
+  {
+    abbreviation: 'IPRP',
+    name: 'Independent Procurement Review Panel',
+  },
+  {
+    abbreviation: 'ITBOACS',
+    name: 'Income Tax Board of Appellate Board',
+  },
+  {
+    abbreviation: 'JLSC',
+    name: 'Judicial & Legal Service Commission',
+  },
+  {
+    abbreviation: 'JSCO',
+    name: 'Justice Sector Coordination Office',
+  },
+  {
+    abbreviation: 'KCC',
+    name: 'Kenema City Council',
+  },
+  {
+    abbreviation: 'KDC',
+    name: 'Koinadugu District Council',
+  },
+  {
+    abbreviation: 'KDC1',
+    name: 'Kenema District Council',
+  },
+  {
+    abbreviation: 'KDC2',
+    name: 'Karene District Council',
+  },
+  {
+    abbreviation: 'KDC3',
+    name: 'Kambia District Council',
+  },
+  {
+    abbreviation: 'KDC4',
+    name: 'Kono District Council',
+  },
+  {
+    abbreviation: 'KDC5',
+    name: 'Kailahun District Council',
+  },
+  {
+    abbreviation: 'KNSCC',
+    name: 'Koidu New Sembehun City Council',
+  },
+  {
+    abbreviation: 'LGC',
+    name: 'Local Government Commission',
+  },
+  {
+    abbreviation: 'LRC',
+    name: 'The Law Reform Commission',
+  },
+  {
+    abbreviation: 'M004',
+    name: 'Ministry of Agriculture Food Security & Forestry',
+  },
+  {
+    abbreviation: 'M011',
+    name: 'Ministy of Health and Sanitation',
+  },
+  {
+    abbreviation: 'M014',
+    name: 'Ministry of Justice and Attorney - General',
+  },
+  {
+    abbreviation: 'M019',
+    name: 'Ministry Political and Public Affairs',
+  },
+  {
+    abbreviation: 'M020',
+    name: 'Ministry of Social Welfare',
+  },
+  {
+    abbreviation: 'M021',
+    name: 'Ministy of  Sports',
+  },
+  {
+    abbreviation: 'M026',
+    name: 'Minitry of Youth Affairs',
+  },
+  {
+    abbreviation: 'MAFFS',
+    name: 'Ministry of Agriculture Forestry and Food Security',
+  },
+  {
+    abbreviation: 'MBSSE',
+    name: 'MINISTRY OF BASIC AND SENIOR SECONDARY EDUCATION',
+  },
+  {
+    abbreviation: 'MCC',
+    name: 'Makeni City Council',
+  },
+  {
+    abbreviation: 'MDC',
+    name: 'Moyamba District Council',
+  },
+  {
+    abbreviation: 'ME',
+    name: 'Min. Of Environment',
+  },
+  {
+    abbreviation: 'MEP',
+    name: 'Ministry of Energy & Power',
+  },
+  {
+    abbreviation: 'MEST',
+    name: 'Ministry of Education Science and Technology',
+  },
+  {
+    abbreviation: 'MGSCo',
+    name: 'Mining and General Service CO (SL) Ltd.',
+  },
+  {
+    abbreviation: 'MMTU',
+    name: 'Milton Margai Technical University',
+  },
+  {
+    abbreviation: 'MoD',
+    name: 'Ministry of Defence',
+  },
+  {
+    abbreviation: 'MoE',
+    name: 'Ministry of Energy',
+  },
+  {
+    abbreviation: 'MOF',
+    name: 'Ministry of Finance',
+  },
+  {
+    abbreviation: 'MoFAIC',
+    name: 'Ministry of Foreign Affairs and International Co-operation',
+  },
+  {
+    abbreviation: 'MoFMR',
+    name: 'Ministry of Fisheries and Marine Resources',
+  },
+  {
+    abbreviation: 'MOGCA',
+    name: "Ministry Of Gender & Children's Affairs",
+  },
+  {
+    abbreviation: 'MoHS',
+    name: 'Ministry of Health and Sanitation',
+  },
+  {
+    abbreviation: 'MoIA',
+    name: 'Ministry of Internal Affairs',
+  },
+  {
+    abbreviation: 'MOIC',
+    name: 'Ministry of Information & Civic Education',
+  },
+  {
+    abbreviation: 'MoII',
+    name: 'Min. of Communication & Technology',
+  },
+  {
+    abbreviation: 'MOLG',
+    name: 'Ministry of Local Government',
+  },
+  {
+    abbreviation: 'MoLHCP',
+    name: 'Ministry of Lands Housing & Country Planning ',
+  },
+  {
+    abbreviation: 'MoLSS',
+    name: 'Ministry of Labour and Social Security',
+  },
+  {
+    abbreviation: 'MoMMR',
+    name: 'Ministry of Mines and Mineral Resources',
+  },
+  {
+    abbreviation: 'MOPED',
+    name: 'Ministry Of Planning & Economic Development',
+  },
+  {
+    abbreviation: 'MoPPA',
+    name: 'Ministry of Political and Public Affairs',
+  },
+  {
+    abbreviation: 'MoS',
+    name: 'Ministry of Sport',
+  },
+  {
+    abbreviation: 'MoTA',
+    name: 'Ministry of Transport and Aviation',
+  },
+  {
+    abbreviation: 'MoTCA',
+    name: 'Ministry of Tourism and Cultural Affairs',
+  },
+  {
+    abbreviation: 'MoTI',
+    name: 'Ministry of Trade and Industry',
+  },
+  {
+    abbreviation: 'MoWHID',
+    name: 'Ministry of Works Housing and Infrastructural Development',
+  },
+  {
+    abbreviation: 'MoWR',
+    name: 'Ministry of Water Resources',
+  },
+  {
+    abbreviation: 'MoYA',
+    name: 'Ministry of Youth Affairs',
+  },
+  {
+    abbreviation: 'MRC',
+    name: 'Monuments and Relics Commission',
+  },
+  {
+    abbreviation: 'MS',
+    name: 'Medical Stores',
+  },
+  {
+    abbreviation: 'MSU',
+    name: 'Mechanical Service Unit',
+  },
+  {
+    abbreviation: 'MT',
+    name: 'Meteorological Department',
+  },
+  {
+    abbreviation: 'MTHE',
+    name: 'MINISTRY OF TERTIARY AND HIGHER EDUCATION',
+  },
+  {
+    abbreviation: 'MWR',
+    name: 'Ministry Of Western Region',
+  },
+  {
+    abbreviation: 'NACOVERC',
+    name: 'National COVID Emergency Response Centre',
+  },
+  {
+    abbreviation: 'NaCSA',
+    name: 'National Commission for Social Action',
+  },
+  {
+    abbreviation: 'NAGPC',
+    name: 'National Asset and Government Property Commission',
+  },
+  {
+    abbreviation: 'NaMED',
+    name: 'National Monitoring and Evaluation Directorate',
+  },
+  {
+    abbreviation: 'NAO',
+    name: 'National Authorizing Office',
+  },
+  {
+    abbreviation: 'NaSSIT',
+    name: 'National Social Security and Insurance Trust',
+  },
+  {
+    abbreviation: 'NATCOM',
+    name: 'National Telecommunications Authority',
+  },
+  {
+    abbreviation: 'NC3',
+    name: 'National Cybersecurity Coordination Centre',
+  },
+  {
+    abbreviation: 'NCB',
+    name: 'National Development Bank Limited Company',
+  },
+  {
+    abbreviation: 'NCC',
+    name: 'National Commission for Children',
+  },
+  {
+    abbreviation: 'NCCED',
+    name: 'National Council For Civic Education & Development',
+  },
+  {
+    abbreviation: 'NCD',
+    name: 'National Commission for Democracy',
+  },
+  {
+    abbreviation: 'NCDB',
+    name: 'National Co-operative Development Bank',
+  },
+  {
+    abbreviation: 'NCFPD',
+    name: 'National Commission For People With Disability',
+  },
+  {
+    abbreviation: 'NCP',
+    name: 'National Commission for Privatization',
+  },
+  {
+    abbreviation: 'NCRA',
+    name: 'National Civil Registration Authority',
+  },
+  {
+    abbreviation: 'NCT',
+    name: 'NCTVA',
+  },
+  {
+    abbreviation: 'NDLEA',
+    name: 'National Drug Law Enforcement Agency',
+  },
+  {
+    abbreviation: 'NDMA',
+    name: 'National Disaster Management Agency',
+  },
+  {
+    abbreviation: 'NEWRMC',
+    name: 'National Early Warning & Response Mechanism Coordinating Centre',
+  },
+  {
+    abbreviation: 'NFF',
+    name: 'National Fire Force',
+  },
+  {
+    abbreviation: 'NFRA',
+    name: 'National Fertilizer Regulatory Agency',
+  },
+  {
+    abbreviation: 'NHAS',
+    name: 'National HIV/AIDS Secretariat',
+  },
+  {
+    abbreviation: 'NIB',
+    name: 'National Investment Board',
+  },
+  {
+    abbreviation: 'NIC',
+    name: 'National Insurance Company Limited',
+  },
+  {
+    abbreviation: 'NMA',
+    name: 'NATIONAL MINERAL AGENCY',
+  },
+  {
+    abbreviation: 'NMSA',
+    name: 'National Medical Supplies Agency',
+  },
+  {
+    abbreviation: 'NPAA',
+    name: 'National Protected Area Authority',
+  },
+  {
+    abbreviation: 'NPPA',
+    name: 'National Public Procurement Authority',
+  },
+  {
+    abbreviation: 'NRA',
+    name: 'National Revenue Authority',
+  },
+  {
+    abbreviation: 'NSA',
+    name: 'National Sports Authority',
+  },
+  {
+    abbreviation: 'NSC',
+    name: 'National Sport Council',
+  },
+  {
+    abbreviation: 'NSRPA',
+    name: 'Nuclear Safety & Radiation Protection Authority',
+  },
+  {
+    abbreviation: 'NTB',
+    name: 'National Tourism Board',
+  },
+  {
+    abbreviation: 'NU',
+    name: 'Njala University -Njala Campus',
+  },
+  {
+    abbreviation: 'NWRMA',
+    name: 'National Water Resources Management Agency',
+  },
+  {
+    abbreviation: 'NYC',
+    name: 'National Youth Commission',
+  },
+  {
+    abbreviation: 'NYS',
+    name: 'National Youth Service',
+  },
+  {
+    abbreviation: 'O006',
+    name: 'Open Government Initiative (OGI) Waterloo',
+  },
+  {
+    abbreviation: 'OAGMJ',
+    name: 'Office of the Attorney General and Minister of Justice',
+  },
+  {
+    abbreviation: 'OARG',
+    name: 'Office of Administrator and Registrar General',
+  },
+  {
+    abbreviation: 'OCCHO',
+    name: 'Office of Chief CHO',
+  },
+  {
+    abbreviation: 'OCM',
+    name: 'Office Of The Chief Minister',
+  },
+  {
+    abbreviation: 'OCS',
+    name: 'Office Of Chief Of Staff',
+  },
+  {
+    abbreviation: 'OD',
+    name: 'Office of the Diaspora',
+  },
+  {
+    abbreviation: 'OGI',
+    name: 'Open Government Initiative',
+  },
+  {
+    abbreviation: 'OMDS',
+    name: "Ombudsman's Office",
+  },
+  {
+    abbreviation: 'ONS',
+    name: 'Office of National Security',
+  },
+  {
+    abbreviation: 'OP',
+    name: 'Office Of The President',
+  },
+  {
+    abbreviation: 'OVP',
+    name: 'Office Of The Vice President',
+  },
+  {
+    abbreviation: 'P002',
+    name: 'Peace Mission Training Centre',
+  },
+  {
+    abbreviation: 'P005',
+    name: 'Public Sector Reform Unit (PRSU)',
+  },
+  {
+    abbreviation: 'PB',
+    name: 'Pharmacy Board',
+  },
+  {
+    abbreviation: 'PCC',
+    name: 'Port Loko City Council',
+  },
+  {
+    abbreviation: 'PD',
+    name: 'Petroleum Directorate',
+  },
+  {
+    abbreviation: 'PDC',
+    name: 'Pujehun District Council',
+  },
+  {
+    abbreviation: 'PHU',
+    name: 'Primary Health Unit',
+  },
+  {
+    abbreviation: 'PLDC',
+    name: 'Port Loko District Council',
+  },
+  {
+    abbreviation: 'PMB',
+    name: 'PRODUCE MONITORING BOARD',
+  },
+  {
+    abbreviation: 'PMTC',
+    name: 'Peace Mission Training Center',
+  },
+  {
+    abbreviation: 'PPP',
+    name: 'Public Private Partnership',
+  },
+  {
+    abbreviation: 'PPRC',
+    name: 'Political Parties Registration Commission',
+  },
+  {
+    abbreviation: 'PRA',
+    name: 'Petroleum Regulatory Agency',
+  },
+  {
+    abbreviation: 'PSC',
+    name: 'Public Service Commission',
+  },
+  {
+    abbreviation: 'PSCSS',
+    name: 'Public Sector Commission Sierra Leone',
+  },
+  {
+    abbreviation: 'PSS',
+    name: 'Parliament of Sierra Leone',
+  },
+  {
+    abbreviation: 'RAIC',
+    name: 'Right to Access Information Commission',
+  },
+  {
+    abbreviation: 'RCB',
+    name: 'Rokel Commercial Bank Limited',
+  },
+  {
+    abbreviation: 'RMF',
+    name: 'Road Maintenance Fund',
+  },
+  {
+    abbreviation: 'RSLAF',
+    name: 'Republic of Sierra Leone Armed Force',
+  },
+  {
+    abbreviation: 'S003',
+    name: 'Sierra Leone Extractive Industries Transparency Initiative',
+  },
+  {
+    abbreviation: 'S004',
+    name: 'Sierra Leone Housing Corporation',
+  },
+  {
+    abbreviation: 'SALCAB',
+    name: 'Sierra Leone Cable Network',
+  },
+  {
+    abbreviation: 'SALPOST',
+    name: 'Sierra Leone Postal Services Ltd.',
+  },
+  {
+    abbreviation: 'SALWACO',
+    name: 'Sierra Leone Water Company',
+  },
+  {
+    abbreviation: 'SAM',
+    name: 'Small Arms Commission',
+  },
+  {
+    abbreviation: 'SIERRATEL',
+    name: 'Sierra Leone Telecommunications Company Limited',
+  },
+  {
+    abbreviation: 'SLAA',
+    name: 'Sierra Leone Airport Authority',
+  },
+  {
+    abbreviation: 'SLARI',
+    name: 'Sierra Leone Agriculture Research Institute',
+  },
+  {
+    abbreviation: 'SLBC',
+    name: 'Sierra Leone Broadcasting Corporation',
+  },
+  {
+    abbreviation: 'SLCAA',
+    name: 'Sierra Leone Civil Aviation Authority',
+  },
+  {
+    abbreviation: 'SLCB',
+    name: 'Sierra Leone Commercial Bank Limited Company',
+  },
+  {
+    abbreviation: 'SLCS',
+    name: 'SIERRA LEONE CORRECTIONAL SERVICE',
+  },
+  {
+    abbreviation: 'SLDMC',
+    name: 'Sierra Leone Daily Mail Company',
+  },
+  {
+    abbreviation: 'SLeSCA',
+    name: 'Sierra Leone Seed Certification Agency',
+  },
+  {
+    abbreviation: 'SLEWRC',
+    name: 'S/L Electricity & Water Regulatory Commission',
+  },
+  {
+    abbreviation: 'SLFA',
+    name: 'Sierra Leone Football Association',
+  },
+  {
+    abbreviation: 'SLHSC',
+    name: 'Sierra Leone Health Service Commission',
+  },
+  {
+    abbreviation: 'SLICOM',
+    name: 'SIERRA LEONE INSURANCE COMMISSION',
+  },
+  {
+    abbreviation: 'SLIEPA',
+    name: 'Sierra Leone Investment and Export Promotion Agencies',
+  },
+  {
+    abbreviation: 'SLJ',
+    name: 'Sierra Leone Judiciary',
+  },
+  {
+    abbreviation: 'SLLB',
+    name: 'Sierra Leone Library Board',
+  },
+  {
+    abbreviation: 'SLLCA',
+    name: 'Sierra Leone Local Content Agency',
+  },
+  {
+    abbreviation: 'SLMA',
+    name: 'Sierra Leone Maritime Administration',
+  },
+  {
+    abbreviation: 'SLMCCU',
+    name: 'Sierra Leone Millennium Challenge Coordinating Unit',
+  },
+  {
+    abbreviation: 'SLNM',
+    name: 'Sierra Leone National Museum',
+  },
+  {
+    abbreviation: 'SLNSC',
+    name: 'Sierra Leone National Shipping Company Co. (SLNSC) Limited',
+  },
+  {
+    abbreviation: 'SLOAN',
+    name: 'Sierra Leone Students Loan Scheme',
+  },
+  {
+    abbreviation: 'SLP',
+    name: 'The Sierra Leone Police',
+  },
+  {
+    abbreviation: 'SLPA',
+    name: 'Sierra Leone Ports Authority',
+  },
+  {
+    abbreviation: 'SLPMC',
+    name: 'Sierra Leone Produce Marketing Company',
+  },
+  {
+    abbreviation: 'SLPOSB',
+    name: 'Sierra Leone Post Office Savings Bank',
+  },
+  {
+    abbreviation: 'SLRA',
+    name: 'SIERRA LEONE ROADS AUTHORITY',
+  },
+  {
+    abbreviation: 'SLRSA',
+    name: 'SIERRA LEONE ROAD SAFETY AUTHORITY',
+  },
+  {
+    abbreviation: 'SLRTC',
+    name: 'Sierra Leone Road Transport Corporation  ',
+  },
+  {
+    abbreviation: 'SLSB',
+    name: 'Sierra Leone Standards Bureau',
+  },
+  {
+    abbreviation: 'SLSL',
+    name: 'Sierra Leone State Lottery',
+  },
+  {
+    abbreviation: 'SM',
+    name: 'Stadium Management',
+  },
+  {
+    abbreviation: 'SMEDA',
+    name: 'Small & Medium Enterprises Development Agency',
+  },
+  {
+    abbreviation: 'SNA',
+    name: 'Sierra  National Airlines Limited',
+  },
+  {
+    abbreviation: 'SOP',
+    name: 'House of Parliament (Staff)',
+  },
+  {
+    abbreviation: 'SSL',
+    name: 'Statistics Sierra Leone',
+  },
+  {
+    abbreviation: 'T001',
+    name: 'The Disaster Management Department (DMD)',
+  },
+  {
+    abbreviation: 'TDC',
+    name: 'Tonkolili District Council',
+  },
+  {
+    abbreviation: 'TEC',
+    name: 'Tertiary Education Commission',
+  },
+  {
+    abbreviation: 'TRC',
+    name: 'Truth and Reconciliation Commission',
+  },
+  {
+    abbreviation: 'TSC',
+    name: 'Teaching Service Commission',
+  },
+  {
+    abbreviation: 'UADF',
+    name: 'UNIVERSAL ACCESS DEVELOPMENT FUND',
+  },
+  {
+    abbreviation: 'USL',
+    name: 'University of Sierra Leone',
+  },
+  {
+    abbreviation: 'USLTH',
+    name: 'UNIVERSITY OF SIERRA LEONE TEACHING HOSPITAL COMPLEX',
+  },
+  {
+    abbreviation: 'WARD C',
+    name: 'Western Area Rural District Council',
+  },
+];
 export const titleData = [
   { id: 'Amb.', value: 'Amb.' },
   { id: 'Adv.', value: 'Adv.' },
@@ -253,26 +948,482 @@ export const titleData = [
   { id: 'Prof.', value: 'Prof.' },
   { id: 'Sqd.Ldr.', value: 'Sqd.Ldr.' },
 ];
-export const SLDistricts = {
-  Kailahun: 'Eastern Province',
-  Kenema: 'Eastern Province',
-  Kono: 'Eastern Province',
-  Kambia: 'North-West Region',
-  Karene: 'North-West Region',
-  PortLoko: 'North-West Region',
-  Bombali: 'Northern Region (North-East)',
-  Falaba: 'Northern Region (North-East)',
-  Koinadugu: 'Northern Region (North-East)',
-  Tonkolili: 'Northern Region (North-East)',
-  Bo: 'Southern Province',
-  Bonthe: 'Southern Province',
-  Moyamba: 'Southern Province',
-  Pujehun: 'Southern Province',
-  'Western Rural': 'Western Area Rural',
-  'Western Urban': 'Western Area Urban',
-};
-
+export const SLDistricts = [
+  {
+    district: 'Kailahun',
+    province: 'Eastern Province',
+  },
+  {
+    district: 'Kenema',
+    province: 'Eastern Province',
+  },
+  {
+    district: 'Kono',
+    province: 'Eastern Province',
+  },
+  {
+    district: 'Kambia',
+    province: 'North-West Region',
+  },
+  {
+    district: 'Karene',
+    province: 'North-West Region',
+  },
+  {
+    district: 'PortLoko',
+    province: 'North-West Region',
+  },
+  {
+    district: 'Bombali',
+    province: 'Northern Region (North-East)',
+  },
+  {
+    district: 'Falaba',
+    province: 'Northern Region (North-East)',
+  },
+  {
+    district: 'Koinadugu',
+    province: 'Northern Region (North-East)',
+  },
+  {
+    district: 'Tonkolili',
+    province: 'Northern Region (North-East)',
+  },
+  {
+    district: 'Bo',
+    province: 'Southern Province',
+  },
+  {
+    district: 'Bonthe',
+    province: 'Southern Province',
+  },
+  {
+    district: 'Moyamba',
+    province: 'Southern Province',
+  },
+  {
+    district: 'Pujehun',
+    province: 'Southern Province',
+  },
+  {
+    district: 'Western Rural',
+    province: 'Western Area Rural',
+  },
+  {
+    district: 'Western Urban',
+    province: 'Western Area Urban',
+  },
+];
 export const personalIds = [
   { id: 'NIN', value: 'NIN' },
   { id: 'Passport', value: 'Passport' },
+];
+// Employment, Rent, Farm land, Business Interest
+
+export const declarationReasons = [
+  {
+    id: 'Appointment',
+    value: 'Appointment',
+  },
+  {
+    id: 'Termination/Retirement',
+    value: 'Termination/Retirement',
+  },
+  {
+    id: 'Biennial Declaration',
+    value: 'Biennial Declaration',
+  },
+  {
+    id: 'Exit Declaration',
+    value: 'Exit Declaration',
+  },
+  {
+    id: 'Other',
+    value: 'Other (Please Specify)',
+  },
+];
+
+export const currencies = [
+  {
+    id: 'Le.',
+    value: 'Le.',
+  },
+  {
+    id: 'USD.',
+    value: 'USD.',
+  },
+  {
+    id: 'Euro.',
+    value: 'Euro.',
+  },
+
+  {
+    id: 'GBP.',
+    value: 'GBP.',
+  },
+];
+
+export const contractTypes = [
+  {
+    id: 'Permanent',
+    value: 'Permanent',
+  },
+  {
+    id: 'Temporary',
+    value: 'Temporary',
+  },
+  {
+    id: 'Contract',
+    value: 'Contract',
+  },
+  {
+    id: 'Internship',
+    value: 'Internship',
+  },
+  {
+    id: 'Volunteer',
+    value: 'Volunteer',
+  },
+];
+export const sourceOfIncome = [
+  {
+    id: 'Business Interest',
+    value: 'Business Interest',
+  },
+  {
+    id: 'Employment',
+    value: 'Employment',
+  },
+  {
+    id: 'Farm Land',
+    value: 'Farm Land',
+  },
+  {
+    id: 'Rent',
+    value: 'Rent',
+  },
+  {
+    id: 'Other',
+    value: 'Other',
+  },
+];
+
+export const familyRelation = [
+  {
+    id: 'Child',
+    value: 'Child',
+  },
+  {
+    id: 'Spouse',
+    value: 'Spouse',
+  },
+
+  {
+    id: 'Dependant',
+    value: 'Dependant',
+  },
+  {
+    id: 'Sibling',
+    value: 'Sibling',
+  },
+  {
+    id: 'Relative',
+    value: 'Relative',
+  },
+  {
+    id: 'Joint',
+    value: 'Joint',
+  },
+  {
+    id: 'Other',
+    value: 'Other',
+  },
+];
+export const assetRelation = [
+  {
+    id: 'Self',
+    value: 'Self',
+  },
+  {
+    id: 'Child',
+    value: 'Child',
+  },
+  {
+    id: 'Dependant',
+    value: 'Dependant',
+  },
+  {
+    id: 'Relative',
+    value: 'Relative',
+  },
+  {
+    id: 'Sibling',
+    value: 'Sibling',
+  },
+  {
+    id: 'Spouse',
+    value: 'Spouse',
+  },
+  {
+    id: 'Joint',
+    value: 'Joint',
+  },
+
+  {
+    id: 'Other',
+    value: 'Other',
+  },
+];
+export const depositSource = [
+  {
+    id: 'Savings',
+    value: 'Savings',
+  },
+  {
+    id: 'Gift',
+    value: 'Gift',
+  },
+  {
+    id: 'Inheritance',
+    value: 'Inheritance',
+  },
+  {
+    id: 'Loan',
+    value: 'Loan',
+  },
+  {
+    id: 'Thrift',
+    value: 'Thrift',
+  },
+  {
+    id: 'Other',
+    value: 'Other',
+  },
+];
+export const gender = [
+  {
+    id: 'Male',
+    value: 'Female',
+  },
+  {
+    id: 'Female',
+    value: 'Female',
+  },
+];
+
+export const depositType = [
+  {
+    id: 'Savings',
+    value: 'Savings',
+  },
+  {
+    id: 'Current',
+    value: 'Current',
+  },
+  {
+    id: 'Fixed Deposit',
+    value: 'Fixed Deposit',
+  },
+];
+
+export const immovableAssetType = [
+  {
+    id: 'Building or House',
+    value: 'Building or House',
+  },
+  {
+    id: 'Commercial Location',
+    value: 'Commercial Location',
+  },
+  {
+    id: 'Production Location',
+    value: 'Production Location',
+  },
+  {
+    id: 'Farm',
+    value: 'Farm',
+  },
+  {
+    id: 'Vacant Land',
+    value: 'Vacant Land',
+  },
+];
+
+export const movableAssetType = [
+  {
+    id: 'Vehicle',
+    value: 'Vehicle',
+  },
+  {
+    id: 'Boat',
+    value: 'Boat',
+  },
+  {
+    id: 'Tractor',
+    value: 'Tractor',
+  },
+  {
+    id: 'Motorcycle',
+    value: 'Motorcycle',
+  },
+  {
+    id: 'Bicycle',
+    value: 'Bicycle',
+  },
+  {
+    id: 'Yacht',
+    value: 'Yacht',
+  },
+
+  {
+    id: 'Other',
+    value: 'Other',
+  },
+];
+export const movableAssetPurpose = [
+  {
+    id: 'Commercial',
+    value: 'Commercial',
+  },
+  {
+    id: 'Private',
+    value: 'Private',
+  },
+];
+export const financeSource = [
+  {
+    id: 'Inheritance',
+    value: 'Inheritance',
+  },
+  {
+    id: 'Allowance',
+    value: 'Allowance',
+  },
+  {
+    id: 'Donation',
+    value: 'Donation',
+  },
+  {
+    id: 'Gift',
+    value: 'Gift',
+  },
+  {
+    id: 'Saving',
+    value: 'Saving',
+  },
+  {
+    id: 'Thrift',
+    value: 'Thrift',
+  },
+
+  {
+    id: 'Trust/Loan',
+    value: 'Trust/Loan',
+  },
+  {
+    id: 'Winning',
+    value: 'Winning',
+  },
+  {
+    id: 'Other',
+    value: 'Other',
+  },
+];
+
+export const acquisitionMode = [
+  {
+    id: 'Bought',
+    value: 'Bought',
+  },
+  {
+    id: 'Borrowed',
+    value: 'Borrowed',
+  },
+  {
+    id: 'Inheritance',
+    value: 'Inheritance',
+  },
+  {
+    id: 'Construction',
+    value: 'Construction',
+  },
+  {
+    id: 'Trust/Loan',
+    value: 'Trust/Loan',
+  },
+  {
+    id: 'Gift',
+    value: 'Gift',
+  },
+  {
+    id: 'Donation',
+    value: 'Donation',
+  },
+  {
+    id: 'Rent/Lease',
+    value: 'Rent/Lease',
+  },
+  {
+    id: 'Winning',
+    value: 'Winning',
+  },
+
+];
+
+export const securityTypes = [
+  {
+    id: 'Shares',
+    value: 'Shares',
+  },
+  {
+    id: 'Certificate',
+    value: 'Certificate',
+  },
+  {
+    id: 'Debenture',
+    value: 'Debenture',
+  },
+  {
+    id: 'Foreign Exchange',
+    value: 'Foreign Exchange',
+  },
+  {
+    id: 'Insurance Premium',
+    value: 'Insurance Premium',
+  },
+  {
+    id: 'Premium Bond',
+    value: 'Premium Bond',
+  },
+  {
+    id: 'Stock',
+    value: 'Stock',
+  },
+  {
+    id: 'Trust Fund',
+    value: 'Trust Fund',
+  },
+];
+
+export const loanRepayment = [
+  {
+    id: 'Daily',
+    value: 'Daily',
+  },
+  {
+    id: 'Monthly',
+    value: 'Monthly',
+  },
+  {
+    id: 'Quarterly',
+    value: 'Quarterly',
+  },
+  {
+    id: 'Annually',
+    value: 'Annually',
+  },
+  {
+    id: 'Bi-Annually',
+    value: 'Bi-Annually',
+  },
 ];

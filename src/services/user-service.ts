@@ -1,141 +1,36 @@
-// import User from '@/models/User';
-// import bcrypt from 'bcryptjs';
-
-// class UserService {
-//   static async createUser(user: UserAttributes): Promise<UserAttributes> {
-//     try {
-//       const newUser = await User.create(user);
-//       return newUser.toJSON();
-//     } catch (error) {
-//       throw error;
-//     }
-//   }
-//   static async isUserExist({
-//     email,
-//     pid,
-//   }: {
-//     email: string;
-//     pid: string;
-//   }): Promise<UserAttributes | null> {
-//     try {
-//       const user = await User.findOne({
-//         where: {
-//           email,
-//           pid,
-//         },
-//       });
-//       return user ? user.toJSON() : null;
-//     } catch (error) {
-//       throw error;
-//     }
-//   }
-//   static async encryptUserPassword(password: string): Promise<string> {
-//     try {
-//       const salt = await bcrypt.genSalt(10);
-//       return await bcrypt.hash(password, salt);
-//     } catch (error) {
-//       throw error;
-//     }
-//   }
-//   static async isValidUserPassword(
-//     password: string,
-//     hash: string
-//   ): Promise<boolean> {
-//     try {
-//       return await bcrypt.compare(password, hash);
-//     } catch (error) {
-//       throw error;
-//     }
-//   }
-// }
-
-// export default UserService;
-
-// services/UserService.ts
-// import { initDB } from '@/models';
-import { initDatabase } from '@/lib/db';
-import User from '@/models/User';
 import bcrypt from 'bcryptjs';
 import { lucia } from '@/lib/lucia';
 import { cookies } from 'next/headers';
-import { Op } from 'sequelize';
+import { user } from '@/lib/db';
+import { type User } from '@prisma/client';
 
 class UserService {
-  static async createUser({
-    idType,
-    pid,
-    title,
-    surname,
-    firstName,
-    middleName,
-    email,
-    password,
-    passwordRepeat,
-  }: {
-    idType: string;
-    pid: string;
-    title: string;
-    surname: string;
-    firstName: string;
-    middleName: string;
-    email: string;
-    password: string;
-    passwordRepeat: string;
-  }): Promise<UserAttributes> {
+  static async createUser(newUser: UserForm): Promise<User> {
     try {
-      await initDatabase(); // Ensure the database connection is established
-      // const newUser = await User.create(user);
+      const { email,password } = newUser;
 
-      const newUser = await User.create({
-        idType,
-        pid,
-        title,
-        surname,
-        firstName,
-        middleName,
-        email,
-        password,
-        passwordRepeat,
+      const createdUser = await user.create({
+        data: {
+          email,
+          password,
+        },
       });
-      return newUser.toJSON();
+      return createdUser;
     } catch (error) {
       console.error('Error creating user:', error);
       throw error;
     }
   }
 
-  static async isUserExist({
-    email,
-    pid,
-  }: {
-    email?: string;
-    pid?: string;
-  }): Promise<UserAttributes | null> {
+  static async isUserExist({ email }: { email: string }): Promise<User | null> {
     try {
-      await initDatabase(); // Ensure the database connection is established
-
-      const whereClause: any = {};
-
-      if (email) {
-        whereClause.email = email;
-      }
-
-      if (pid) {
-        whereClause.pid = pid;
-      }
-
-      // If neither email nor pid is provided, return null
-      if (Object.keys(whereClause).length === 0) {
-        return null;
-      }
-
-      const user = await User.findOne({
+      const isExist = await user.findFirst({
         where: {
-          [Op.or]: [whereClause],
+          email,
         },
       });
 
-      return user ? user.toJSON() : null;
+      return isExist;
     } catch (error) {
       console.error('Error checking user existence:', error);
       throw error;
@@ -172,6 +67,81 @@ class UserService {
       sessionCookie.value,
       sessionCookie.attributes
     );
+  }
+
+  static async getUserSetup(
+    userId: string
+  ): Promise<UserSetupAttributes | null> {
+    try {
+      const foundUser = await user.findUnique({
+        where: {
+          id: userId,
+        },
+        select: {
+          email: true,
+          id: true,
+          personal: true,
+          userEmployment: {
+            include: {
+              mda: true,
+            },
+          },
+          contact: true,
+          citizenships: true,
+          passports: true,
+          nationalCards: true,
+        },
+      });
+      return foundUser;
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      throw error;
+    }
+  }
+
+  static async getUserPersonalCitizenship(
+    userId: string
+  ): Promise<UserPersonalCitizenship | null> {
+    try {
+      const foundUser = await user.findUnique({
+        where: {
+          id: userId,
+        },
+        select: {
+          id: true,
+          email: true,
+          personal: true,
+          citizenships: true,
+        },
+      });
+      return foundUser;
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      throw error;
+    }
+  }
+
+  static async getUserContactPassportNationalCard(
+    userId: string
+  ): Promise<UserContactPassportNationalCard | null> {
+    try {
+      const foundUser = await user.findUnique({
+        where: {
+          id: userId,
+        },
+        select: {
+          id: true,
+          email: true,
+          contact: true,
+          passports: true,
+          nationalCards: true,
+        },
+      });
+      return foundUser;
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      throw error;
+    }
   }
 }
 

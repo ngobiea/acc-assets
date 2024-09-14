@@ -26,12 +26,12 @@ const pool = new pg.Pool({
 });
 
 const neonAdapter = new NeonHTTPAdapter(sql, {
-  user: 'Users',
+  user: 'User',
   session: 'sessions',
 });
 
 const adapter = new NodePostgresAdapter(pool, {
-  user: 'Users',
+  user: 'User',
   session: 'sessions',
 });
 
@@ -46,7 +46,7 @@ export const lucia = new Lucia(adapter, {
     email: databaseUserAttributes.email,
     password: databaseUserAttributes.password,
   }),
-  sessionExpiresIn: new TimeSpan(1, 'h'),
+  sessionExpiresIn: new TimeSpan(1, 'd'),
 });
 
 declare module 'lucia' {

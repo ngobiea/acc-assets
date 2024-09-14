@@ -3,14 +3,18 @@
 import { loginSchema } from '@/utils/validators/auth';
 import { redirect } from 'next/navigation';
 import UserService from '@/services/user-service';
+import routes from '@/utils/routes';
+// import { sendVerificationEmail } from '@/utils/email/node-mailer';
 
 export const login = async (
   _useFormState: LoginFormState,
   formData: FormData
 ): Promise<LoginFormState> => {
-  const email = formData.get('email') as string
-  const password = formData.get('password') as string
+  const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
   console.log(email, password);
+  await new Promise((resolve) => setTimeout(resolve, 5000));
+
   try {
     const result = loginSchema.safeParse({
       email: formData.get('email'),
@@ -21,7 +25,7 @@ export const login = async (
         errors: result.error.flatten().fieldErrors,
       };
     }
-    // 
+    //
     const user = await UserService.isUserExist({ email });
     if (!user) {
       return {
@@ -32,7 +36,10 @@ export const login = async (
       };
     }
     //
-    const isValidPassword = await UserService.isValidUserPassword(password, user.password as string);
+    const isValidPassword = await UserService.isValidUserPassword(
+      password,
+      user.password as string
+    );
 
     if (!isValidPassword) {
       return {
@@ -44,11 +51,6 @@ export const login = async (
     }
     //
     await UserService.crateUserSession(user.id as string);
-
-
-
-
-
   } catch (error) {
     console.error('Error logging in:', error);
     return {
@@ -56,8 +58,8 @@ export const login = async (
         _form: ['An error occurred while logging in. Please try again'],
       },
     };
-   }
-   redirect('/');
+  }
+  redirect(routes.home);
   return {
     errors: {},
   };

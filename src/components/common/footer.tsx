@@ -9,7 +9,7 @@ const Footer = () => {
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8'>
         <div className='lg:flex lg:items-center'>
           <Link href='/'>
-            <Image src={logo} alt='logo' className='w-52' />
+            <Image src={logo} alt='logo' className='w-52' priority />
             {/* <Avatar
               rounded
               bordered

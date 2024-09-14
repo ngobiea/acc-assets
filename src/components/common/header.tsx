@@ -4,18 +4,7 @@ import logo from '/public/images.jpeg';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button, Collapse, IconButton, Navbar, Typography } from '../materialTailwind';
-// import {
-//   Avatar,
-//   Dropdown,
-//   DropdownDivider,
-//   DropdownHeader,
-//   DropdownItem,
-//   Navbar,
-//   NavbarBrand,
-//   NavbarCollapse,
-//   NavbarLink,
-//   NavbarToggle,
-// } from 'flowbite-react';
+
 const Header = () => {
   const [openNav, setOpenNav] = useState(false);
   useEffect(() => {
@@ -80,6 +69,7 @@ const Header = () => {
             className=' h-16 w-16 rounded-full object-cover object-center'
             src={logo}
             alt='nature image'
+            priority
           />
         </Link>
         <div className='flex items-center gap-4'>

@@ -1,8 +1,7 @@
 'use client';
-import { useState, useContext, useEffect } from 'react';
+import { useContext } from 'react';
 
 import Image from 'next/image';
-import { LuLayoutDashboard } from 'react-icons/lu';
 import logo from '/public//images.jpeg';
 
 import { HiPower } from 'react-icons/hi2';
@@ -30,7 +29,7 @@ export default function MobileSidebar() {
         className='h-[calc(100vh-2rem)] w-full p-4'
       >
         <div className='mb-2 flex items-center gap-4 p-4'>
-          <Image src={logo} alt='brand' className='h-8 w-8' />
+          <Image src={logo} alt='brand' className='h-8 w-8' priority />
           <Typography variant='h5' color='blue-gray'>
             ACC Asset
           </Typography>
@@ -38,12 +37,6 @@ export default function MobileSidebar() {
 
         <List>
           <hr className='my-2 border-blue-gray-50' />
-          <ListItem>
-            <ListItemPrefix>
-              <LuLayoutDashboard className='h-5 w-5' />
-            </ListItemPrefix>
-            Dashboard
-          </ListItem>
           <ListItem>
             <ListItemPrefix>
               <MdAssignmentAdd className='h-5 w-5' />

@@ -42,5 +42,14 @@ export {
   Accordion,
   AccordionHeader,
   AccordionBody,
-  
+  Radio,
+  Switch,
+  Spinner,
+  Tabs,
+  TabsHeader,
+  Tab,
+  Stepper,
+  Step,
+  Textarea,
+  TimelineBody,
 } from '@material-tailwind/react';

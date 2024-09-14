@@ -1,6 +1,28 @@
-import { initDB } from '@/models';
-import '../models/associations';
+import { PrismaClient } from '@prisma/client';
 
-export const initDatabase = async () => {
-  await initDB();
-};
+const db = new PrismaClient();
+
+export const {
+  user,
+  citizenship,
+  acquisition,
+  cashAtHand,
+  cashDeposit,
+  contact,
+  declaration,
+  employment,
+  family,
+  familyEmployment,
+  immovableAsset,
+  liability,
+  mDA,
+  movableAsset,
+  nationalCard,
+  otherAsset,
+  passport,
+  pastEmployment,
+  personal,
+  security,
+  userEmployment,
+  session,
+} = db;

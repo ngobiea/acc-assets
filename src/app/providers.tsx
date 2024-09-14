@@ -1,16 +1,16 @@
 'use client';
 
 import { ThemeProvider } from '@material-tailwind/react';
-import { DialogProvider } from '@/context/dialog';
 import type { ReactNode } from 'react';
+import StoreProvider from './StoreProvider';
 interface ProviderProps {
   children: ReactNode;
 }
 
 export default function Providers({ children }: Readonly<ProviderProps>) {
   return (
-    <DialogProvider>
-      <ThemeProvider>{children}</ThemeProvider>;
-    </DialogProvider>
+    <StoreProvider>
+      <ThemeProvider>{children}</ThemeProvider>
+    </StoreProvider>
   );
 }

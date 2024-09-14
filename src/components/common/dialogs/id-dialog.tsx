@@ -10,12 +10,16 @@ import {
 import { useContext } from 'react';
 import DialogContext from '@/context/dialog';
 import { MdOutlineWarningAmber } from 'react-icons/md';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { setIsIDType } from '@/store/slices/setupSlice/setupSlice';
 
 export default function IdDialog() {
-  const { handleOpenIdType, openIdType } = useContext(DialogContext);
+  const dispatch = useAppDispatch();
+  const { isIDType } = useAppSelector((state) => state.setup);
+  // const { handleOpenIdType, openIdType } = useContext(DialogContext);
 
   return (
-    <Dialog open={openIdType} handler={handleOpenIdType}>
+    <Dialog open={isIDType} handler={() => {}}>
       <DialogHeader>
         <Typography variant='h5' color='blue-gray'>
           Your Attention is Required!
@@ -34,8 +38,12 @@ export default function IdDialog() {
         </Typography>
       </DialogBody>
       <DialogFooter className='space-x-2 flex justify-center'>
-        <Button variant='gradient' color='blue' onClick={handleOpenIdType}>
-          Ok, Got it
+        <Button
+          variant='gradient'
+          color='blue'
+          onClick={() => dispatch(setIsIDType(!isIDType))}
+        >
+          I  Agree
         </Button>
       </DialogFooter>
     </Dialog>

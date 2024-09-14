@@ -1,14 +1,11 @@
-import Link from 'next/link';
 
 import { MdPersonAddAlt1 } from 'react-icons/md';
 import RegisterForm from '@/components/auth/register-form';
-import IdDialog from '@/components/common/dialogs/id-dialog';
-import { Button, CardBody, CardFooter, CardHeader, Checkbox, Input, Typography } from '@/components/materialTailwind';
+import { CardHeader, Typography } from '@/components/materialTailwind';
 
 const RegisterPage = () => {
   return (
     <>
-      <IdDialog />
       <CardHeader
         variant='gradient'
         color='green'

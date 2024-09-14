@@ -1,24 +1,23 @@
+interface RegisterUser {}
 
-
-interface RegisterUser {
-    
+interface LoginClientForm {
+  email: string;
+  password: string;
+}
+interface RegisterClientForm {
+  email: string;
+  password: string;
+  passwordRepeat: string;
 }
 
 interface RegisterFormState {
   errors: {
-    idType?: string[];
-    pid?: string[];
-    title?: string[];
-    surname?: string[];
-    firstName?: string[];
-    middleName?: string[];
     email?: string[];
     password?: string[];
     passwordRepeat?: string[];
     _form?: string[];
   };
 }
-
 
 interface LoginFormState {
   errors: {

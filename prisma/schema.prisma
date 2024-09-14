@@ -1,0 +1,393 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String          @id @unique @default(uuid())
+  email           String          @unique
+  password        String?    
+  isVerified      Boolean         @default(false)
+  personal        Personal?
+  userEmployment  UserEmployment?
+  contact         Contact?
+  sessions        Session[]
+  citizenships    Citizenship[]
+  passports       Passport[]
+  nationalCards   NationalCard[]
+  declarations    Declaration[]    
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+}
+
+model Session {
+  id          String   @id @default(uuid()) @unique
+  expires_at  DateTime
+  user_id      String
+  user        User     @relation(fields: [user_id], references: [id])
+
+  @@map("sessions")
+}
+
+model Personal {
+  id            String   @id @unique @default(uuid())
+  title         String
+  idType        String
+  pid           String
+  surname       String
+  firstName     String
+  middleName    String?
+  aliases       String?
+  dateOfBirth   DateTime
+  maritalStatus String
+  gender        String
+  country       String
+  acquireBy     String
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String   @unique
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model MDA {
+  id              String          @id @unique @default(uuid())
+  abbreviation    String
+  name            String
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  userEmployments UserEmployment[]
+  employment      Employment[]
+
+  @@unique([abbreviation, name])
+}
+
+model UserEmployment {
+  id                  String   @id @unique @default(uuid())
+  mda                 MDA      @relation(fields: [mdaId], references: [id])
+  mdaId               String
+  employeeCategory    String
+  currentPosting      String?
+  designation         String
+  rankOrGrade         String?
+  employeePin         String?
+  establishmentRegNo  String?
+  sourceOfIncome      String?
+  isAdministrative    Boolean
+  isFinancial         Boolean
+  isPolitical         Boolean
+  isProfessional      Boolean
+  user                User     @relation(fields: [userId], references: [id])
+  userId              String   @unique
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model Passport {
+  id             String   @id @unique @default(uuid())
+  passportNumber String
+  issueDate      DateTime
+  expiryDate     DateTime
+  country        String   @unique
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model NationalCard {
+  id         String   @id @unique @default(uuid())
+  nationalId String
+  issueDate  DateTime
+  expiryDate DateTime
+  country    String   @unique
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Contact {
+  id                String   @id @unique @default(uuid())
+  telephone         String?
+  mobile            String?
+  permanentAddress  String
+  permanentDistrict String
+  presentAddress    String?
+  presentDistrict   String?
+  user              User     @relation(fields: [userId], references: [id])
+  userId            String   @unique
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Citizenship {
+  id        String   @id @unique @default(uuid())
+  country   String   @unique
+  acquireBy String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Declaration {
+  id             String          @id @default(uuid()) @unique
+  reason         String
+  status         String          @default("PENDING")
+  place          String?
+  userId         String
+  user           User            @relation(fields: [userId], references: [id])
+  employments    Employment[]    
+  pastEmployments PastEmployment[] 
+  families       Family[]        
+  cashAtHand     CashAtHand[]    
+  cashDeposits   CashDeposit[]   
+  immovableAssets ImmovableAsset[] 
+  movableAssets  MovableAsset[]  
+  securities     Security[]      
+  liabilities    Liability[]    
+  otherAssets    OtherAsset[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt   
+}
+
+model Employment {
+  id                 String      @id @default(uuid()) @unique
+  status             String
+  mdaId              String
+  mda                MDA         @relation(fields: [mdaId], references: [id])
+  employeeCategory   String
+  posting            String?
+  designation        String
+  rank               String
+  annualSalary       Decimal     @db.Decimal(15, 2)
+  currency           String
+  allowances          Decimal?    @db.Decimal(15, 2)
+  allowancesCurrency String?
+  allowancesDescription String?
+  SSNo               String?
+  employeeId         String
+  employeePin        String?
+  establishmentRegNo String?
+  contractType       String
+  contractStartDate  DateTime
+  contractEndDate    DateTime
+  sourceOfIncome     String?
+  declarationId      String
+  declaration        Declaration @relation(fields: [declarationId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Family {
+  id             String          @id @unique @default(uuid())
+  surname        String
+  firstName      String
+  middleName     String?
+  relation       String
+  address        String
+  dateOfBirth    DateTime
+  gender         String
+  nationality    String?
+  phoneNumber    String?
+  email          String?
+  mobile         String?
+  businessName   String?
+  declarationId  String
+  declaration    Declaration   @relation(fields: [declarationId], references: [id])
+  employment     FamilyEmployment?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FamilyEmployment {
+  id               String      @id @unique @default(uuid())
+  employeeNo       String?
+  category         String?
+  institution      String
+  SSNo             String?
+  pinCode          String?
+  designation      String
+  family           Family      @relation(fields: [familyId], references: [id])
+  familyId         String      @unique
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+}
+
+model CashAtHand {
+  id             String        @id @default(uuid()) @unique
+  currency       String
+  amount         Decimal       @db.Decimal(15, 2)
+  details        String
+  jointIncome    String?
+  declarationId  String
+  declaration    Declaration   @relation(fields: [declarationId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CashDeposit {
+  id              String        @id @default(uuid()) @unique
+  ownerName       String
+  relation        String
+  registerOwner   String
+  accountNo       String
+  type            String
+  institutionOrBank String
+  location        String
+  accountBalance  Decimal       @db.Decimal(15, 2)
+  currency        String
+  source          String
+  declarationId   String
+  declaration     Declaration   @relation(fields: [declarationId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Acquisition {
+  id              String        @id @default(uuid()) @unique
+  modeOfAcquisition String
+  cost            Decimal       @db.Decimal(15, 2)
+  currency        String
+  yearOfAcquisition Int
+  immovableAsset  ImmovableAsset?
+  movableAsset    MovableAsset?
+  security        Security?
+  otherAsset      OtherAsset?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ImmovableAsset {
+  id              String        @id @default(uuid()) @unique
+  ownerName       String
+  relation        String
+  registerOwner   String
+  assetType       String
+  location        String
+  plotNo          String?
+  size            String?
+  estimatedValue  Decimal       @db.Decimal(15, 2)
+  currency        String
+  financeSource   String
+  acquisitionId   String        @unique
+  acquisition     Acquisition   @relation(fields: [acquisitionId], references: [id])
+  declarationId   String
+  declaration     Declaration   @relation(fields: [declarationId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MovableAsset {
+  id              String        @id @default(uuid()) @unique
+  ownerName       String
+  relation        String
+  registerOwner   String
+  assetType       String
+  description     String?
+  registrationNo  String
+  location        String?
+  purpose         String
+  estimatedValue  Decimal       @db.Decimal(15, 2)
+  currency        String
+  financeSource   String
+  acquisitionId   String        @unique
+  acquisition     Acquisition   @relation(fields: [acquisitionId], references: [id])
+  declarationId   String
+  declaration     Declaration   @relation(fields: [declarationId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Liability {
+  id              String        @id @default(uuid()) @unique
+  debtorName      String
+  relation        String
+  creditor        String
+  creditorAddress String?
+  loanAmount      Decimal       @db.Decimal(15, 2)
+  currency        String
+  yearContracted  Int?
+  loanPurpose     String
+  loanRepayment   String
+  paymentPeriod   Decimal       @db.Decimal(15, 2)
+  loanOutstanding Decimal       @db.Decimal(15, 2)
+  currencyOutstanding String
+  maturityDate    DateTime?
+  remarks         String?
+  declarationId   String
+  declaration     Declaration   @relation(fields: [declarationId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model OtherAsset {
+  id              String        @id @default(uuid()) @unique
+  ownerName       String
+  relation        String
+  registerOwner   String
+  assetType       String
+  location        String?
+  estimatedValue  Decimal       @db.Decimal(15, 2)
+  currency        String
+  financeSource   String
+  remarks         String?
+  acquisitionId   String        @unique
+  acquisition     Acquisition   @relation(fields: [acquisitionId], references: [id])
+  declarationId   String
+  declaration     Declaration   @relation(fields: [declarationId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PastEmployment {
+  id                    String      @id @default(uuid()) @unique
+  employerName          String?
+  designation           String
+  rank                  String
+  contractStartDate     DateTime
+  contractEndDate       DateTime
+  annualSalary          Decimal     @db.Decimal(15, 2)
+  currency              String
+  allowances            Decimal?    @db.Decimal(15, 2)
+  allowancesCurrency    String?
+  allowancesDescription String?
+  sourceOfIncome        String?
+  declarationId         String
+  declaration           Declaration @relation(fields: [declarationId], references: [id])
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model Security {
+  id              String        @id @default(uuid()) @unique
+  ownerName       String
+  relation        String
+  registerOwner   String
+  name            String?
+  type            String
+  certificateNo   String
+  numberOfShares  String?
+  company         String
+  yearlyInterest  Decimal?      @db.Decimal(15, 2)
+  natureOfShares  String?
+  currentMarketValue Decimal    @db.Decimal(15, 2)
+  currency        String
+  financeSource   String
+  acquisitionId   String        @unique
+  acquisition     Acquisition   @relation(fields: [acquisitionId], references: [id])
+  declarationId   String
+  declaration     Declaration   @relation(fields: [declarationId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

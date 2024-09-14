@@ -1,3 +1,23 @@
+interface DeclarationData {
+  id: string;
+  reason: string;
+  status: string;
+  place: string | null;
+  userId: string;
+  // user: UserAttributes;
+  cashAtHand: CashAtHandData;
+  // employments: EmploymentAttributes[];
+  // PastEmployment: PastEmploymentAttributes[];
+  // Family: FamilyAttributes[];
+  // CashDeposit: CashDeposit[];
+  // ImmovableAsset: ImmovableAssetAttributes[];
+  // MovableAsset: MovableAssetAttributes[];
+  // OtherAsset: OtherAssetAttributes[];
+  // Security: SecurityAttributes[];
+  // Liabilities?: LiabilitiesAttributes[];
+  // createdAt?: Date;
+  // updatedAt?: Date;
+}
 interface DeclarationAttributes {
   id: string;
   reasons: string;
@@ -18,6 +38,16 @@ interface DeclarationAttributes {
   Liabilities?: LiabilitiesAttributes[];
   createdAt?: Date;
   updatedAt?: Date;
+}
+interface CashAtHandData {
+  id: string;
+  currency: string;
+  amount: Decimal;
+  details: string;
+  jointIncome: string | null;
+  declarationId: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 interface EmploymentAttributes {

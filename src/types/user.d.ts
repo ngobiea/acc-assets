@@ -1,108 +1,158 @@
-interface UserAttributes {
-  id: string;
+interface UserForm {
+  email: string;
+  password: string | null;
+}
+interface PersonalForm {
   title: string;
   idType: string;
   pid: string;
   surname: string;
   firstName: string;
-  middleName?: string;
-  email: string;
-  password: string;
-  passwordRepeat: string;
-  isVerified: boolean;
-  dateOfBirth?: Date;
-  maritalStatus?: string;
-  gender?: string;
-  citizenships?: Citizenship[];
-  createdAt?: Date;
-  updatedAt?: Date;
+  middleName: string;
+  aliases: string;
+  dateOfBirth: Date;
+  maritalStatus: string;
+  gender: string;
+  userId: string;
+  acquireBy: string;
+  country: string;
 }
 
-
-interface CitizenshipAttributes {
-  id: string;
+interface PersonalClientForm {
+  title: string;
+  idType: string;
+  pid: string;
+  surname: string;
+  firstName: string;
+  middleName: string;
+  aliases: string;
+  dateOfBirth: string;
+  maritalStatus: string;
+  gender: string;
+  userId: string;
   country: string;
-  issueDate: Date;
+  acquireBy: string;
+  image: string;
+}
+interface CitizenshipForm {
+  country: string;
   acquireBy: string;
   userId: string;
-  user?: UserAttributes;
-  createdAt?: Date;
-  updatedAt?: Date;
 }
-
-interface UserEmploymentAttributes {
-  id: string;
-  mda: string;
+interface UserEmploymentClientForm {
+  mdaId: string;
   employeeCategory: string;
-  currentPosting?: string;
+  currentPosting: string;
   designation: string;
-  rankOrGrade?: string;
-  employeePin?: string;
-  establishmentRegNo?: string;
-  sourceOfIncome?: string;
+  rankOrGrade: string;
+  employeePin: string;
+  establishmentRegNo: string;
+  sourceOfIncome: string;
+  isAdministrative: string;
+  isFinancial: string;
+  isPolitical: string;
+  isProfessional: string;
+  otherSourceOfIncome: string;
+  userId: string;
+}
+interface UserEmploymentForm {
+  mdaId: string;
+  employeeCategory: string;
+  currentPosting: string;
+  designation: string;
+  rankOrGrade: string;
+  employeePin: string;
+  establishmentRegNo: string;
+  sourceOfIncome: string;
   isAdministrative: boolean;
   isFinancial: boolean;
   isPolitical: boolean;
   isProfessional: boolean;
+  otherSourceOfIncome: string;
   userId: string;
-  createdAt?: Date;
-  updatedAt?: Date;
 }
 
-interface ContactAttributes {
-  id: string;
+interface ContactForm {
   telephone?: string;
   mobile?: string;
-  email: string;
   permanentAddress: string;
   permanentDistrict: string;
   presentAddress: string;
   presentDistrict: string;
-  passports?: Passport[];
-  nationalId?: string;
   userId: string;
-  createdAt?: Date;
-  updatedAt?: Date;
 }
-
-interface PassportAttributes {
-  id: string;
+interface ContactFormClient {
+  telephone: string;
+  mobile: string;
+  permanentAddress: string;
+  permanentDistrict: string;
+  presentAddress: string;
+  presentDistrict: string;
+  isSameAsPermanent: boolean;
+  termsAndConditions: string;
+}
+interface ContactClientSetupForm {
+  telephone: string;
+  mobile: string;
+  permanentAddress: string;
+  permanentDistrict: string;
+  presentAddress: string;
+  presentDistrict: string;
+  isSameAsPermanent: string;
+  termsAndConditions: string;
+  passportNumber: string;
+  isPassportExist: string;
+  passportIssueDate: string;
+  passportExpiryDate: string;
+  passportCountry: string;
+  nationalId: string;
+  isNationalIdExist: string;
+  nationalIdIssueDate: string;
+  nationalIdExpiryDate: string;
+  nationalIdCountry: string;
+}
+interface ContactServerSetupForm {
+  telephone: string;
+  mobile: string;
+  permanentAddress: string;
+  permanentDistrict: string;
+  presentAddress: string;
+  presentDistrict: string;
+  isSameAsPermanent: string;
+  termsAndConditions: string;
+  isPassportExist: string;
+  isNationalIdExist: string;
+}
+interface PassportForm {
   passportNumber: string;
   issueDate: Date;
   expiryDate: Date;
-  issuingAuthority: string;
+  country: string;
+  userId: string;
 }
-
-
-interface SessionAttributes {
+interface PassportFormClient {
+  passportNumber: string;
+  issueDate: string;
+  expiryDate: string;
+  country: string;
+  userId: string;
+}
+interface NationalCardForm {
+  nationalId: string;
+  issueDate: Date;
+  expiryDate: Date;
+  country: string;
+  userId: string;
+}
+interface NationalCardFormClient {
+  nationalId: string;
+  issueDate: string;
+  expiryDate: string;
+  country: string;
+  userId: string;
+}
+interface SessionForm {
   id: string;
   expires_at: number;
   user_id: string;
 }
-
-interface UserProfileStep {
-  title: string;
-  content: ReactNode;
-  icon: ReactNode;
-}
-
-interface UserProfileState {
-  steps: UserProfileStep[];
-  isLastProfileStep: boolean;
-  isFirstProfileStep: boolean;
-  activeProfileStep: number;
-}
-
-type UserProfileAction =
-  | {
-      type: 'setIsLastProfileStep';
-      payload: boolean;
-    }
-  | {
-      type: 'setIsFirstProfileStep';
-      payload: boolean;
-    }
-  | {
-      type: 'setActiveProfileStep';
-      payload: number;
-    };

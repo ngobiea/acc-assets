@@ -27,6 +27,13 @@ const config: Config = withMT({
         'bounce-slow': 'bounce 2s infinite',
       },
     },
+    screen: {
+      xs: '240px',
+      sm: '480px',
+      md: '768px',
+      lg: '976px',
+      xl: '1440px',
+    },
   },
   plugins: [
     // flowbite.plugin()
