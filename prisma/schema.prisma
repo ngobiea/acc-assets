@@ -150,7 +150,7 @@ model Declaration {
   employments    Employment[]    
   pastEmployments PastEmployment[] 
   families       Family[]        
-  cashAtHand     CashAtHand[]    
+  cashAtHand     CashAtHand?    
   cashDeposits   CashDeposit[]   
   immovableAssets ImmovableAsset[] 
   movableAssets  MovableAsset[]  
@@ -203,25 +203,16 @@ model Family {
   email          String?
   mobile         String?
   businessName   String?
-  declarationId  String
-  declaration    Declaration   @relation(fields: [declarationId], references: [id])
-  employment     FamilyEmployment?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model FamilyEmployment {
-  id               String      @id @unique @default(uuid())
   employeeNo       String?
   category         String?
   institution      String
   SSNo             String?
   pinCode          String?
   designation      String
-  family           Family      @relation(fields: [familyId], references: [id])
-  familyId         String      @unique
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
+  declarationId  String
+  declaration    Declaration   @relation(fields: [declarationId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model CashAtHand {
@@ -230,7 +221,7 @@ model CashAtHand {
   amount         Decimal       @db.Decimal(15, 2)
   details        String
   jointIncome    String?
-  declarationId  String
+  declarationId  String        @unique
   declaration    Declaration   @relation(fields: [declarationId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -254,19 +245,6 @@ model CashDeposit {
   updatedAt DateTime @updatedAt
 }
 
-model Acquisition {
-  id              String        @id @default(uuid()) @unique
-  modeOfAcquisition String
-  cost            Decimal       @db.Decimal(15, 2)
-  currency        String
-  yearOfAcquisition Int
-  immovableAsset  ImmovableAsset?
-  movableAsset    MovableAsset?
-  security        Security?
-  otherAsset      OtherAsset?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
 
 model ImmovableAsset {
   id              String        @id @default(uuid()) @unique
@@ -280,8 +258,10 @@ model ImmovableAsset {
   estimatedValue  Decimal       @db.Decimal(15, 2)
   currency        String
   financeSource   String
-  acquisitionId   String        @unique
-  acquisition     Acquisition   @relation(fields: [acquisitionId], references: [id])
+  acquisitionMode String
+  acquisitionCost Decimal       @db.Decimal(15, 2)
+  acquisitionCurrency String
+  acquisitionYear Int
   declarationId   String
   declaration     Declaration   @relation(fields: [declarationId], references: [id])
   createdAt DateTime @default(now())
@@ -301,8 +281,10 @@ model MovableAsset {
   estimatedValue  Decimal       @db.Decimal(15, 2)
   currency        String
   financeSource   String
-  acquisitionId   String        @unique
-  acquisition     Acquisition   @relation(fields: [acquisitionId], references: [id])
+  acquisitionMode String
+  acquisitionCost Decimal       @db.Decimal(15, 2)
+  acquisitionCurrency String
+  acquisitionYear Int
   declarationId   String
   declaration     Declaration   @relation(fields: [declarationId], references: [id])
   createdAt DateTime @default(now())
@@ -320,7 +302,7 @@ model Liability {
   yearContracted  Int?
   loanPurpose     String
   loanRepayment   String
-  paymentPeriod   Decimal       @db.Decimal(15, 2)
+  paymentPeriod   Int       
   loanOutstanding Decimal       @db.Decimal(15, 2)
   currencyOutstanding String
   maturityDate    DateTime?
@@ -342,8 +324,10 @@ model OtherAsset {
   currency        String
   financeSource   String
   remarks         String?
-  acquisitionId   String        @unique
-  acquisition     Acquisition   @relation(fields: [acquisitionId], references: [id])
+  acquisitionMode String
+  acquisitionCost Decimal       @db.Decimal(15, 2)
+  acquisitionCurrency String
+  acquisitionYear Int
   declarationId   String
   declaration     Declaration   @relation(fields: [declarationId], references: [id])
   createdAt DateTime @default(now())
@@ -384,8 +368,10 @@ model Security {
   currentMarketValue Decimal    @db.Decimal(15, 2)
   currency        String
   financeSource   String
-  acquisitionId   String        @unique
-  acquisition     Acquisition   @relation(fields: [acquisitionId], references: [id])
+  acquisitionMode String
+  acquisitionCost Decimal       @db.Decimal(15, 2)
+  acquisitionCurrency String
+  acquisitionYear Int
   declarationId   String
   declaration     Declaration   @relation(fields: [declarationId], references: [id])
   createdAt DateTime @default(now())

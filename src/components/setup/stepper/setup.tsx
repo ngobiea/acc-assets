@@ -1,5 +1,4 @@
 'use client';
-import SetupSpinner from './setup-loading';
 import { CardBody, CardHeader } from '@/components/materialTailwind';
 import EmploymentForm from '../form/employment';
 import SetupStepper from './setup-step';
@@ -43,7 +42,7 @@ export default function Setup({
   ];
 
   const dispatch = useAppDispatch();
-  const { activeProfileStep, isLoadingUser } = useAppSelector(
+  const { activeProfileStep, } = useAppSelector(
     (state) => state.setup
   );
   const [isAnimating, setIsAnimating] = useState(false);
@@ -53,9 +52,6 @@ export default function Setup({
     return () => clearTimeout(timer);
   }, [activeProfileStep]);
 
-  useEffect(() => {
-    // dispatch(fetchUser());
-  }, [dispatch]);
 
   return (
     <>

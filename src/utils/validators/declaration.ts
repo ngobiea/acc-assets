@@ -5,6 +5,14 @@ export const declarationSchema = z
     reason: z.string().trim().min(1, 'Reason is required'),
     place: z.optional(z.string()),
     otherReason: z.optional(z.string().trim()),
+    isUseLastDeclaration: z.optional(
+      z.string().refine(
+        (value) => {
+          return value === 'Yes' || value === 'No' || value === undefined;
+        },
+        { message: 'Please select an option' }
+      )
+    ),
   })
   .refine(
     (data) => {
@@ -513,4 +521,3 @@ export const liabilitySchema = z.object({
   maturityDate: z.optional(z.string().date('Maturity date is required')),
   remarks: z.optional(z.string().trim()),
 });
-

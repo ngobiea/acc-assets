@@ -13,7 +13,7 @@ export default function NewDeclarationButton() {
       color='blue'
     >
       <MdAssignmentAdd className='h-4 w-4' />
-      New Declaration
+      New 
     </Button>
   );
 }

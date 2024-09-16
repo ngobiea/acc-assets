@@ -93,9 +93,7 @@ export default function PersonalUpdateForm({
     console.log(data);
     // action(formData);
   };
-  useEffect(() => { 
-    
-  },[]);
+  useEffect(() => {}, []);
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {

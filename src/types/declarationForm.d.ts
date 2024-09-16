@@ -2,6 +2,7 @@ interface DeclarationClientForm {
   reason: string;
   place: string;
   otherReason: string;
+  isUseLastDeclaration: string;
 }
 interface DeclarationForm {
   reason: string;

@@ -11,8 +11,10 @@ const routes = {
   setup: '/setup',
   declaration: '/declaration',
   newDeclaration: '/declaration/new',
+  declarationId: (id: string) => { 
+    return `/declaration/${id}`;
+  },
   profile:'/profile',
-
   terms() {
     return '/terms';
   },

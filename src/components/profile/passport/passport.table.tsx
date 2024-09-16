@@ -5,7 +5,7 @@ import {
   CardHeader,
   Typography,
 } from '@/components/materialTailwind';
-import { MdAdd, MdOutlineDelete } from 'react-icons/md';
+import { MdOutlineDelete } from 'react-icons/md';
 import AddPassportButton from './button-add-passport';
 const TABLE_HEAD = [
   'Passport No.',

@@ -30,6 +30,9 @@ interface AppSliceState {
 }
   
 interface DeclarationState {
+  isLastDeclarationStep: boolean;
+  isFirstDeclarationStep: boolean;
+  activeDeclarationStep: number;
   isLoadingDeclaration: boolean;
   isStartDeclaration: boolean;
   isPersonalFormOpen: boolean;

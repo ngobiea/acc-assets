@@ -4,7 +4,8 @@ import routes from '@/utils/routes';
 import { Sidebar } from '@/components/user/common/side-bar';
 import DeclarationTable from '@/components/declaration/declaration-table';
 import UserService from '@/services/user-service';
- 
+import DeclarationService from '@/services/declaration-service';
+import DeclarationStartForm from '@/components/declaration/form/intro';
 
 export default async function Home() {
   const { user } = await validateRequest();
@@ -20,11 +21,15 @@ export default async function Home() {
   ) {
     redirect(routes.setup);
   }
+  const declarations = await DeclarationService.getDeclarations(user.id);
 
   return (
-    <main className=''>
-      <Sidebar />
-      <DeclarationTable />
-    </main>
+    <>
+      <DeclarationStartForm isAnyLastDeclaration={declarations.length > 0} />
+      <main className=''>
+        <Sidebar />
+        <DeclarationTable declarations={declarations} />
+      </main>
+    </>
   );
 }

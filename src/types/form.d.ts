@@ -3,7 +3,8 @@ type FormValues =
   | RegisterClientForm
   | PersonalClientForm
   | UserEmploymentClientForm
-  | ContactClientSetupForm;
+  | ContactClientSetupForm
+  | DeclarationClientForm;
 
 
 

@@ -167,18 +167,17 @@ const EmploymentForm = ({
       );
       if (showOtherInput) {
         setValue('sourceOfIncome', 'Other');
-         setValue(
-           'otherSourceOfIncome',
-           employment?.sourceOfIncome ? employment?.sourceOfIncome : ''
-         );
+        setValue(
+          'otherSourceOfIncome',
+          employment?.sourceOfIncome ? employment?.sourceOfIncome : ''
+        );
       } else {
         setValue(
           'sourceOfIncome',
           employment?.sourceOfIncome ? employment?.sourceOfIncome : ''
         );
       }
-      
-     
+
       setValue('isAdministrative', employment?.isAdministrative ? 'Yes' : 'No');
       setValue('isFinancial', employment?.isFinancial ? 'Yes' : 'No');
       setValue('isPolitical', employment?.isPolitical ? 'Yes' : 'No');

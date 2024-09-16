@@ -1,6 +1,9 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: DeclarationState = {
+  activeDeclarationStep: 0,
+  isFirstDeclarationStep: false,
+  isLastDeclarationStep: false,
   idType: 'NIN',
   isDeletingCitizenship: false,
   isDeletingNationalCard: false,
@@ -77,6 +80,16 @@ const declarationSlice = createSlice({
     setIsSubmittingDeclaration(state, action: PayloadAction<boolean>) {
       state.isSubmittingDeclaration = action.payload;
     },
+    handleNextDeclarationStep(state) {
+      if (!state.isLastDeclarationStep) {
+        state.activeDeclarationStep += 1;
+      }
+    },
+    handlePrevDeclarationStep(state) {
+      if (!state.isFirstDeclarationStep) {
+        state.activeDeclarationStep -= 1;
+      }
+    },
   },
 });
 
@@ -95,6 +108,8 @@ export const {
   setIsPersonalFormOpen,
   setIsSecurityFormOpen,
   setIsSubmittingDeclaration,
+  handleNextDeclarationStep,
+  handlePrevDeclarationStep,
 } = declarationSlice.actions;
 
 export const declarationReducer = declarationSlice.reducer;

@@ -12,7 +12,6 @@ export const login = async (
 ): Promise<LoginFormState> => {
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
-  console.log(email, password);
   await new Promise((resolve) => setTimeout(resolve, 5000));
 
   try {

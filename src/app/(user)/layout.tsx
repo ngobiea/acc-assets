@@ -1,4 +1,3 @@
-import DeclarationStartForm from '@/components/declaration/form/intro';
 import UserNavbar from '@/components/user/common/nav-bar';
 import { Sidebar } from '@/components/user/common/side-bar';
 import type { ReactNode } from 'react';
@@ -9,7 +8,6 @@ export default async function UserLayout({
 }: Readonly<{ children: ReactNode }>) {
   return (
     <main className=' bg-blue-gray-50/50 min-h-screen'>
-      <DeclarationStartForm />
 
       <Sidebar />
       {/* <MobileSidebar /> */}
