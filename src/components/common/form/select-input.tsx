@@ -7,6 +7,7 @@ type SelectProps = {
   options: Option[];
   errors: FieldErrors<FormValues>;
   title?: string;
+  disabled?: boolean;
 };
 
 export default function SelectInput({
@@ -16,6 +17,7 @@ export default function SelectInput({
   value,
   errors,
   title,
+  disabled
 }: SelectProps) {
   return (
     <div className='w-full group mb-5'>
@@ -28,6 +30,7 @@ export default function SelectInput({
         </Typography>
       )}
       <select
+        disabled={disabled}
         {...register(value)}
         className={`border text-sm rounded-lg  block w-full p-2.5 ${
           (errors as any)[value]

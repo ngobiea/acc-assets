@@ -9,30 +9,28 @@ type SelectTextProps = {
   type?: string;
   selectValue: Path<FormValues>;
   inputValue: Path<FormValues>;
-  // handleChange?: (
-  //   e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
-  // ) => void;
   placeholder: string;
   idType?: string;
+  disabled?: boolean;
 };
 export default function SelectTextInput({
   register,
   errors,
   label,
   placeholder,
-  // handleChange,
   options,
   type,
   idType,
   inputValue,
   selectValue,
+  disabled,
 }: SelectTextProps) {
   return (
     <div className='w-full mb-5 group'>
       <div className='flex w-full'>
         <select
+          disabled={disabled}
           {...register(selectValue)}
-          // onChange={handleChange}
           className={`
                   text-sm rounded-lg p-2.5 rounded-r-none 
                   ${
@@ -51,6 +49,7 @@ export default function SelectTextInput({
           })}
         </select>
         <Input
+          disabled={disabled}
           {...register(inputValue)}
           label={label}
           placeholder={placeholder}

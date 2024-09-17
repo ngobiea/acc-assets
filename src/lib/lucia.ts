@@ -52,6 +52,6 @@ export const lucia = new Lucia(adapter, {
 declare module 'lucia' {
   interface Register {
     Lucia: typeof lucia;
-    DatabaseUserAttributes: Omit<UserAttributes, 'id'>;
+    DatabaseUserAttributes: Omit<UserForm, 'id'>;
   }
 }

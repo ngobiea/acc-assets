@@ -2,28 +2,20 @@
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   Typography,
-  Accordion,
-  AccordionBody,
-  AccordionHeader,
+  Card,
+  CardBody,
 } from '@/components/materialTailwind';
-import { FiMinimize2, FiMaximize2 } from 'react-icons/fi';
-import { setIsSecurityFormOpen } from '@/store/slices/declarationSlice/declarationSlice';
 import { MdOutlineSecurity } from 'react-icons/md';
-import { CUSTOM_ANIMATION } from '../../stepper/declaration';
 import SecurityForm from './form';
 
 export default function SecurityAccordion() {
   const dispatch = useAppDispatch();
   const { isSecurityFormOpen } = useAppSelector((state) => state.declaration);
   return (
-    <Accordion
-      animate={CUSTOM_ANIMATION}
-      open={isSecurityFormOpen}
-      icon={isSecurityFormOpen ? <FiMinimize2 /> : <FiMaximize2 />}
+    <Card
     >
-      <AccordionHeader
-        className='bg-blue-100 px-5 hover:animate-bounce'
-        onClick={() => dispatch(setIsSecurityFormOpen(!isSecurityFormOpen))}
+      <div
+        className='bg-blue-100 px-5 py-5'
       >
         <div
           className='flex items-center space-x-2
@@ -34,10 +26,10 @@ export default function SecurityAccordion() {
             Securities
           </Typography>
         </div>
-      </AccordionHeader>
-      <AccordionBody className='border border-blue-400'>
+      </div>
+      <CardBody className='border border-blue-400'>
         <SecurityForm />
-      </AccordionBody>
-    </Accordion>
+      </CardBody>
+    </Card>
   );
 }

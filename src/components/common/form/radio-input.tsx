@@ -8,9 +8,6 @@ type RadioProps = {
   value: Path<FormValues>;
   errors: FieldErrors<FormValues>;
   values: { radioValue: string; defaultChecked?: boolean }[];
-  // handleChange?: (
-  //   e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
-  // ) => void;
 };
 
 export default function RadioInput({
@@ -19,7 +16,6 @@ export default function RadioInput({
   radioLabel,
   values,
   value,
-  // handleChange,
 }: RadioProps) {
   return (
     <div className='w-full group mb-5'>
@@ -56,7 +52,6 @@ export default function RadioInput({
             }
             icon={<MdCheckCircle className='h-full w-full scale-105' />}
             value={radioValue}
-            // onChange={handleChange}
           />
         );
       })}

@@ -147,6 +147,8 @@ model Declaration {
   place          String?
   userId         String
   user           User            @relation(fields: [userId], references: [id])
+  personal        DPersonal?
+  contact         DContact?
   employments    Employment[]    
   pastEmployments PastEmployment[] 
   families       Family[]        
@@ -184,7 +186,7 @@ model Employment {
   contractEndDate    DateTime
   sourceOfIncome     String?
   declarationId      String
-  declaration        Declaration @relation(fields: [declarationId], references: [id])
+  declaration        Declaration @relation(fields: [declarationId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -210,7 +212,7 @@ model Family {
   pinCode          String?
   designation      String
   declarationId  String
-  declaration    Declaration   @relation(fields: [declarationId], references: [id])
+  declaration    Declaration   @relation(fields: [declarationId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -222,7 +224,7 @@ model CashAtHand {
   details        String
   jointIncome    String?
   declarationId  String        @unique
-  declaration    Declaration   @relation(fields: [declarationId], references: [id])
+  declaration    Declaration   @relation(fields: [declarationId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -240,7 +242,7 @@ model CashDeposit {
   currency        String
   source          String
   declarationId   String
-  declaration     Declaration   @relation(fields: [declarationId], references: [id])
+  declaration     Declaration   @relation(fields: [declarationId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -263,7 +265,7 @@ model ImmovableAsset {
   acquisitionCurrency String
   acquisitionYear Int
   declarationId   String
-  declaration     Declaration   @relation(fields: [declarationId], references: [id])
+  declaration     Declaration   @relation(fields: [declarationId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -286,7 +288,7 @@ model MovableAsset {
   acquisitionCurrency String
   acquisitionYear Int
   declarationId   String
-  declaration     Declaration   @relation(fields: [declarationId], references: [id])
+  declaration     Declaration   @relation(fields: [declarationId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -308,7 +310,7 @@ model Liability {
   maturityDate    DateTime?
   remarks         String?
   declarationId   String
-  declaration     Declaration   @relation(fields: [declarationId], references: [id])
+  declaration     Declaration   @relation(fields: [declarationId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -329,7 +331,7 @@ model OtherAsset {
   acquisitionCurrency String
   acquisitionYear Int
   declarationId   String
-  declaration     Declaration   @relation(fields: [declarationId], references: [id])
+  declaration     Declaration   @relation(fields: [declarationId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -348,7 +350,7 @@ model PastEmployment {
   allowancesDescription String?
   sourceOfIncome        String?
   declarationId         String
-  declaration           Declaration @relation(fields: [declarationId], references: [id])
+  declaration           Declaration @relation(fields: [declarationId], references: [id], onDelete: Cascade)
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 }
@@ -373,7 +375,41 @@ model Security {
   acquisitionCurrency String
   acquisitionYear Int
   declarationId   String
-  declaration     Declaration   @relation(fields: [declarationId], references: [id])
+  declaration     Declaration   @relation(fields: [declarationId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model DPersonal {
+  id            String   @id @unique @default(uuid())
+  title         String
+  idType        String
+  pid           String
+  surname       String
+  firstName     String
+  middleName    String?
+  aliases       String?
+  dateOfBirth   DateTime
+  maritalStatus String
+  gender        String
+  country       String
+  acquireBy     String
+  declarationId   String        @unique
+  declaration     Declaration   @relation(fields: [declarationId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model DContact {
+  id                String   @id @unique @default(uuid())
+  telephone         String?
+  mobile            String?
+  permanentAddress  String
+  permanentDistrict String
+  presentAddress    String?
+  presentDistrict   String?
+  declarationId     String        @unique
+  declaration       Declaration   @relation(fields: [declarationId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }

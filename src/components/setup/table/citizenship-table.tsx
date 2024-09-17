@@ -6,7 +6,6 @@ import {
 } from '@/components/materialTailwind';
 const TABLE_HEAD = ['Nationality', 'Acquired By', 'Action'];
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { deleteCitizenshipT } from '@/store/thunks/declarationThunk/citizen/deleteCitizenship';
 import { MdOutlineDeleteForever } from 'react-icons/md';
 export default function CitizenshipTable() {
   const dispatch = useAppDispatch();
@@ -14,7 +13,6 @@ export default function CitizenshipTable() {
     (state) => state.setup
   );
   const handleDelete = async (id: string) => {
-    dispatch(deleteCitizenshipT(id));
   };
 
   return (

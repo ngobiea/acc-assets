@@ -4,22 +4,14 @@ type FormValues =
   | PersonalClientForm
   | UserEmploymentClientForm
   | ContactClientSetupForm
-  | DeclarationClientForm;
-
-
-
-
-
-
-
+  | DeclarationClientForm
+  | CurrentLastEmploymentClientForm;
 
 interface Option {
   id: string;
   value: string;
 }
 
-interface MDAOption{
-    id: string,
-    
+interface MDAOption {
+  id: string;
 }
-

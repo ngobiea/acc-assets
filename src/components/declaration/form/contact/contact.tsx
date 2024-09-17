@@ -2,30 +2,18 @@
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   Typography,
-  Accordion,
-  AccordionBody,
-  AccordionHeader,
+  CardBody,
+  Card,
 } from '@/components/materialTailwind';
-import { FiMinimize2, FiMaximize2 } from 'react-icons/fi';
-import { setIsContactFormOpen } from '@/store/slices/declarationSlice/declarationSlice';
 import { MdOutlineContactPhone } from 'react-icons/md';
-import { CUSTOM_ANIMATION } from '../../stepper/declaration';
 import ContactForm from './form';
+import type { DContact } from '@prisma/client';
 
-export default function ContactAccordion() {
-  const dispatch = useAppDispatch();
-  const { isContactFormOpen } = useAppSelector((state) => state.declaration);
+export default function ContactAccordion({ contact }: { contact: DContact }) {
+  const {} = useAppSelector((state) => state.declaration);
   return (
-    <Accordion
-      className=''
-      open={isContactFormOpen}
-      icon={isContactFormOpen ? <FiMinimize2 /> : <FiMaximize2 />}
-      animate={CUSTOM_ANIMATION}
-    >
-      <AccordionHeader
-        className='bg-blue-100 px-5 hover:animate-bounce'
-        onClick={() => dispatch(setIsContactFormOpen(!isContactFormOpen))}
-      >
+    <Card>
+      <div className='bg-blue-100 px-5 py-5 hover:animate-bounce'>
         <div
           className='flex items-center space-x-2
         '
@@ -35,10 +23,10 @@ export default function ContactAccordion() {
             Contact
           </Typography>
         </div>
-      </AccordionHeader>
-      <AccordionBody className='border border-blue-400'>
-        <ContactForm />
-      </AccordionBody>
-    </Accordion>
+      </div>
+      <CardBody className='border border-blue-400'>
+        <ContactForm contact={contact} />
+      </CardBody>
+    </Card>
   );
 }

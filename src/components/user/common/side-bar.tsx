@@ -15,14 +15,16 @@ import { useContext } from 'react';
 import UserContext from '@/context/user-context';
 import routes from '@/utils/routes';
 import SideBarLink from './side-bar-link';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const sidebarItems = [
 
-  {
-    title: 'DECLARATION',
-    icon: <TbReport className='h-5 w-5' />,
-    route: routes.home,
-  },
+  // {
+  //   title: 'DECLARATION',
+  //   icon: <TbReport className='h-5 w-5' />,
+  //   route: routes.home,
+  // },
   {
     title: 'PROFILE',
     icon: <BsPersonCircle className='h-5 w-5' />,
@@ -30,8 +32,13 @@ const sidebarItems = [
   },
 ];
 export function Sidebar() {
-  const { isSidebarOpen, setIsSidebarOpen } = useContext(UserContext);
+  const path = usePathname();
 
+  const { isSidebarOpen, setIsSidebarOpen } = useContext(UserContext);
+        const activeStyle =
+          'flex w-full h-full p-3 items-center gap-4 px-4 capitalize bg-blue-400 text-white rounded-xl shadow-md hover:shadow-lg';
+        const inActiveStyle =
+          'flex w-full h-full p-3 items-center gap-4 px-4 capitalize';
   return (
     <Card
       className={` ${
@@ -42,17 +49,27 @@ export function Sidebar() {
         <Image src={logo} alt='brand' className='h-16 w-16' priority />
         <div>
           <Typography variant='h3' color='gray'>
-            ACC 
+            ACC
           </Typography>
           <Typography variant='h5' color='gray'>
-             Asset Declaration
+            Asset Declaration
           </Typography>
         </div>
       </div>
 
       <List>
         <hr className='my-2 border-blue-gray-50' />
-
+        <ListItem className='p-0'>
+          <Link
+            href={routes.home}
+            className={path === '/' || path.includes('declaration') ? activeStyle : inActiveStyle}
+          >
+            <ListItemPrefix>
+              <TbReport className='h-5 w-5' />
+            </ListItemPrefix>
+            {'DECLARATION'}
+          </Link>
+        </ListItem>
         {sidebarItems.map(({ icon, title, route }) => {
           return (
             <SideBarLink key={title} title={title} icon={icon} href={route} />

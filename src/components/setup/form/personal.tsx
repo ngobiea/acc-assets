@@ -99,6 +99,8 @@ const PersonalForm = ({ personal }: { personal: PersonalSetupAttributes }) => {
       setValue('gender', personal.gender);
       setValue('country', personal?.country);
       setValue('acquireBy', personal?.acquireBy);
+      setValue('idType', personal?.idType);
+
     } else {
       reset();
     }
@@ -192,7 +194,7 @@ const PersonalForm = ({ personal }: { personal: PersonalSetupAttributes }) => {
           <Typography className=' text-center'>
             All fields marked with * are required to be filled in.
           </Typography>
-          <ImagePicker register={register} errors={errors} />
+          <ImagePicker register={register} errors={errors} value='image' />
 
           <div className='grid lg:grid-cols-2 lg:gap-6'>
             <SelectInput

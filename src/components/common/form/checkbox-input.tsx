@@ -7,22 +7,21 @@ type SelectTextProps = {
   linkLabel: string;
   errors: FieldErrors<FormValues>;
   value: Path<FormValues>;
-  // handleChange: (
-  //   e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
-  // ) => void;
   placeholder: string;
+  disabled?: boolean;
 };
 export default function CheckBoxInput({
   register,
   errors,
   label,
-  // handleChange,
   linkLabel,
   value,
+  disabled,
 }: SelectTextProps) {
   return (
     <div className='w-full mb-5 group'>
       <Checkbox
+        disabled={disabled}
         {...register(value)}
         color='blue'
         label={
@@ -40,7 +39,6 @@ export default function CheckBoxInput({
           </Typography>
         }
         ripple={true}
-        // onChange={handleChange}
       />
       <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
         {(errors as any)[value]?.message}

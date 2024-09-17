@@ -50,7 +50,6 @@ export default function ContactUpdateForm({
     formData.append('mobile', data.mobile);
     formData.append('permanentAddress', data.permanentAddress);
     formData.append('permanentDistrict', data.permanentDistrict);
-    formData.append('isSameAsPermanent', data.isSameAsPermanent);
     formData.append('presentAddress', data.presentAddress);
     formData.append('presentDistrict', data.presentDistrict);
     formData.append('termsAndConditions', data.termsAndConditions);

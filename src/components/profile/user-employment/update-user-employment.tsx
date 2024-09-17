@@ -28,6 +28,9 @@ import {
 import { MDA } from '@prisma/client';
 import { HiXMark } from 'react-icons/hi2';
 import { isOtherOption } from '@/utils/user';
+import SelectInput from '@/components/common/form/select-input';
+import TextInput from '@/components/common/form/text-input';
+import RadioInput from '@/components/common/form/radio-input';
 export default function UserEmploymentUpdateForm({
   employment,
   mdas,
@@ -51,7 +54,7 @@ export default function UserEmploymentUpdateForm({
     setError,
     setValue,
     reset,
-  } = useForm<UserEmploymentFormClient>({
+  } = useForm<FormValues>({
     resolver: zodResolver(userEmploymentSchema),
   });
 
@@ -68,27 +71,32 @@ export default function UserEmploymentUpdateForm({
       }
     }
   };
-  const onSubmit: SubmitHandler<UserEmploymentFormClient> = (data) => {
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    const submitted = data as UserEmploymentClientForm;
+
     const formData = new FormData();
-    formData.append('mdaId', data.mdaId);
-    formData.append('employeeCategory', data.employeeCategory);
-    formData.append('currentPosting', data.currentPosting);
-    formData.append('designation', data.designation);
-    formData.append('rankOrGrade', data.rankOrGrade);
-    formData.append('employeePin', data.employeePin);
-    formData.append('establishmentRegNo', data.establishmentRegNo);
-    formData.append('sourceOfIncome', data.sourceOfIncome);
-    formData.append('isAdministrative', data.isAdministrative);
-    formData.append('isFinancial', data.isFinancial);
-    formData.append('isPolitical', data.isPolitical);
-    formData.append('isProfessional', data.isProfessional);
+    formData.append('mdaId', submitted.mdaId);
+    formData.append('employeeCategory', submitted.employeeCategory);
+    formData.append('currentPosting', submitted.currentPosting);
+    formData.append('designation', submitted.designation);
+    formData.append('rankOrGrade', submitted.rankOrGrade);
+    formData.append('employeePin', submitted.employeePin);
+    formData.append('establishmentRegNo', submitted.establishmentRegNo);
+    formData.append('sourceOfIncome', submitted.sourceOfIncome);
+    formData.append('isAdministrative', submitted.isAdministrative);
+    formData.append('isFinancial', submitted.isFinancial);
+    formData.append('isPolitical', submitted.isPolitical);
+    formData.append('isProfessional', submitted.isProfessional);
+    if (employment) {
+      formData.append('id', employment.id);
+    }
     if (showOtherInput) {
-      formData.append('otherSourceOfIncome', data.otherSourceOfIncome);
+      formData.append('otherSourceOfIncome', submitted.otherSourceOfIncome);
     } else {
       formData.append('otherSourceOfIncome', '');
     }
-    console.log(data);
-    // action(formData);
+    // console.log(data);
+    action(formData);
   };
   useEffect(() => {
     if (formState.data?.userEmployment) {
@@ -236,374 +244,116 @@ export default function UserEmploymentUpdateForm({
           </Typography>
           <CardBody className='flex flex-col gap-4'>
             <div className='grid lg:grid-cols-2 lg:gap-6'>
-              <div className='w-full group mb-8'>
-                <select
-                  {...register('mdaId')}
-                  className={`border text-sm rounded-lg  block w-full p-2.5 ${
-                    errors.mdaId
-                      ? 'bg-red-50 border-red-300 focus:text-red-500 focus:ring-red-500  focus:border-red-500 outline-red-500'
-                      : 'bg-gray-50 border-blue-gray-300 focus:text-blue-500 focus:ring-blue-500 focus:border-blue-500 outline-blue-500'
-                  }`}
-                >
-                  <option value={''}>Select MDA*</option>
-                  {mdas.map(({ id, abbreviation, name }) => {
-                    return (
-                      <option key={id} value={id} className=''>
-                        {`${abbreviation} - ${name}`}
-                      </option>
-                    );
-                  })}
-                </select>
-                <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                  {errors.mdaId?.message}
-                </p>
-              </div>
-              <div className='w-full group mb-5'>
-                <Input
-                  {...register('employeeCategory')}
-                  label='Employee Category*'
-                  placeholder='Enter your employee category'
-                  color='blue'
-                  error={errors?.employeeCategory ? true : false}
-                />
-                <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                  {errors?.employeeCategory?.message}
-                </p>
-              </div>
+              <SelectInput
+                errors={errors}
+                label='Select MDA*'
+                options={mdas.map(({ id, abbreviation, name }) => {
+                  return {
+                    id: id,
+                    value: `${abbreviation} - ${name}`,
+                  };
+                })}
+                register={register}
+                value='mdaId'
+              />
+              <TextInput
+                errors={errors}
+                label='Employee Category*'
+                placeholder='Enter your employee category'
+                register={register}
+                value='employeeCategory'
+              />
             </div>
             <div className='grid lg:grid-cols-2 lg:gap-6'>
-              <div className='w-full group mb-8'>
-                <Input
-                  {...register('currentPosting')}
-                  label='Current Posting'
-                  placeholder='Enter your current posting'
-                  color='blue'
-                  error={errors?.currentPosting ? true : false}
-                />
-                <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                  {errors.currentPosting?.message}
-                </p>
-              </div>
-              <div className='w-full group mb-5 '>
-                <Input
-                  {...register('designation')}
-                  label='Designation*'
-                  placeholder='Enter your designation'
-                  color='blue'
-                  error={errors?.designation ? true : false}
-                />
-                <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                  {errors.designation?.message}
-                </p>
-              </div>
+              <TextInput
+                errors={errors}
+                label='Current Posting'
+                placeholder='Enter your current posting'
+                register={register}
+                value='currentPosting'
+              />
+              <TextInput
+                errors={errors}
+                label='Designation*'
+                placeholder='Enter your designation'
+                register={register}
+                value='designation'
+              />
             </div>
             <div className='grid lg:grid-cols-2 lg:gap-6'>
-              <div className='w-full group mb-8'>
-                <Input
-                  {...register('rankOrGrade')}
-                  label='Rank/Grade'
-                  placeholder='Enter your rank or grade'
-                  color='blue'
-                  error={errors?.rankOrGrade ? true : false}
-                />
-                <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                  {errors.rankOrGrade?.message}
-                </p>
-              </div>
-              <div className='w-full group mb-5 '>
-                <Input
-                  {...register('employeePin')}
-                  label='Employee PIN'
-                  placeholder='Enter your employee PIN'
-                  color='blue'
-                  error={errors?.employeePin ? true : false}
-                />
-                <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                  {errors.employeePin?.message}
-                </p>
-              </div>
+              <TextInput
+                errors={errors}
+                label='Rank/Grade'
+                placeholder='Enter your rank or grade'
+                register={register}
+                value='rankOrGrade'
+              />
+              <TextInput
+                errors={errors}
+                label='Employee PIN'
+                placeholder='Enter your employee PIN'
+                register={register}
+                value='employeePin'
+              />
             </div>
             <div className='grid lg:grid-cols-2 lg:gap-6'>
-              <div className='w-full group mb-8'>
-                <Input
-                  {...register('establishmentRegNo')}
-                  label='Establishment Registration Number'
-                  placeholder='Enter your establishment registration number'
-                  color='blue'
-                  error={errors?.establishmentRegNo ? true : false}
-                />
-                <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                  {errors.establishmentRegNo?.message}
-                </p>
-              </div>
-              <div className='w-full group mb-8'>
-                <select
-                  {...register('sourceOfIncome')}
-                  onChange={handleChange}
-                  className={`border text-sm rounded-lg  block w-full p-2.5 ${
-                    errors.sourceOfIncome
-                      ? 'bg-red-50 border-red-300 focus:text-red-500 focus:ring-red-500  focus:border-red-500 outline-red-500'
-                      : 'bg-gray-50 border-blue-gray-300 focus:text-blue-500 focus:ring-blue-500 focus:border-blue-500 outline-blue-500'
-                  }`}
-                >
-                  <option value={''}>Select Source of Income</option>
-                  {sourceOfIncome.map(({ id, value }) => {
-                    return (
-                      <option key={id} value={id} className=''>
-                        {value}
-                      </option>
-                    );
-                  })}
-                </select>
-                <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                  {errors.sourceOfIncome?.message}
-                </p>
-              </div>
+              <TextInput
+                errors={errors}
+                label='Establishment Registration Number'
+                placeholder='Enter your establishment registration number'
+                register={register}
+                value='establishmentRegNo'
+              />
+              <SelectInput
+                errors={errors}
+                label='Select Source of Income'
+                options={sourceOfIncome}
+                register={register}
+                value='sourceOfIncome'
+              />
             </div>
             {showOtherInput && (
               <div className='grid lg:grid-cols-2 lg:gap-6'>
-                <div className='w-full group lg:col-start-2 '>
-                  <Input
-                    {...register('otherSourceOfIncome')}
-                    label='Source of Income'
-                    placeholder='Enter your source of income'
-                    color='blue'
-                    error={errors?.otherSourceOfIncome ? true : false}
-                  />
-                  <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                    {errors.otherSourceOfIncome?.message}
-                  </p>
-                </div>
+                <TextInput
+                  errors={errors}
+                  label='Other Source of Income'
+                  placeholder='Enter your other source of income'
+                  register={register}
+                  value='otherSourceOfIncome'
+                />
               </div>
             )}
-
             <div className='grid lg:grid-cols-2 lg:gap-6'>
-              <div className='w-full group mb-8'>
-                <Typography variant='small' className='text-gray-800'>
-                  Do you have an administrative responsibility?*
-                </Typography>
-                <Radio
-                  {...register('isAdministrative')}
-                  color={errors.isAdministrative ? 'red' : 'blue'}
-                  ripple={true}
-                  className={`p-0 transition-all hover:before:opacity-0 ${
-                    errors.isAdministrative
-                      ? 'border-red-500/40 bg-red-500/20'
-                      : 'border-gray-900/10 bg-gray-900/5'
-                  }`}
-                  label={
-                    <Typography
-                      color='blue-gray'
-                      className={`font-normal ${
-                        errors.isAdministrative
-                          ? 'text-red-500'
-                          : 'text-blue-gray-400'
-                      }`}
-                    >
-                      Yes
-                    </Typography>
-                  }
-                  icon={<MdCheckCircle className='h-full w-full scale-105' />}
-                  value={'true'}
-                />
-                <Radio
-                  {...register('isAdministrative')}
-                  color={errors.isAdministrative ? 'red' : 'blue'}
-                  ripple={true}
-                  className={`p-0 transition-all hover:before:opacity-0 ${
-                    errors.isAdministrative
-                      ? 'border-red-500/40 bg-red-500/20'
-                      : 'border-gray-900/10 bg-gray-900/5'
-                  }`}
-                  label={
-                    <Typography
-                      color='blue-gray'
-                      className={`font-normal ${
-                        errors.isAdministrative
-                          ? 'text-red-500'
-                          : 'text-blue-gray-400'
-                      }`}
-                    >
-                      No
-                    </Typography>
-                  }
-                  icon={<MdCheckCircle className='h-full w-full scale-105' />}
-                  value={'false'}
-                />
-                <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                  {errors.isAdministrative?.message}
-                </p>
-              </div>
-              <div className='w-full group '>
-                <Typography variant='small' className='text-gray-800'>
-                  Do you have financial responsibility?*
-                </Typography>
-                <Radio
-                  {...register('isFinancial')}
-                  color={errors.isFinancial ? 'red' : 'blue'}
-                  className={`p-0 transition-all hover:before:opacity-0 ${
-                    errors.isFinancial
-                      ? 'border-red-500/40 bg-red-500/20'
-                      : 'border-gray-900/10 bg-gray-900/5'
-                  }`}
-                  ripple={true}
-                  label={
-                    <Typography
-                      color='blue-gray'
-                      className={`font-normal ${
-                        errors.isFinancial
-                          ? 'text-red-500'
-                          : 'text-blue-gray-400'
-                      }`}
-                    >
-                      Yes
-                    </Typography>
-                  }
-                  icon={<MdCheckCircle className='h-full w-full scale-105' />}
-                  value={'true'}
-                />
-                <Radio
-                  {...register('isFinancial')}
-                  color={errors.isFinancial ? 'red' : 'blue'}
-                  ripple={true}
-                  className={`p-0 transition-all hover:before:opacity-0 ${
-                    errors.isFinancial
-                      ? 'border-red-500/40 bg-red-500/20'
-                      : 'border-gray-900/10 bg-gray-900/5'
-                  }`}
-                  label={
-                    <Typography
-                      color='blue-gray'
-                      className={`font-normal ${
-                        errors.isFinancial
-                          ? 'text-red-500'
-                          : 'text-blue-gray-400'
-                      }`}
-                    >
-                      No
-                    </Typography>
-                  }
-                  icon={<MdCheckCircle className='h-full w-full scale-105' />}
-                  value={'false'}
-                />
-                <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                  {errors.isFinancial?.message}
-                </p>
-              </div>
+              <RadioInput
+                errors={errors}
+                radioLabel='Do you have an administrative responsibility?*'
+                register={register}
+                value='isAdministrative'
+                values={[{ radioValue: 'Yes' }, { radioValue: 'No' }]}
+              />
+              <RadioInput
+                errors={errors}
+                radioLabel='Do you have financial responsibility?*'
+                register={register}
+                value='isFinancial'
+                values={[{ radioValue: 'Yes' }, { radioValue: 'No' }]}
+              />
             </div>
             <div className='grid lg:grid-cols-2 lg:gap-6'>
-              <div className='w-full group '>
-                <Typography variant='small' className='text-gray-800'>
-                  Do you have political responsibility?*
-                </Typography>
-                <Radio
-                  {...register('isPolitical')}
-                  color={errors.isPolitical ? 'red' : 'blue'}
-                  ripple={true}
-                  className={`p-0 transition-all hover:before:opacity-0 ${
-                    errors.isPolitical
-                      ? 'border-red-500/40 bg-red-500/20'
-                      : 'border-gray-900/10 bg-gray-900/5'
-                  }`}
-                  label={
-                    <Typography
-                      color='blue-gray'
-                      className={`font-normal ${
-                        errors.isPolitical
-                          ? 'text-red-500'
-                          : 'text-blue-gray-400'
-                      }`}
-                    >
-                      Yes
-                    </Typography>
-                  }
-                  icon={<MdCheckCircle className='h-full w-full scale-105' />}
-                  value={'true'}
-                />
-                <Radio
-                  {...register('isPolitical')}
-                  color={errors.isPolitical ? 'red' : 'blue'}
-                  ripple={true}
-                  className={`p-0 transition-all hover:before:opacity-0 ${
-                    errors.isPolitical
-                      ? 'border-red-500/40 bg-red-500/20'
-                      : 'border-gray-900/10 bg-gray-900/5'
-                  }`}
-                  label={
-                    <Typography
-                      color='blue-gray'
-                      className={`font-normal ${
-                        errors.isPolitical
-                          ? 'text-red-500'
-                          : 'text-blue-gray-400'
-                      }`}
-                    >
-                      No
-                    </Typography>
-                  }
-                  icon={<MdCheckCircle className='h-full w-full scale-105' />}
-                  value={'false'}
-                />
-                <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                  {errors.isPolitical?.message}
-                </p>
-              </div>
-              <div className='w-full group '>
-                <Typography variant='small' className='text-gray-800'>
-                  Do you have a professional responsibility?*
-                </Typography>
-                <Radio
-                  {...register('isProfessional')}
-                  color={errors.isProfessional ? 'red' : 'blue'}
-                  ripple={true}
-                  className={`p-0 transition-all hover:before:opacity-0 ${
-                    errors.isProfessional
-                      ? 'border-red-500/40 bg-red-500/20'
-                      : 'border-gray-900/10 bg-gray-900/5'
-                  }`}
-                  label={
-                    <Typography
-                      color='blue-gray'
-                      className={`font-normal ${
-                        errors.isProfessional
-                          ? 'text-red-500'
-                          : 'text-blue-gray-400'
-                      }`}
-                    >
-                      Yes
-                    </Typography>
-                  }
-                  icon={<MdCheckCircle className='h-full w-full scale-105' />}
-                  value={'true'}
-                />
-                <Radio
-                  {...register('isProfessional')}
-                  color={errors.isProfessional ? 'red' : 'blue'}
-                  ripple={true}
-                  className={`p-0 transition-all hover:before:opacity-0 ${
-                    errors.isProfessional
-                      ? 'border-red-500/40 bg-red-500/20'
-                      : 'border-gray-900/10 bg-gray-900/5'
-                  }`}
-                  label={
-                    <Typography
-                      color='blue-gray'
-                      className={`font-normal ${
-                        errors.isProfessional
-                          ? 'text-red-500'
-                          : 'text-blue-gray-400'
-                      }`}
-                    >
-                      No
-                    </Typography>
-                  }
-                  icon={<MdCheckCircle className='h-full w-full scale-105' />}
-                  value={'false'}
-                />
-                <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                  {errors.isProfessional?.message}
-                </p>
-              </div>
+              <RadioInput
+                errors={errors}
+                radioLabel='Do you have political responsibility?*'
+                register={register}
+                value='isPolitical'
+                values={[{ radioValue: 'Yes' }, { radioValue: 'No' }]}
+              />
+              <RadioInput
+                errors={errors}
+                radioLabel='Do you have a professional responsibility?*'
+                register={register}
+                value='isProfessional'
+                values={[{ radioValue: 'Yes' }, { radioValue: 'No' }]}
+              />
             </div>
           </CardBody>
           <CardFooter className='pt-0'>

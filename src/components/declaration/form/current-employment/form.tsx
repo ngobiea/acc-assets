@@ -9,17 +9,27 @@ import {
   sourceOfIncome,
   contractTypes,
 } from '@/utils/selectOptions';
-export default function CurrentEmploymentForm() {
+import SelectInput from '@/components/common/form/select-input';
+import type { MDA } from '@prisma/client';
+import TextInput from '@/components/common/form/text-input';
+import SelectTextInput from '@/components/common/form/select-text-input';
+import TextareaInput from '@/components/common/form/text-area-input';
+export default function CurrentEmploymentForm({
+  reason,
+  mdas,
+}: {
+  reason: string;
+  mdas: MDA[];
+}) {
   const dispatch = useAppDispatch();
   const [showOtherInput, setShowOtherInput] = useState(false);
-  const { mdas } = useAppSelector((state) => state.app);
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
     unregister,
-  } = useForm<CurrentLastEmploymentClientForm>({
+  } = useForm<FormValues>({
     resolver: zodResolver(currentLastEmploymentSchema),
     defaultValues: {
       annualSalary: '0',
@@ -42,306 +52,158 @@ export default function CurrentEmploymentForm() {
   };
 
   console.log(errors);
-  const onSubmit: SubmitHandler<CurrentLastEmploymentClientForm> = (data) => {
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    const submitted = data as CurrentLastEmploymentClientForm;
     console.log(data);
   };
   return (
     <CardBody>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='grid lg:grid-cols-2 lg:gap-6'>
-          <div className='w-full group mb-8'>
-            <select
-              {...register('mdaId')}
-              className={`border text-sm rounded-lg  block w-full p-2.5 ${
-                errors.mdaId
-                  ? 'bg-red-50 border-red-300 focus:text-red-500 focus:ring-red-500  focus:border-red-500 outline-red-500'
-                  : 'bg-gray-50 border-blue-gray-300 focus:text-blue-500 focus:ring-blue-500 focus:border-blue-500 outline-blue-500'
-              }`}
-            >
-              <option value={''}>
-                Select Ministry/Department/Agency (MDA)*
-              </option>
-              {mdas.map(({ id, abbreviation, name }) => {
-                return (
-                  <option key={id} value={id} className=''>
-                    {`${abbreviation} - ${name}`}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className='w-full group mb-5'>
-            <Input
-              color='blue'
-              {...register('employeeCategory')}
-              label='Employee Category*'
-              placeholder='Enter your employee category'
-              error={errors?.employeeCategory ? true : false}
-            />
-            <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-              {errors.employeeCategory?.message}
-            </p>
-          </div>
-        </div>
-        <div className='grid lg:grid-cols-2 lg:gap-6'>
-          <div className='w-full group mb-8'>
-            <Input
-              color='blue'
-              {...register('posting')}
-              label='Current Posting*'
-              placeholder='Enter your current posting'
-              error={errors?.posting ? true : false}
-            />
-            <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-              {errors.posting?.message}
-            </p>
-          </div>
-
-          <div className='w-full group mb-5'>
-            <Input
-              color='blue'
-              {...register('designation')}
-              label='Job Title/Designation*'
-              placeholder='Enter your job title/designation'
-              error={errors?.designation ? true : false}
-            />
-            <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-              {errors.designation?.message}
-            </p>
-          </div>
-        </div>
-        <div className='grid lg:grid-cols-2 lg:gap-6'>
-          <div className='w-full group mb-8'>
-            <Input
-              color='blue'
-              {...register('rank')}
-              label='Grade/Rank*'
-              placeholder='Enter your grade/rank'
-              error={errors?.rank ? true : false}
-            />
-            <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-              {errors.rank?.message}
-            </p>
-          </div>
-          <div className='w-full group mb-5'>
-            <Input
-              color='blue'
-              {...register('SSNo')}
-              label='Social Security Number-SSNo'
-              placeholder='Enter your social security number'
-              error={errors?.SSNo ? true : false}
-            />
-            <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-              {errors.SSNo?.message}
-            </p>
-          </div>
-        </div>
-        <div className='grid lg:grid-cols-2 lg:gap-6'>
-          <div className='w-full group mb-8'>
-            <Input
-              color='blue'
-              {...register('employeeId')}
-              label='Employee ID*'
-              placeholder='Enter your employee ID'
-              error={errors?.employeeId ? true : false}
-            />
-            <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-              {errors.employeeId?.message}
-            </p>
-          </div>
-          <div className='w-full group mb-5'>
-            <Input
-              color='blue'
-              {...register('employeePin')}
-              label='Employee PIN No (if any)'
-              placeholder='Enter your job title/designation'
-              error={errors?.employeePin ? true : false}
-            />
-            <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-              {errors.employeePin?.message}
-            </p>
-          </div>
-        </div>
-        <div className='grid lg:grid-cols-2 lg:gap-6'>
-          <div className='w-full group mb-8'>
-            <Input
-              color='blue'
-              {...register('establishmentRegNo')}
-              label='Establishment Registration No (if any)'
-              placeholder='Enter your establishment registration number'
-              error={errors?.establishmentRegNo ? true : false}
-            />
-            <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-              {errors.establishmentRegNo?.message}
-            </p>
-          </div>
-          <div className='w-full group mb-5'>
-            <select
-              {...register('contractType')}
-              className={`border text-sm rounded-lg  block w-full p-2.5 ${
-                errors.contractType
-                  ? 'bg-red-50 border-red-300 focus:text-red-500 focus:ring-red-500  focus:border-red-500 outline-red-500'
-                  : 'bg-gray-50 border-blue-gray-300 focus:text-blue-500 focus:ring-blue-500 focus:border-blue-500 outline-blue-500'
-              }`}
-            >
-              <option value={''}>Select Contract Type*</option>
-              {contractTypes.map(({ id, value }) => {
-                return (
-                  <option key={id} value={id} className=''>
-                    {value}
-                  </option>
-                );
-              })}
-            </select>
-            <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-              {errors.contractType?.message}
-            </p>
-          </div>
-        </div>
-        <div className='grid lg:grid-cols-2 lg:gap-6'>
-          <div className='w-full group mb-5'>
-            <div className='flex'>
-              <select
-                {...register('currency')}
-                className={`
-                  text-sm rounded-lg block p-2.5 rounded-r-none
-                  ${
-                    errors.annualSalary
-                      ? 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500  focus:border-red-500 outline-red-500'
-                      : 'bg-gray-50 border border-blue-gray-300 focus:text-blue-500  focus:ring-blue-500 focus:border-blue-500  outline-blue-500'
-                  }
-                  `}
-              >
-                {currencies.map(({ id, value }) => {
-                  return (
-                    <option key={id} value={id} className=''>
-                      {value}
-                    </option>
-                  );
-                })}
-              </select>
-              <Input
-                color='blue'
-                type='number'
-                {...register('annualSalary')}
-                label={`Annual Net Salary*`}
-                min={0}
-                placeholder={`Enter your annual net salary`}
-                className={`rounded-l-none `}
-                error={errors?.annualSalary ? true : false}
-              />
-            </div>
-            <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-              {errors.annualSalary?.message}
-            </p>
-          </div>
-          <div className='w-full group mb-5'>
-            <div className='flex'>
-              <select
-                {...register('allowancesCurrency')}
-                className={`
-                  text-sm rounded-lg block p-2.5 rounded-r-none
-                  ${
-                    errors.allowancesCurrency
-                      ? 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500  focus:border-red-500 outline-red-500'
-                      : 'bg-gray-50 border border-blue-gray-300 focus:text-blue-500  focus:ring-blue-500 focus:border-blue-500  outline-blue-500'
-                  }
-                  `}
-              >
-                {currencies.map(({ id, value }) => {
-                  return (
-                    <option key={id} value={id} className=''>
-                      {value}
-                    </option>
-                  );
-                })}
-              </select>
-              <Input
-                type='number'
-                color='blue'
-                {...register('allowance')}
-                label={`Other Allowances (if any)`}
-                min={0}
-                placeholder={`Enter your other allowances `}
-                className={`rounded-l-none `}
-                error={errors?.allowance ? true : false}
-              />
-            </div>
-            <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-              {errors.allowance?.message}
-            </p>
-          </div>
-        </div>
-        <div className='w-full group mb-5'>
-          <Textarea
-            {...register('allowancesDescription')}
-            label='Description of Allowances (if any)'
-            error={errors?.allowancesDescription ? true : false}
+          <SelectInput
+            errors={errors}
+            options={mdas.map(({ id, abbreviation, name }) => {
+              return {
+                id: id,
+                value: `${abbreviation} - ${name}`,
+              };
+            })}
+            register={register}
+            value='mdaId'
+            label='Ministry/Department/Agency (MDA)*'
           />
-          <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-            {errors.allowancesDescription?.message}
-          </p>
+          <TextInput
+            errors={errors}
+            label='Employee Category*'
+            placeholder='Enter your employee category'
+            register={register}
+            value='employeeCategory'
+          />
         </div>
         <div className='grid lg:grid-cols-2 lg:gap-6'>
-          <div className='w-full group mb-8'>
-            <Input
-            color='blue'
-              {...register('contractStartDate')}
-              label='Employment Start Date*'
-              type='date'
-              error={errors?.contractStartDate ? true : false}
-            />
-            <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-              {errors.contractStartDate?.message}
-            </p>
-          </div>
-          <div className='w-full group mb-5'>
-            <Input
-              color='blue'
-              {...register('contractEndDate')}
-              label='Employment End Date (if known)'
-              type='date'
-              error={errors?.contractEndDate ? true : false}
-            />
-            <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-              {errors.contractEndDate?.message}
-            </p>
-          </div>
+          <TextInput
+            errors={errors}
+            label='Current Posting*'
+            placeholder='Enter your current posting'
+            register={register}
+            value='posting'
+          />
+          <TextInput
+            errors={errors}
+            label='Job Title/Designation*'
+            placeholder='Enter your job title/designation'
+            register={register}
+            value='designation'
+          />
         </div>
         <div className='grid lg:grid-cols-2 lg:gap-6'>
-          <div className='w-full group mb-5'>
-            <select
-              {...register('sourceOfIncome')}
-              onChange={handleChange}
-              className={`border text-sm rounded-lg  block w-full p-2.5 ${
-                errors.sourceOfIncome
-                  ? 'bg-red-50 border-red-300 focus:text-red-500 focus:ring-red-500  focus:border-red-500 outline-red-500'
-                  : 'bg-gray-50 border-blue-gray-300 focus:text-blue-500 focus:ring-blue-500 focus:border-blue-500 outline-blue-500'
-              }`}
-            >
-              <option value={''}>Select Source of Income</option>
-              {sourceOfIncome.map(({ id, value }) => {
-                return (
-                  <option key={id} value={id} className=''>
-                    {value}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
+          <TextInput
+            errors={errors}
+            label='Grade/Rank*'
+            placeholder='Enter your grade/rank'
+            register={register}
+            value='rank'
+          />
+          <TextInput
+            errors={errors}
+            label='Social Security Number-SSNo'
+            placeholder='Enter your social security number'
+            register={register}
+            value='SSNo'
+          />
+        </div>
+        <div className='grid lg:grid-cols-2 lg:gap-6'>
+          <TextInput
+            errors={errors}
+            label='Employee ID*'
+            placeholder='Enter your employee ID'
+            register={register}
+            value='employeeId'
+          />
+          <TextInput
+            errors={errors}
+            label='Employee PIN No (if any)'
+            placeholder='Enter your job title/designation'
+            register={register}
+            value='employeePin'
+          />
+        </div>
+        <div className='grid lg:grid-cols-2 lg:gap-6'>
+          <TextInput
+            errors={errors}
+            label='Establishment Registration No (if any)'
+            placeholder='Enter your establishment registration number'
+            register={register}
+            value='establishmentRegNo'
+          />
+          <SelectInput
+            errors={errors}
+            label='Select Contract Type*'
+            options={contractTypes}
+            register={register}
+            value='contractType'
+          />
+        </div>
+        <div className='grid lg:grid-cols-2 lg:gap-6'>
+          <SelectTextInput
+            errors={errors}
+            inputValue='annualSalary'
+            label={`Annual Net Salary*`}
+            options={currencies}
+            placeholder='Enter your annual net salary'
+            register={register}
+            selectValue='currency'
+          />
+          <SelectTextInput
+            errors={errors}
+            inputValue='allowance'
+            label='Other Allowances (if any)'
+            options={currencies}
+            placeholder='Enter your other allowances'
+            register={register}
+            selectValue='allowancesCurrency'
+          />
+        </div>
+        <TextareaInput
+          errors={errors}
+          label='Description of Allowances (if any)'
+          register={register}
+          value='allowancesDescription'
+        />
+
+        <div className='grid lg:grid-cols-2 lg:gap-6'>
+          <TextInput
+            errors={errors}
+            label='Employment Start Date*'
+            placeholder='Enter Employment Start Date'
+            register={register}
+            value='contractStartDate'
+          />
+          <TextInput
+            errors={errors}
+            label='Employment End Date (if known)'
+            placeholder='Enter Employment End Date'
+            register={register}
+            value='contractEndDate'
+          />
+        </div>
+        <div className='grid lg:grid-cols-2 lg:gap-6'>
+          <SelectInput
+            errors={errors}
+            options={sourceOfIncome}
+            register={register}
+            value='sourceOfIncome'
+            label='Select Source of Income'
+          />
+
           {showOtherInput && (
-            <div className='w-full group mb-5'>
-              <Input
-              color='blue'
-                {...register('otherSourceOfIncome')}
-                label='Other Source of Income'
-                placeholder='Enter other source of income'
-                error={errors?.otherSourceOfIncome ? true : false}
-              />
-              <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                {errors.otherSourceOfIncome?.message}
-              </p>
-            </div>
+            <TextInput
+              errors={errors}
+              label='Other Source of Income'
+              placeholder='Enter other source of income'
+              register={register}
+              value='otherSourceOfIncome'
+            />
           )}
         </div>
         <div className='flex justify-end'>

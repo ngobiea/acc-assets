@@ -9,6 +9,7 @@ type PasswordInputProps = {
   placeholder: string;
   onClickIcon?: () => void;
   isShowPassword?: boolean;
+  disabled?: boolean;
 };
 export default function PasswordInput({
   register,
@@ -18,10 +19,12 @@ export default function PasswordInput({
   placeholder,
   onClickIcon,
   isShowPassword,
+  disabled,
 }: PasswordInputProps): JSX.Element {
   return (
     <div className='w-full group mb-5'>
       <Input
+        disabled={disabled}
         {...register(value)}
         label={label}
         placeholder={placeholder}

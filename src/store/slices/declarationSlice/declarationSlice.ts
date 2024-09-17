@@ -90,6 +90,9 @@ const declarationSlice = createSlice({
         state.activeDeclarationStep -= 1;
       }
     },
+    setActiveDeclarationStep(state, action: PayloadAction<number>) {
+      state.activeDeclarationStep = action.payload;
+    },
   },
 });
 
@@ -110,6 +113,7 @@ export const {
   setIsSubmittingDeclaration,
   handleNextDeclarationStep,
   handlePrevDeclarationStep,
+  setActiveDeclarationStep,
 } = declarationSlice.actions;
 
 export const declarationReducer = declarationSlice.reducer;

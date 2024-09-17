@@ -23,7 +23,7 @@ export default function SideBarLink({
     <ListItem className='p-0'>
       <Link
         href={href}
-        className={path ===href ?activeStyle : inActiveStyle}
+        className={path ===href ? activeStyle : inActiveStyle}
       >
         <ListItemPrefix>{icon}</ListItemPrefix>
         {title}

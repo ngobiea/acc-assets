@@ -6,27 +6,22 @@ type SwitchProps = {
   label: string;
   linkLabel: string;
   value: Path<FormValues>;
-  // handleChange: (
-  //   e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
-  // ) => void;
-  // checked: boolean;
+  disabled?: boolean;
 };
 export default function SwitchInput({
   register,
   label,
-  // handleChange,
   linkLabel,
     value,
-  // checked
+     disabled,
 }: SwitchProps) {
   return (
     <div className='w-full mb-5 group'>
       <Switch
+        disabled={disabled}
         color='blue'
         {...register(value)}
         ripple={true}
-        // checked={checked}
-        // onChange={handleChange}
         label={
           <div>
             <Typography color='blue-gray' className='font-medium'>

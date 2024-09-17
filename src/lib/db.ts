@@ -5,14 +5,12 @@ const db = new PrismaClient();
 export const {
   user,
   citizenship,
-  acquisition,
   cashAtHand,
   cashDeposit,
   contact,
   declaration,
   employment,
   family,
-  familyEmployment,
   immovableAsset,
   liability,
   mDA,
@@ -25,4 +23,7 @@ export const {
   security,
   userEmployment,
   session,
+  dContact,
+  dPersonal,
+  
 } = db;

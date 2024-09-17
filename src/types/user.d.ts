@@ -17,6 +17,21 @@ interface PersonalForm {
   acquireBy: string;
   country: string;
 }
+interface DPersonalForm {
+  title: string;
+  idType: string;
+  pid: string;
+  surname: string;
+  firstName: string;
+  middleName: string ;
+  aliases: string;
+  dateOfBirth: Date;
+  maritalStatus: string;
+  gender: string;
+  declarationId: string;
+  acquireBy: string;
+  country: string;
+}
 
 interface PersonalClientForm {
   title: string;
@@ -70,6 +85,16 @@ interface UserEmploymentForm {
   isProfessional: boolean;
   otherSourceOfIncome: string;
   userId: string;
+}
+
+interface DContactForm {
+  telephone?: string;
+  mobile?: string;
+  permanentAddress: string;
+  permanentDistrict: string;
+  presentAddress: string;
+  presentDistrict: string;
+  declarationId: string;
 }
 
 interface ContactForm {

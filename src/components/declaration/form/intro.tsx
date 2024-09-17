@@ -27,9 +27,9 @@ export default function DeclarationStartForm({
   isAnyLastDeclaration,
 }: {
   isAnyLastDeclaration: boolean;
-  }) {
+}) {
   const router = useRouter();
-  
+
   const dispatch = useAppDispatch();
   const [formState, action] = useFormState(postDeclaration, { errors: {} });
 
@@ -59,8 +59,9 @@ export default function DeclarationStartForm({
         }
       }
     });
+
     return () => subscription.unsubscribe();
-  }, [watch]);
+  }, [watch, setValue]);
 
   const resetForm = () => {
     setValue('reason', '');
@@ -68,7 +69,7 @@ export default function DeclarationStartForm({
     setValue('otherReason', '');
     setShowOtherInput(false);
   };
-  console.log(formState.errors);  
+  console.log(formState.errors);
   useEffect(() => {
     if (formState.data) {
       resetForm();
@@ -112,12 +113,16 @@ export default function DeclarationStartForm({
     if (submittedData.reason === 'Other') {
       formData.append('otherReason', submittedData.otherReason);
     }
+    if (!isAnyLastDeclaration) {
+      formData.append('isUseLastDeclaration', 'No');
+    }
     if (submittedData.isUseLastDeclaration) {
       formData.append(
         'isUseLastDeclaration',
         submittedData.isUseLastDeclaration
       );
     }
+
     console.log(submittedData);
     action(formData);
   };

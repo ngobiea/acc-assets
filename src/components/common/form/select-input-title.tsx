@@ -7,15 +7,16 @@ type SelectProps = {
   value: Path<FormValues>;
   options: Option[];
   errors: FieldErrors<FormValues>;
+  disabled?: boolean;
 };
 
 export default function SelectInputTitle({
   register,
-  // handleChange,
   options,
   label,
   value,
   errors,
+  disabled,
 }: SelectProps): JSX.Element {
   return (
     <div className='w-full group mb-5'>
@@ -26,8 +27,8 @@ export default function SelectInputTitle({
         {label}
       </Typography>
       <select
+        disabled={disabled}
         {...register(value)}
-        // onChange={handleChange}
         className={`border text-sm rounded-lg  block w-full p-2.5 ${
           (errors as any)[value]
             ? 'bg-red-50 border-red-300 focus:text-red-500 focus:ring-red-500  focus:border-red-500 outline-red-500'

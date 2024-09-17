@@ -5,6 +5,8 @@ import {
   Accordion,
   AccordionBody,
   AccordionHeader,
+  Card,
+  CardBody,
 } from '@/components/materialTailwind';
 import { FiMinimize2, FiMaximize2 } from 'react-icons/fi';
 import { setIsLiabilitiesFormOpen } from '@/store/slices/declarationSlice/declarationSlice';
@@ -18,17 +20,8 @@ export default function LiabilityAccordion() {
     (state) => state.declaration
   );
   return (
-    <Accordion
-      animate={CUSTOM_ANIMATION}
-      open={isLiabilitiesFormOpen}
-      icon={isLiabilitiesFormOpen ? <FiMinimize2 /> : <FiMaximize2 />}
-    >
-      <AccordionHeader
-        className='bg-blue-100 px-5 hover:animate-bounce'
-        onClick={() =>
-          dispatch(setIsLiabilitiesFormOpen(!isLiabilitiesFormOpen))
-        }
-      >
+    <Card>
+      <div className='bg-blue-100 px-5 py-5 hover:animate-bounce'>
         <div
           className='flex items-center space-x-2
         '
@@ -38,10 +31,10 @@ export default function LiabilityAccordion() {
             Liabilities
           </Typography>
         </div>
-      </AccordionHeader>
-      <AccordionBody className='border border-blue-400'>
-       <LiabilityForm />
-      </AccordionBody>
-    </Accordion>
+      </div>
+      <CardBody className='border border-blue-400'>
+        <LiabilityForm />
+      </CardBody>
+    </Card>
   );
 }

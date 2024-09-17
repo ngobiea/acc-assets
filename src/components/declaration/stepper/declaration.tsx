@@ -2,13 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import PersonalForm from '../form/personal/personal';
-import { useAppDispatch,useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import CashDepositAccordion from '../form/cash-deposit/cash-deposits';
-import {
-  Card,
-  CardBody,
-  Typography,
-} from '@/components/materialTailwind';
+import { Card, CardBody, Typography } from '@/components/materialTailwind';
 import { MdWarning } from 'react-icons/md';
 import CurrentEmploymentAccordion from '../form/current-employment/current-employment';
 import PastEmploymentAccordion from '../form/past-employment/past-employment';
@@ -20,8 +16,8 @@ import MovableAccordion from '../form/movable/movable';
 import OtherAccordion from '../form/other-asset/other';
 import SecurityAccordion from '../form/security/securities';
 import type { DeclarationData } from '@/utils/declaration';
-
-
+import { DPersonal, DContact } from '@prisma/client';
+import { setActiveProfileStep } from '@/store/slices/setupSlice/setupSlice';
 
 export const CUSTOM_ANIMATION = {
   mount: { scale: 1 },
@@ -34,64 +30,77 @@ export default function DeclarationForm({
 }: {
   declaration: DeclarationData;
   mdas: MDAAttributes[];
-  }) {
-  
-   const declarationSteps = [
+}) {
+  const declarationSteps = [
     {
       title: 'Personal',
-      content: <Card className=' my-5 '>{<PersonalForm />}</Card>,
-      // icon: <MdPersonAddAlt />,
+      content: (
+        <Card className=' my-5 '>
+          {<PersonalForm personal={declaration?.personal as DPersonal} />}
+        </Card>
+      ),
     },
     {
       title: 'Current Employment',
-      content: <Card className='mb-5 '>{<CurrentEmploymentAccordion />}</Card>,
-      // icon: <MdWorkHistory />,
+      content: (
+        <Card className='my-5 '>
+          {
+            <CurrentEmploymentAccordion
+              reason={declaration.reason}
+              mdas={mdas}
+              employments={declaration.employments}
+            />
+          }
+        </Card>
+      ),
     },
     {
       title: 'Past Employment',
-      content: <Card className='mb-5 '>{<PastEmploymentAccordion />}</Card>,
+      content: <Card className='my-5 '>{<PastEmploymentAccordion />}</Card>,
       // icon: <MdWorkHistory />,
     },
 
     {
       title: 'Contact Details',
-      content: <Card className='mb-5 '>{<ContactAccordion />}</Card>,
+      content: <Card className='my-5 '>{<ContactAccordion
+      contact={declaration.contact as DContact}
+      />}</Card>,
       // icon: <MdOutlineContactPhone />,
     },
 
     {
       title: 'Family Details',
-      content: <Card className='mb-5 '>{<FamilyAccordion />}</Card>,
+      content: <Card className='my-5 '>{<FamilyAccordion />}</Card>,
       // icon: <MdFamilyRestroom />,
     },
     {
       title: 'Cash and Deposit',
-      content: <Card className='mb-5 '>{<CashDepositAccordion />}</Card>,
+      content: <Card className='my-5 '>{<CashDepositAccordion />}</Card>,
       // icon: <BsCashCoin />,
     },
     {
       title: 'Immovable Assets',
-      content: <Card className='mb-5 '>{<ImmovableAccordion />}</Card>,
+      content: <Card className='my-5 '>{<ImmovableAccordion />}</Card>,
       // icon: <PiBuildingApartmentDuotone />,
     },
     {
       title: 'Movable Assets',
-      content: <Card className='mb-5 '>{<MovableAccordion />}</Card>,
+      content: <Card className='my-5 '>{<MovableAccordion />}</Card>,
       // icon: <PiCarProfileBold />,
     },
     {
       title: 'Securities',
-      content: <Card className='mb-5 '>{<SecurityAccordion />}</Card>,
+      content: <Card className='my-5 '>{<SecurityAccordion />}</Card>,
       // icon: <MdOutlineSecurity />,
     },
     {
       title: 'Other Assets',
-      content: <Card className='mb-5 '>{<OtherAccordion />}</Card>,
+      content: <Card className='my-5 '>{<OtherAccordion />}</Card>,
       // icon: <MdOutlineDevicesOther />,
     },
     {
       title: 'Liabilities',
-      content: <Card className='mb-5 '>{<LiabilityAccordion />}</Card>,
+      content: <Card className='my-5 '>{<LiabilityAccordion />}</Card>,
       // icon: <GiTakeMyMoney />,
     },
     // {
@@ -106,17 +115,22 @@ export default function DeclarationForm({
     // },
   ];
   const dispatch = useAppDispatch();
-  const { activeDeclarationStep } = useAppSelector((state) => state.declaration);
-  useEffect(() => { }, [dispatch]);
-    const [isAnimating, setIsAnimating] = useState(false);
-    useEffect(() => {
-      setIsAnimating(true);
-      const timer = setTimeout(() => setIsAnimating(false), 300);
-      return () => clearTimeout(timer);
-    }, [activeDeclarationStep]);
+  const { activeDeclarationStep } = useAppSelector(
+    (state) => state.declaration
+  );
+  useEffect(() => {
+    dispatch(setActiveProfileStep(0));
+  }, [dispatch]);
+  const [isAnimating, setIsAnimating] = useState(false);
+  useEffect(() => {
+    setIsAnimating(true);
+    const timer = setTimeout(() => setIsAnimating(false), 300);
+    return () => clearTimeout(timer);
+  }, [activeDeclarationStep]);
+
   return (
     <>
-      <Card className='my-6 w-full bg-blue-50'>
+      <Card className='w-full bg-blue-50 mt-3'>
         <CardBody>
           <div className='flex justify-center w-full'>
             <MdWarning className='text-3xl text-orange-500' />

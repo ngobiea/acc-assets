@@ -21,13 +21,10 @@ export default function OtherAccordion() {
   const dispatch = useAppDispatch();
   const { isOtherAssetFormOpen } = useAppSelector((state) => state.declaration);
   return (
-    <Accordion
-      open={isOtherAssetFormOpen}
-      icon={isOtherAssetFormOpen ? <FiMinimize2 /> : <FiMaximize2 />}
+    <Card
     >
       <AccordionHeader
         className='bg-blue-100 px-5 hover:animate-bounce'
-        onClick={() => dispatch(setIsOtherAssetFormOpen(!isOtherAssetFormOpen))}
       >
         <div
           className='flex items-center space-x-2
@@ -39,9 +36,9 @@ export default function OtherAccordion() {
           </Typography>
         </div>
       </AccordionHeader>
-      <AccordionBody className='border border-blue-400'>
+      <CardBody className='border border-blue-400'>
         <OtherAssetsForm />
-      </AccordionBody>
-    </Accordion>
+      </CardBody>
+    </Card>
   );
 }

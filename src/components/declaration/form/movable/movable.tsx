@@ -25,13 +25,10 @@ export default function MovableAccordion() {
     (state) => state.declaration
   );
   return (
-    <Accordion
-      animate={CUSTOM_ANIMATION}
-      open={isMovableAssetFormOpen}
-      icon={isMovableAssetFormOpen ? <FiMinimize2 /> : <FiMaximize2 />}
+    <Card
     >
-      <AccordionHeader
-        className='bg-blue-100 px-5 hover:animate-bounce'
+      <div
+        className='bg-blue-100 px-5 py-5 hover:animate-bounce'
         onClick={() =>
           dispatch(setIsMovableAssetFormOpen(!isMovableAssetFormOpen))
         }
@@ -45,10 +42,10 @@ export default function MovableAccordion() {
             Movable Assets
           </Typography>
         </div>
-      </AccordionHeader>
-      <AccordionBody className='border border-blue-400'>
+      </div>
+      <CardBody className='border border-blue-400'>
         <MovableAssetsForm />
-      </AccordionBody>
-    </Accordion>
+      </CardBody>
+    </Card>
   );
 }

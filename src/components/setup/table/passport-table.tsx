@@ -6,7 +6,6 @@ import {
 } from '@/components/materialTailwind';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { MdOutlineDeleteForever } from 'react-icons/md';
-import { deletePassportT } from '@/store/thunks/setupThunk/passport/deletePassport';
 
 const TABLE_HEAD = [
   'Passport Number',
@@ -21,7 +20,6 @@ export default function PassportTable() {
   const { user, isDeletingPassport } = useAppSelector((state) => state.setup);
 
   const handleDelete = async (id: string) => {
-    dispatch(deletePassportT(id));
   };
 
   return (

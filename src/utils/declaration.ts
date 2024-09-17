@@ -1,11 +1,11 @@
-import type { MDA } from '@prisma/client';
+import type { MDA,DContact,DPersonal } from '@prisma/client';
 import { Prisma } from '@prisma/client';
 export interface DeclarationData {
   id: string;
   reason: string;
   status: string;
   place: string | null;
-  user: UserSetupAttributes;
+  userId: string;
   cashAtHand: CashAtHandData | null;
   cashDeposits: CashDepositData[];
   employments: EmploymentData[];
@@ -16,10 +16,12 @@ export interface DeclarationData {
   otherAssets: OtherAssetData[];
   securities: SecurityData[];
   liabilities: LiabilitiesData[];
+  personal: DPersonal | null;
+  contact: DContact | null;
   // createdAt?: Date;
   // updatedAt?: Date;
 }
-interface CashAtHandData {
+export interface CashAtHandData {
   id: string;
   currency: string;
   amount: Prisma.Decimal;
@@ -29,7 +31,7 @@ interface CashAtHandData {
   createdAt: Date;
   updatedAt: Date;
 }
-interface CashDepositData {
+export interface CashDepositData {
   id: string;
   ownerName: string;
   relation: string;
@@ -45,7 +47,7 @@ interface CashDepositData {
   createdAt: Date;
   updatedAt: Date;
 }
-interface EmploymentData {
+export interface EmploymentData {
   id: string;
   status: string;
   mdaId: string;
@@ -71,7 +73,7 @@ interface EmploymentData {
   createdAt: Date;
   updatedAt: Date;
 }
-interface FamilyData {
+export interface FamilyData {
   id: string;
   surname: string;
   firstName: string;
@@ -95,7 +97,7 @@ interface FamilyData {
   createdAt: Date;
   updatedAt: Date;
 }
-interface ImmovableAssetData {
+export interface ImmovableAssetData {
   id: string;
   ownerName: string;
   relation: string;
@@ -115,7 +117,7 @@ interface ImmovableAssetData {
   createdAt: Date;
   updatedAt: Date;
 }
-interface MovableAssetData {
+export interface MovableAssetData {
   id: string;
   ownerName: string;
   relation: string;
@@ -136,7 +138,7 @@ interface MovableAssetData {
   createdAt: Date;
   updatedAt: Date;
 }
-interface LiabilitiesData {
+export interface LiabilitiesData {
   id: string;
   debtorName: string;
   relation: string;
@@ -155,7 +157,7 @@ interface LiabilitiesData {
   createdAt: Date;
   updatedAt: Date;
 }
-interface PastEmploymentData {
+export interface PastEmploymentData {
   id: string;
   employerName: string | null;
   designation: string;
@@ -171,7 +173,7 @@ interface PastEmploymentData {
   createdAt: Date;
   updatedAt: Date;
 }
-interface OtherAssetData {
+export interface OtherAssetData {
   id: string;
   ownerName: string;
   relation: string;
@@ -189,7 +191,7 @@ interface OtherAssetData {
   createdAt: Date;
   updatedAt: Date;
 }
-interface SecurityData {
+export interface SecurityData {
   id: string;
   ownerName: string;
   relation: string;

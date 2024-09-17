@@ -5,7 +5,6 @@ import {
   Typography,
 } from '@/components/materialTailwind';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { deleteNationalCardT } from '@/store/thunks/setupThunk/nationalCard/deleteNationalCard';
 import { MdOutlineDeleteForever } from 'react-icons/md';
 const TABLE_HEAD = [
   'National ID Number',
@@ -22,7 +21,6 @@ export default function NationalTable() {
   );
 
   const handleDelete = async (id: string) => {
-    dispatch(deleteNationalCardT(id));
   };
 
   return (

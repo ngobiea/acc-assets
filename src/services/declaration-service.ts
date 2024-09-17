@@ -1,6 +1,6 @@
 import { Declaration, CashAtHand } from '@prisma/client';
 // import { DeclarationData } from '@/types/declaration';
-import { declaration, immovableAsset } from '@/lib/db';
+import { declaration } from '@/lib/db';
 import type { DeclarationData } from '@/utils/declaration';
 import { nanoid } from '@/utils/declarations/id-generator';
 
@@ -50,22 +50,9 @@ class DeclarationService {
         otherAssets: true,
         pastEmployments: true,
         securities: true,
-        user: {
-          select: {
-            email: true,
-            id: true,
-            personal: true,
-            userEmployment: {
-              include: {
-                mda: true,
-              },
-            },
-            contact: true,
-            citizenships: true,
-            passports: true,
-            nationalCards: true,
-          },
-        },
+        contact: true,
+        personal: true,
+        userId: true,
       },
     });
     return foundDeclaration;
@@ -110,28 +97,15 @@ class DeclarationService {
             },
           },
           families: true,
-          immovableAssets:true,
+          immovableAssets: true,
           movableAssets: true,
           liabilities: true,
           otherAssets: true,
           pastEmployments: true,
           securities: true,
-          user: {
-            select: {
-              email: true,
-              id: true,
-              personal: true,
-              userEmployment: {
-                include: {
-                  mda: true,
-                },
-              },
-              contact: true,
-              citizenships: true,
-              passports: true,
-              nationalCards: true,
-            },
-          },
+          contact: true,
+          personal: true,
+          userId: true,
         },
       });
 
@@ -151,7 +125,7 @@ class DeclarationService {
         data: {
           reason: lastDeclaration.reason,
           place: lastDeclaration.place,
-          userId: lastDeclaration.user.id,
+          userId: lastDeclaration.userId,
           employments: {
             create: lastDeclaration.employments.map((employment) => ({
               annualSalary: employment.annualSalary,
@@ -224,7 +198,6 @@ class DeclarationService {
               nationality: family.nationality,
               pinCode: family.pinCode,
               SSNo: family.SSNo,
-              
             })),
           },
           immovableAssets: {
@@ -313,7 +286,6 @@ class DeclarationService {
               employerName: pastEmployments.employerName,
               sourceOfIncome: pastEmployments.sourceOfIncome,
             })),
-
           },
           securities: {
             create: lastDeclaration.securities.map((security) => ({
@@ -334,10 +306,38 @@ class DeclarationService {
               natureOfShares: security.natureOfShares,
               numberOfShares: security.numberOfShares,
               yearlyInterest: security.yearlyInterest,
-
             })),
           },
-          
+          personal: lastDeclaration.personal
+            ? {
+                create: {
+                  country: lastDeclaration.personal.country,
+                  acquireBy: lastDeclaration.personal.acquireBy,
+                  dateOfBirth: lastDeclaration.personal.dateOfBirth,
+                  firstName: lastDeclaration.personal.firstName,
+                  gender: lastDeclaration.personal.gender,
+                  idType: lastDeclaration.personal.idType,
+                  maritalStatus: lastDeclaration.personal.maritalStatus,
+                  pid: lastDeclaration.personal.pid,
+                  surname: lastDeclaration.personal.surname,
+                  title: lastDeclaration.personal.title,
+                  aliases: lastDeclaration.personal.aliases,
+                  middleName: lastDeclaration.personal.middleName,
+                },
+              }
+            : undefined,
+          contact: lastDeclaration.contact
+            ? {
+                create: {
+                  permanentAddress: lastDeclaration.contact.permanentAddress,
+                  permanentDistrict: lastDeclaration.contact.permanentDistrict,
+                  mobile: lastDeclaration.contact.mobile,
+                  presentAddress: lastDeclaration.contact.presentAddress,
+                  presentDistrict: lastDeclaration.contact.presentDistrict,
+                  telephone: lastDeclaration.contact.telephone,
+                },
+              }
+            : undefined,
         },
       });
       return createdDeclaration;

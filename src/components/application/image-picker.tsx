@@ -7,15 +7,18 @@ import nullImage from '/public/download.png';
 import { Avatar, Button } from '../materialTailwind';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setFile } from '@/store/slices/appSlice/appSlice';
-import type { FieldErrors, UseFormRegister } from 'react-hook-form';
+import type { FieldErrors, Path, UseFormRegister } from 'react-hook-form';
+type ImageInputProps = {
+  register: UseFormRegister<FormValues>;
+  errors: FieldErrors<FormValues>;
+  value: Path<FormValues>;
 
+};
 export default function ImagePicker({
-  register,errors
-
-}: {
-    register: UseFormRegister<PersonalFormClient>;
-   errors: FieldErrors<PersonalFormClient>
-  }) {
+  value,
+  register,
+  errors,
+}: ImageInputProps) {
   const dispatch = useAppDispatch();
   const { file } = useAppSelector((state) => state.app);
   // const [pickedImage, setPickedImage] = useState<File | null>(null);
@@ -29,11 +32,11 @@ export default function ImagePicker({
 
   function handleImageChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files ? event.target.files[0] : null;
-     
+
     if (!file) {
       // setPickedImage(null);
       dispatch(setFile(null));
-      
+
       return;
     }
     // setPickedImage(file);
@@ -50,14 +53,14 @@ export default function ImagePicker({
         onChange={handleImageChange}
         accept={'.png,.jpg,.jpeg'}
       />
-        <Avatar
-          src={file ? URL.createObjectURL(file) : nullImage.src}
-          size='xxl'
+      <Avatar
+        src={file ? URL.createObjectURL(file) : nullImage.src}
+        size='xxl'
         variant='rounded'
         className='object-fill'
-        />
+      />
       <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-        {errors.image?.message}
+        {(errors as any)[value]?.message}
       </p>
       <div className=''>
         <Button
