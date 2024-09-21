@@ -16,19 +16,17 @@ interface NewDeclarationProps {
   };
 }
 export default async function NewDeclaration({ params }: NewDeclarationProps) {
-   const { user } = await validateRequest();
-   if (!user) {
-     redirect(routes.login);
+  const { user } = await validateRequest();
+  if (!user) {
+    redirect(routes.login);
   }
- 
+
   const mdas = await MDAService.getMDAs();
   const declaration = await DeclarationService.getDeclaration(params.id);
   if (!declaration) {
     notFound();
   }
-  
 
- 
   return (
     <>
       <EmploymentForm
@@ -36,13 +34,12 @@ export default async function NewDeclaration({ params }: NewDeclarationProps) {
         mdas={mdas}
         reason={declaration.reason}
       />
-      <PastEmploymentForm />
+      <PastEmploymentForm declarationId={params.id} />
       <main className=' w-full mt-4'>
         <Card className=' px-5 '>
-          <DeclarationForm  declaration={declaration} />
+          <DeclarationForm declaration={declaration} />
         </Card>
       </main>
-      
     </>
   );
 }

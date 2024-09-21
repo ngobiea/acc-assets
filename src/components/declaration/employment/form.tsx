@@ -77,39 +77,19 @@ export default function EmploymentForm({
       dispatch(setIsEmploymentFormOpen(false));
       reset();
     }
-    if (formState.errors.SSNo) {
-      setError('SSNo', {
-        message: formState.errors.SSNo.join(', '),
+    if (formState.errors.mdaId) {
+      setError('mdaId', {
+        message: formState.errors.mdaId.join(', '),
       });
     }
-    if (formState.errors.allowances) {
-      setError('allowances', {
-        message: formState.errors.allowances.join(', '),
+    if (formState.errors.employeeCategory) {
+      setError('employeeCategory', {
+        message: formState.errors.employeeCategory.join(', '),
       });
     }
-    if (formState.errors.annualSalary) {
-      setError('annualSalary', {
-        message: formState.errors.annualSalary.join(', '),
-      });
-    }
-    if (formState.errors.allowancesDescription) {
-      setError('allowancesDescription', {
-        message: formState.errors.allowancesDescription.join(', '),
-      });
-    }
-    if (formState.errors.contractEndDate) {
-      setError('contractEndDate', {
-        message: formState.errors.contractEndDate.join(', '),
-      });
-    }
-    if (formState.errors.contractStartDate) {
-      setError('contractStartDate', {
-        message: formState.errors.contractStartDate.join(', '),
-      });
-    }
-    if (formState.errors.contractType) {
-      setError('contractType', {
-        message: formState.errors.contractType.join(', '),
+    if (formState.errors.posting) {
+      setError('posting', {
+        message: formState.errors.posting.join(', '),
       });
     }
     if (formState.errors.designation) {
@@ -117,9 +97,39 @@ export default function EmploymentForm({
         message: formState.errors.designation.join(', '),
       });
     }
-    if (formState.errors.employeeCategory) {
-      setError('employeeCategory', {
-        message: formState.errors.employeeCategory.join(', '),
+    if (formState.errors.rank) {
+      setError('rank', {
+        message: formState.errors.rank.join(', '),
+      });
+    }
+    if (formState.errors.annualSalary) {
+      setError('annualSalary', {
+        message: formState.errors.annualSalary.join(', '),
+      });
+    }
+    if (formState.errors.currency) {
+      setError('currency', {
+        message: formState.errors.currency.join(', '),
+      });
+    }
+    if (formState.errors.allowances) {
+      setError('allowances', {
+        message: formState.errors.allowances.join(', '),
+      });
+    }
+    if (formState.errors.allowancesCurrency) {
+      setError('allowancesCurrency', {
+        message: formState.errors.allowancesCurrency.join(', '),
+      });
+    }
+    if (formState.errors.allowancesDescription) {
+      setError('allowancesDescription', {
+        message: formState.errors.allowancesDescription.join(', '),
+      });
+    }
+    if (formState.errors.SSNo) {
+      setError('SSNo', {
+        message: formState.errors.SSNo.join(', '),
       });
     }
     if (formState.errors.employeeId) {
@@ -137,24 +147,24 @@ export default function EmploymentForm({
         message: formState.errors.establishmentRegNo.join(', '),
       });
     }
-    if (formState.errors.mdaId) {
-      setError('mdaId', {
-        message: formState.errors.mdaId.join(', '),
+    if (formState.errors.contractType) {
+      setError('contractType', {
+        message: formState.errors.contractType.join(', '),
+      });
+    }
+    if (formState.errors.contractEndDate) {
+      setError('contractEndDate', {
+        message: formState.errors.contractEndDate.join(', '),
+      });
+    }
+    if (formState.errors.contractStartDate) {
+      setError('contractStartDate', {
+        message: formState.errors.contractStartDate.join(', '),
       });
     }
     if (formState.errors.otherSourceOfIncome) {
       setError('otherSourceOfIncome', {
         message: formState.errors.otherSourceOfIncome.join(', '),
-      });
-    }
-    if (formState.errors.posting) {
-      setError('posting', {
-        message: formState.errors.posting.join(', '),
-      });
-    }
-    if (formState.errors.rank) {
-      setError('rank', {
-        message: formState.errors.rank.join(', '),
       });
     }
     if (formState.errors.sourceOfIncome) {
@@ -163,7 +173,6 @@ export default function EmploymentForm({
       });
     }
   }, [
-    declarationId,
     formState.data,
     formState.errors.SSNo,
     formState.errors.allowances,
@@ -185,6 +194,8 @@ export default function EmploymentForm({
     reset,
     setError,
     dispatch,
+    formState.errors.currency,
+    formState.errors.allowancesCurrency,
   ]);
   console.log(formState.errors);
   useEffect(() => {

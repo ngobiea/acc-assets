@@ -19,14 +19,22 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { HiXMark } from 'react-icons/hi2';
+import { postPastEmployment } from '@/actions/declaration/pastEmployment';
+import { useFormState } from 'react-dom';
 
-export default function PastEmploymentForm() {
+export default function PastEmploymentForm({
+  declarationId,
+}: {
+  declarationId: string;
+}) {
   const dispatch = useAppDispatch();
   const [showOtherInput, setShowOtherInput] = useState(false);
   const { isPastEmploymentFormOpen } = useAppSelector(
     (state) => state.declaration
   );
-
+  const [formState, action] = useFormState(postPastEmployment, {
+    errors: {},
+  });
   const {
     register,
     handleSubmit,
@@ -34,6 +42,7 @@ export default function PastEmploymentForm() {
     setError,
     unregister,
     watch,
+    reset,
   } = useForm<FormValues>({
     resolver: zodResolver(pastEmploymentSchema),
     defaultValues: {
@@ -56,13 +65,118 @@ export default function PastEmploymentForm() {
     return () => subscription.unsubscribe();
   }, [watch]);
 
-
   console.log(errors);
-    const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     const submitted = data as PastEmploymentClientForm;
-      
+    const formData = new FormData();
+    formData.append('employerName', submitted.employerName);
+    formData.append('designation', submitted.designation);
+    formData.append('rank', submitted.rank);
+    formData.append('contractStartDate', submitted.contractStartDate);
+    formData.append('contractEndDate', submitted.contractEndDate);
+    formData.append('annualSalary', submitted.annualSalary);
+    formData.append('currency', submitted.currency);
+    formData.append('allowances', submitted.allowances);
+    formData.append('allowancesCurrency', submitted.allowancesCurrency);
+    formData.append('allowancesDescription', submitted.allowancesDescription);
+    formData.append('sourceOfIncome', submitted.sourceOfIncome);
+    formData.append('otherSourceOfIncome', submitted.otherSourceOfIncome);
+    formData.append('declarationId', declarationId);
+    action(formData);
     console.log(data);
   };
+  useEffect(() => {
+    if (formState.data) {
+      dispatch(setIsPastEmploymentFormOpen(false));
+      reset();
+    }
+    if (formState.errors.employerName) {
+      setError('employerName', {
+        message: formState.errors.employerName.join(', '),
+      });
+    }
+    if (formState.errors.designation) {
+      setError('designation', {
+        message: formState.errors.designation.join(', '),
+      });
+    }
+    if (formState.errors.rank) {
+      setError('rank', {
+        message: formState.errors.rank.join(', '),
+      });
+    }
+    if (formState.errors.contractEndDate) {
+      setError('contractEndDate', {
+        message: formState.errors.contractEndDate.join(', '),
+      });
+    }
+    if (formState.errors.contractStartDate) {
+      setError('contractStartDate', {
+        message: formState.errors.contractStartDate.join(', '),
+      });
+    }
+    if (formState.errors.annualSalary) {
+      setError('annualSalary', {
+        message: formState.errors.annualSalary.join(', '),
+      });
+    }
+    if (formState.errors.currency) {
+      setError('currency', {
+        message: formState.errors.currency.join(', '),
+      });
+    }
+    if (formState.errors.allowances) {
+      setError('allowances', {
+        message: formState.errors.allowances.join(', '),
+      });
+    }
+    if (formState.errors.allowancesCurrency) {
+      setError('allowancesCurrency', {
+        message: formState.errors.allowancesCurrency.join(', '),
+      });
+    }
+
+    if (formState.errors.allowancesDescription) {
+      setError('allowancesDescription', {
+        message: formState.errors.allowancesDescription.join(', '),
+      });
+    }
+
+    if (formState.errors.sourceOfIncome) {
+      setError('sourceOfIncome', {
+        message: formState.errors.sourceOfIncome.join(', '),
+      });
+    }
+    if (formState.errors.otherSourceOfIncome) {
+      setError('otherSourceOfIncome', {
+        message: formState.errors.otherSourceOfIncome.join(', '),
+      });
+    }
+  }, [
+    formState.data,
+    formState.errors.allowances,
+    formState.errors.allowancesDescription,
+    formState.errors.annualSalary,
+    formState.errors.contractEndDate,
+    formState.errors.contractStartDate,
+    formState.errors.designation,
+    formState.errors.otherSourceOfIncome,
+    formState.errors.rank,
+    formState.errors.sourceOfIncome,
+    reset,
+    setError,
+    dispatch,
+    formState.errors.employerName,
+    formState.errors.currency,
+    formState.errors.allowancesCurrency,
+  ]);
+  console.log(formState.errors);
+  useEffect(() => {
+    if (!isPastEmploymentFormOpen) {
+      reset();
+    }
+  }, [isPastEmploymentFormOpen, reset]);
+  console.log(errors);
 
   return (
     <Dialog

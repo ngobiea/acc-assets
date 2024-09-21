@@ -69,6 +69,7 @@ interface PastEmploymentClientForm {
   allowancesDescription: string;
   sourceOfIncome: string;
   otherSourceOfIncome: string;
+  declarationId:string
 }
 
 interface FamilyClientForm {

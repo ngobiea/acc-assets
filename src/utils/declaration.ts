@@ -200,6 +200,26 @@ export interface PastEmploymentData {
   createdAt: Date;
   updatedAt: Date;
 }
+export interface PastEmploymentFormState {
+  errors: {
+    employerName?: string[];
+    designation?: string[];
+    rank?: string[];
+    contractStartDate?: string[];
+    contractEndDate?: string[];
+    annualSalary?: string[];
+    currency?: string[];
+    allowances?: string[];
+    allowancesCurrency?: string[];
+    allowancesDescription?: string[];
+    sourceOfIncome?: string[];
+    otherSourceOfIncome?: string[];
+    _form?: string[];
+  };
+  data?: {
+    employment: string;
+  };
+}
 export interface OtherAssetData {
   id: string;
   ownerName: string;
