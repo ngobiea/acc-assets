@@ -6,9 +6,9 @@ import routes from '@/utils/routes';
 import type { UserEmployment } from '@prisma/client';
 import { userEmploymentSchema } from '@/utils/validators/setup';
 export const postUserEmployment = async (
-  _useFormState: EmploymentFormState,
+  _useFormState: UserEmploymentFormState,
   formData: FormData
-): Promise<EmploymentFormState> => {
+): Promise<UserEmploymentFormState> => {
   try {
     const { user } = await validateRequest();
     if (!user) {

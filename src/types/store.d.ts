@@ -36,7 +36,7 @@ interface DeclarationState {
   isLoadingDeclaration: boolean;
   isStartDeclaration: boolean;
   isPersonalFormOpen: boolean;
-  isCurrentEmploymentFormOpen: boolean;
+  isEmploymentFormOpen: boolean;
   isPastEmploymentFormOpen: boolean;
   isContactFormOpen: boolean;
   isFamilyFormOpen: boolean;

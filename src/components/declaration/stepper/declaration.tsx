@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import PersonalForm from '../form/personal/personal';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppSelector } from '@/store/hooks';
 import CashDepositAccordion from '../form/cash-deposit/cash-deposits';
 import { Card, CardBody, Typography } from '@/components/materialTailwind';
 import { MdWarning } from 'react-icons/md';
-import CurrentEmploymentAccordion from '../form/current-employment/current-employment';
-import PastEmploymentAccordion from '../form/past-employment/past-employment';
+import CurrentEmploymentAccordion from '../employment/current-employment';
+import PastEmploymentAccordion from '../pastEmployment/past-employment';
 import FamilyAccordion from '../form/family/family';
 import ImmovableAccordion from '../form/immovable/immovable';
 import ContactAccordion from '../form/contact/contact';
@@ -17,19 +17,11 @@ import OtherAccordion from '../form/other-asset/other';
 import SecurityAccordion from '../form/security/securities';
 import type { DeclarationData } from '@/utils/declaration';
 import { DPersonal, DContact } from '@prisma/client';
-import { setActiveProfileStep } from '@/store/slices/setupSlice/setupSlice';
-
-export const CUSTOM_ANIMATION = {
-  mount: { scale: 1 },
-  unmount: { scale: 0.9 },
-};
 
 export default function DeclarationForm({
   declaration,
-  mdas,
 }: {
   declaration: DeclarationData;
-  mdas: MDAAttributes[];
 }) {
   const declarationSteps = [
     {
@@ -47,7 +39,6 @@ export default function DeclarationForm({
           {
             <CurrentEmploymentAccordion
               reason={declaration.reason}
-              mdas={mdas}
               employments={declaration.employments}
             />
           }
@@ -56,15 +47,25 @@ export default function DeclarationForm({
     },
     {
       title: 'Past Employment',
-      content: <Card className='my-5 '>{<PastEmploymentAccordion />}</Card>,
+      content: (
+        <Card className='my-5 '>
+          {
+            <PastEmploymentAccordion
+              pastEmployments={declaration.pastEmployments}
+            />
+          }
+        </Card>
+      ),
       // icon: <MdWorkHistory />,
     },
 
     {
       title: 'Contact Details',
-      content: <Card className='my-5 '>{<ContactAccordion
-      contact={declaration.contact as DContact}
-      />}</Card>,
+      content: (
+        <Card className='my-5 '>
+          {<ContactAccordion contact={declaration.contact as DContact} />}
+        </Card>
+      ),
       // icon: <MdOutlineContactPhone />,
     },
 
@@ -114,13 +115,10 @@ export default function DeclarationForm({
     //   icon: <BiDetail />,
     // },
   ];
-  const dispatch = useAppDispatch();
   const { activeDeclarationStep } = useAppSelector(
     (state) => state.declaration
   );
-  useEffect(() => {
-    dispatch(setActiveProfileStep(0));
-  }, [dispatch]);
+
   const [isAnimating, setIsAnimating] = useState(false);
   useEffect(() => {
     setIsAnimating(true);

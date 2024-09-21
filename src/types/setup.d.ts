@@ -31,7 +31,7 @@ interface NationalityFormState {
   };
 }
 
-interface EmploymentFormState {
+interface UserEmploymentFormState {
   errors: {
     mdaId?: string[];
     employeeCategory?: string[];

@@ -1,4 +1,4 @@
-import type { MDA,DContact,DPersonal } from '@prisma/client';
+import type { MDA,DContact,DPersonal,Employment } from '@prisma/client';
 import { Prisma } from '@prisma/client';
 export interface DeclarationData {
   id: string;
@@ -21,10 +21,11 @@ export interface DeclarationData {
   // createdAt?: Date;
   // updatedAt?: Date;
 }
+
 export interface CashAtHandData {
   id: string;
   currency: string;
-  amount: Prisma.Decimal;
+  amount: string;
   details: string;
   jointIncome: string | null;
   declarationId: string;
@@ -40,7 +41,7 @@ export interface CashDepositData {
   type: string;
   institutionOrBank: string;
   location: string;
-  accountBalance: Prisma.Decimal;
+  accountBalance: string;
   currency: string;
   source: string;
   declarationId: string;
@@ -49,29 +50,55 @@ export interface CashDepositData {
 }
 export interface EmploymentData {
   id: string;
-  status: string;
   mdaId: string;
   mda: MDA;
   employeeCategory: string;
   posting: string | null;
   designation: string;
   rank: string;
-  annualSalary: Prisma.Decimal;
+  annualSalary: string;
   currency: string;
-  allowances: Prisma.Decimal | null;
+  allowances: string | null;
   allowancesCurrency: string | null;
   allowancesDescription: string | null;
   SSNo: string | null;
   employeeId: string;
-  employeePin: string | null;
+  employeeNo: string | null;
   establishmentRegNo: string | null;
   contractType: string;
   contractStartDate: Date;
-  contractEndDate: Date;
+  contractEndDate: Date | null;
   sourceOfIncome: string | null;
   declarationId: string;
   createdAt: Date;
   updatedAt: Date;
+}
+export interface EmploymentFormState {
+  errors: {
+    mdaId?: string[];
+    employeeCategory?: string[];
+    posting?: string[];
+    designation?: string[];
+    rank?: string[];
+    annualSalary?: string[];
+    currency?: string[];
+    allowances?: string[];
+    allowancesCurrency?: string[];
+    allowancesDescription?: string[];
+    SSNo?: string[];
+    employeeId?: string[];
+    employeeNo?: string[];
+    establishmentRegNo?: string[];
+    contractType?: string[];
+    contractStartDate?: string[];
+    contractEndDate?: string[];
+    sourceOfIncome?: string[];
+    otherSourceOfIncome?: string[];
+    _form?: string[];
+  };
+  data?: {
+    employment: string;
+  };
 }
 export interface FamilyData {
   id: string;
@@ -106,11 +133,11 @@ export interface ImmovableAssetData {
   location: string;
   plotNo: string | null;
   size: string | null;
-  estimatedValue: Prisma.Decimal;
+  estimatedValue: string;
   currency: string;
   financeSource: string;
   acquisitionMode: string;
-  acquisitionCost: Prisma.Decimal;
+  acquisitionCost: string;
   acquisitionCurrency: string;
   acquisitionYear: number;
   declarationId: string;
@@ -127,11 +154,11 @@ export interface MovableAssetData {
   registrationNo: string;
   location: string | null;
   purpose: string;
-  estimatedValue: Prisma.Decimal;
+  estimatedValue: string;
   currency: string;
   financeSource: string;
   acquisitionMode: string;
-  acquisitionCost: Prisma.Decimal;
+  acquisitionCost: string;
   acquisitionCurrency: string;
   acquisitionYear: number;
   declarationId: string;
@@ -144,13 +171,13 @@ export interface LiabilitiesData {
   relation: string;
   creditor: string;
   creditorAddress: string | null;
-  loanAmount: Prisma.Decimal;
+  loanAmount: string;
   currency: string;
   yearContracted: number | null;
   loanPurpose: string;
   loanRepayment: string;
   paymentPeriod: number;
-  loanOutstanding: Prisma.Decimal;
+  loanOutstanding: string;
   currencyOutstanding: string;
   maturityDate: Date | null;
   remarks: string | null;
@@ -164,9 +191,9 @@ export interface PastEmploymentData {
   rank: string;
   contractStartDate: Date;
   contractEndDate: Date;
-  annualSalary: Prisma.Decimal;
+  annualSalary: string;
   currency: string;
-  allowances: Prisma.Decimal | null;
+  allowances: string | null;
   allowancesCurrency: string | null;
   allowancesDescription: string | null;
   sourceOfIncome: string | null;
@@ -180,12 +207,12 @@ export interface OtherAssetData {
   registerOwner: string;
   assetType: string;
   location: string | null;
-  estimatedValue: Prisma.Decimal;
+  estimatedValue: string;
   currency: string;
   financeSource: string;
   remarks: string | null;
   acquisitionMode: string;
-  acquisitionCost: Prisma.Decimal;
+  acquisitionCost: string;
   acquisitionCurrency: string;
   acquisitionYear: number;
   createdAt: Date;
@@ -201,13 +228,13 @@ export interface SecurityData {
   certificateNo: string;
   numberOfShares: string | null;
   company: string;
-  yearlyInterest: Prisma.Decimal | null;
+  yearlyInterest: string | null;
   natureOfShares: string | null;
-  currentMarketValue: Prisma.Decimal;
+  currentMarketValue: string;
   currency: string;
   financeSource: string;
   acquisitionMode: string;
-  acquisitionCost: Prisma.Decimal;
+  acquisitionCost: string;
   acquisitionCurrency: string;
   acquisitionYear: number;
   createdAt: Date;

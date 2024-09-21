@@ -2,16 +2,10 @@
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   Typography,
-  Accordion,
-  AccordionBody,
-  AccordionHeader,
   Card,
   CardBody,
 } from '@/components/materialTailwind';
-import { FiMinimize2, FiMaximize2 } from 'react-icons/fi';
-import { setIsLiabilitiesFormOpen } from '@/store/slices/declarationSlice/declarationSlice';
 import { GiTakeMyMoney } from 'react-icons/gi';
-import { CUSTOM_ANIMATION } from '../../stepper/declaration';
 import LiabilityForm from './form';
 
 export default function LiabilityAccordion() {

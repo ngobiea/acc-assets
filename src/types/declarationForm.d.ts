@@ -10,7 +10,29 @@ interface DeclarationForm {
   userId: string;
 }
 
-interface CurrentLastEmploymentClientForm {
+interface EmploymentClientForm {
+  mdaId: string;
+  employeeCategory: string;
+  posting: string;
+  designation: string;
+  rank: string;
+  annualSalary: string;
+  currency: string;
+  allowances: string;
+  allowancesCurrency: string;
+  allowancesDescription: string;
+  SSNo: string;
+  employeeId: string;
+  employeeNo: string;
+  establishmentRegNo: string;
+  contractType: string;
+  contractStartDate: string;
+  contractEndDate: string;
+  sourceOfIncome: string;
+  declarationId: string;
+  otherSourceOfIncome: string;
+}
+interface EmploymentForm {
   mdaId: string;
   employeeCategory: string;
   posting: string;
@@ -23,7 +45,7 @@ interface CurrentLastEmploymentClientForm {
   allowancesDescription: string;
   SSNo: string;
   employeeId: string;
-  employeePin: string;
+  employeeNo: string;
   establishmentRegNo: string;
   contractType: string;
   contractStartDate: Date;
@@ -31,6 +53,7 @@ interface CurrentLastEmploymentClientForm {
   sourceOfIncome: string;
   declarationId: string;
   otherSourceOfIncome: string;
+  id: string;
 }
 
 interface PastEmploymentClientForm {
@@ -92,7 +115,7 @@ interface CashAtHandClientForm {
   details: string;
   jointIncome: string;
   isCashAtHand: string;
-
+  
 }
 
 interface ImmovableAssetClientForm {

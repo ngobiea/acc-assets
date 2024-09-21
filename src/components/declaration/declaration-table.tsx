@@ -1,5 +1,3 @@
-import { HiPencil } from 'react-icons/hi';
-import { nanoid } from '@/utils/declarations/id-generator';
 import { HiMagnifyingGlass } from 'react-icons/hi2';
 import { MdOutlinePreview } from 'react-icons/md';
 import { GrCopy } from 'react-icons/gr';
@@ -20,7 +18,6 @@ import {
 } from '../materialTailwind';
 import { Declaration } from '@prisma/client';
 import NewDeclarationButton from './buttons/new-declaration';
-import Link from 'next/link';
 import routes from '@/utils/routes';
 const TABS = [
   {
@@ -38,9 +35,11 @@ const TABS = [
 ];
 const TABLE_HEAD = ['ID', 'Date', 'Reasons', 'Status', 'Actions'];
 
-
-export default function DeclarationTable({ declarations }: { declarations: Declaration[]; }) {
- 
+export default function DeclarationTable({
+  declarations,
+}: {
+  declarations: Declaration[];
+}) {
   return (
     <Card className='h-full w-full mt-5'>
       <CardHeader floated={false} shadow={false} className='rounded-none'>
@@ -126,7 +125,7 @@ export default function DeclarationTable({ declarations }: { declarations: Decla
                       color='blue-gray'
                       className='font-normal'
                     >
-                      {createdAt.toDateString()}
+                      {createdAt.toLocaleDateString()}
                     </Typography>
                   </td>
                   <td className={classes}>
@@ -156,11 +155,11 @@ export default function DeclarationTable({ declarations }: { declarations: Decla
                         content='View Declaration'
                         className='bg-blue-500'
                       >
-                        <Link href={routes.declarationId(id)}>
+                        <a href={routes.declarationId(id)}>
                           <IconButton variant='text' color='blue'>
                             <MdOutlinePreview className='h-4 w-4' />
                           </IconButton>
-                        </Link>
+                        </a>
                       </Tooltip>
                       <Tooltip
                         content='Copy as New Declaration'

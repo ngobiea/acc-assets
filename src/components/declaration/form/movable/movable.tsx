@@ -1,22 +1,12 @@
 'use client';
-import { useFormState } from 'react-dom';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   CardBody,
-  CardFooter,
-  Input,
   Typography,
-  Radio,
-  Button,
   Card,
-  Accordion,
-  AccordionBody,
-  AccordionHeader,
 } from '@/components/materialTailwind';
-import { FiMinimize2, FiMaximize2 } from 'react-icons/fi';
 import { setIsMovableAssetFormOpen } from '@/store/slices/declarationSlice/declarationSlice';
 import { PiCarProfileBold } from 'react-icons/pi';
-import { CUSTOM_ANIMATION } from '../../stepper/declaration';
 import MovableAssetsForm from './form';
 
 export default function MovableAccordion() {

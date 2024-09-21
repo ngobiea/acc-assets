@@ -386,11 +386,6 @@ export default function ContactForm({
               </div>
             </>
           )}
-          {formState.errors._form && (
-            <div className='flex w-full justify-between mb-5 text-red-500'>
-              <Typography>{formState.errors._form.join(', ')}</Typography>
-            </div>
-          )}
 
           <CheckBoxInput
             errors={errors}
@@ -400,6 +395,11 @@ export default function ContactForm({
             value='termsAndConditions'
             placeholder=''
           />
+          {formState.errors._form && (
+            <div className='flex w-full justify-between my-5 text-red-500'>
+              <Typography>{formState.errors._form.join(', ')}</Typography>
+            </div>
+          )}
           <div className='flex justify-between space-y-5 flex-col sm:flex-row sm:space-y-0 '>
             <Button
               color='blue'

@@ -10,6 +10,7 @@ interface DeclarationFormState {
     declaration: DeclarationData;
   };
 }
+
 interface DeclarationData {
   id: string;
   reason: string;
@@ -19,6 +20,7 @@ interface DeclarationData {
   createdAt: Date;
   updatedAt: Date;
 }
+
 
 // interface DeclarationData {
 //   id: string;

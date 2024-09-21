@@ -39,7 +39,6 @@ export const postDeclaration = async (
     }
     if (isUseLastDeclaration === 'Yes') {
       declaration = await DeclarationService.createFromLastDeclaration(user.id);
-     
     } else {
       declaration = await DeclarationService.createDeclaration({
         place,

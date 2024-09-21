@@ -1045,21 +1045,20 @@ export const declarationReasons = [
 
 export const currencies = [
   {
-    id: 'Le.',
-    value: 'Le.',
+    id: 'Le',
+    value: 'Le',
   },
   {
-    id: 'USD.',
-    value: 'USD.',
+    id: 'USD',
+    value: 'USD',
   },
   {
-    id: 'Euro.',
-    value: 'Euro.',
+    id: 'Euro',
+    value: 'Euro',
   },
-
   {
-    id: 'GBP.',
-    value: 'GBP.',
+    id: 'GBP',
+    value: 'GBP',
   },
 ];
 
@@ -1367,7 +1366,6 @@ export const acquisitionMode = [
     id: 'Winning',
     value: 'Winning',
   },
-
 ];
 
 export const securityTypes = [

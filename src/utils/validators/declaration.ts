@@ -1,3 +1,4 @@
+import { decl } from 'postcss';
 import { z } from 'zod';
 
 export const declarationSchema = z
@@ -27,50 +28,31 @@ export const declarationSchema = z
     }
   );
 
-export const currentLastEmploymentSchema = z
+export const employmentSchema = z
   .object({
     mdaId: z.string().trim().min(1, 'MDA is required'),
     employeeCategory: z.string().trim().min(1, 'Employee category is required'),
     posting: z.string().trim().min(1, 'Posting is required'),
     designation: z.string().trim().min(1, 'Designation is required'),
     rank: z.string().trim().min(1, 'Rank is required'),
-    annualSalary: z
-      .string()
-      .trim()
-      .min(1, 'Annual salary is required')
-      .refine(
-        (value) => {
-          const num = Number(value);
-          return !isNaN(num) && num >= 0;
-        },
-        { message: 'Annual salary must be a positive number' }
-      ),
+    annualSalary: z.coerce
+      .number()
+      .nonnegative('Annual salary must not be less than 0'),
     currency: z.string().trim().min(1, 'Currency is required'),
-    allowance: z.optional(
-      z
-        .string()
-        .trim()
-        .refine(
-          (value) => {
-            const num = Number(value);
-            return !isNaN(num) && num >= 0;
-          },
-          { message: 'Allowance must be a positive number' }
-        )
-    ),
-
-    allowanceCurrency: z.optional(z.string().trim()),
-    allowanceDescription: z.optional(z.string().trim()),
+    allowances: z.coerce.number().min(0, 'Allowance must not be less than 0'),
+    allowancesCurrency: z.optional(z.string().trim()),
     SSNo: z.optional(z.string().trim()),
     employeeId: z.string().trim().min(1, 'Employee ID is required'),
-    employeePin: z.optional(z.string().trim()),
+    employeeNo: z.optional(z.string().trim()),
     establishmentRegNo: z.optional(z.string().trim()),
     contractType: z.string().trim().min(1, 'Contract type is required'),
     otherContractType: z.optional(z.string().trim()),
     contractStartDate: z.string().date('Contract start date is required'),
-    contractEndDate: z.optional(z.string()),
+    contractEndDate: z.string(z.date()).or(z.string()),
     sourceOfIncome: z.optional(z.string().trim()),
     otherSourceOfIncome: z.optional(z.string().trim()),
+    declarationId: z.string().trim().min(1, 'Declaration ID is required'),
+    allowancesDescription: z.optional(z.string().trim()),
   })
   .refine(
     (data) => {

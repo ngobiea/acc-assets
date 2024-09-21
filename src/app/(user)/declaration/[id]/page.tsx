@@ -7,6 +7,8 @@ import { validateRequest } from '@/lib/verify-auth';
 import { notFound, redirect } from 'next/navigation';
 import routes from '@/utils/routes';
 import type { DeclarationData } from '@/utils/declaration';
+import EmploymentForm from '@/components/declaration/employment/form';
+import PastEmploymentForm from '@/components/declaration/pastEmployment/form-past-employment';
 export const dynamic = 'force-dynamic';
 interface NewDeclarationProps {
   params: {
@@ -24,18 +26,23 @@ export default async function NewDeclaration({ params }: NewDeclarationProps) {
   if (!declaration) {
     notFound();
   }
-  // console.log(declaration);
+  
 
-
-
+ 
   return (
-    <main className=' w-full mt-4'>
-      <Card className=' px-5 '>
-        <DeclarationForm
-          mdas={mdas}
-          declaration={declaration}
-        />
-      </Card>
-    </main>
+    <>
+      <EmploymentForm
+        declarationId={params.id}
+        mdas={mdas}
+        reason={declaration.reason}
+      />
+      <PastEmploymentForm />
+      <main className=' w-full mt-4'>
+        <Card className=' px-5 '>
+          <DeclarationForm  declaration={declaration} />
+        </Card>
+      </main>
+      
+    </>
   );
 }

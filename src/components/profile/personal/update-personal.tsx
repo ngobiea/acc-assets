@@ -3,10 +3,8 @@ import {
   Dialog,
   DialogHeader,
   DialogBody,
-  Input,
   Button,
   Typography,
-  Radio,
   IconButton,
 } from '@/components/materialTailwind';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
@@ -23,7 +21,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, type ChangeEvent } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { HiXMark } from 'react-icons/hi2';
-import { MdCheckCircle } from 'react-icons/md';
 import { getFormatDate } from '@/utils/user';
 import ImagePicker from '@/components/application/image-picker';
 import SelectInput from '@/components/common/form/select-input';
@@ -99,22 +96,7 @@ export default function PersonalUpdateForm({
     console.log(data);
     // action(formData);
   };
-  useEffect(() => {}, []);
-  const handleChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = event.target;
-
-    if (name === 'idType') {
-      dispatch(setIdType(value === 'NIN' ? 'NIN' : 'Passport'));
-      if (value === 'Passport') {
-        dispatch(setIsIDType(true));
-      }
-    }
-    if (name === 'isOtherNationality') {
-      dispatch(setIsOtherCitizen(value === 'Yes'));
-    }
-  };
+ 
 
   return (
     <Dialog
@@ -123,7 +105,7 @@ export default function PersonalUpdateForm({
       handler={() => {
         dispatch(setIsShowPersonalUpdateForm(!isShowPersonalUpdateForm));
       }}
-      className=' pb-10 relative'
+      className='pb-10 relative'
     >
       <DialogHeader className='relative m-0 block'>
         <Typography variant='h4' color='gray'>

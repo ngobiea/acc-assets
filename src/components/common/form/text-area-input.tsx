@@ -19,12 +19,12 @@ export default function TextareaInput({
   return (
     <div className='w-full group mb-5'>
       <Textarea
-        disabled={disabled}
         {...register(value)}
         label={label}
         placeholder={placeholder}
         color='blue'
         error={(errors as any)[value] ? true : false}
+        disabled={disabled}
       />
       <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
         {(errors as any)[value]?.message}

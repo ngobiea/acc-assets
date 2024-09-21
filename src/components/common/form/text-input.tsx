@@ -29,6 +29,7 @@ export default function TextInput({
         color='blue'
         error={(errors as any)[value] ? true : false}
         type={type}
+        min={type === 'number' ? 0 : undefined}
       />
       <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
         {(errors as any)[value]?.message}

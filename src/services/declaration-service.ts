@@ -1,5 +1,4 @@
-import { Declaration, CashAtHand } from '@prisma/client';
-// import { DeclarationData } from '@/types/declaration';
+import { Declaration } from '@prisma/client';
 import { declaration } from '@/lib/db';
 import type { DeclarationData } from '@/utils/declaration';
 import { nanoid } from '@/utils/declarations/id-generator';
@@ -55,7 +54,93 @@ class DeclarationService {
         userId: true,
       },
     });
-    return foundDeclaration;
+    if (!foundDeclaration) return null;
+    const serializedDeclaration: DeclarationData = {
+      ...foundDeclaration,
+      employments: foundDeclaration?.employments.map((employment) => ({
+        ...employment,
+        annualSalary: new Intl.NumberFormat().format(
+          employment.annualSalary.toNumber()
+        ),
+        allowances: employment?.allowances
+          ? new Intl.NumberFormat().format(employment.allowances.toNumber())
+          : '',
+      })),
+      cashAtHand: foundDeclaration.cashAtHand
+        ? {
+            ...foundDeclaration.cashAtHand,
+            amount: new Intl.NumberFormat().format(
+              foundDeclaration.cashAtHand.amount.toNumber()
+            ),
+          }
+        : null,
+      cashDeposits: foundDeclaration.cashDeposits.map((cashDeposit) => ({
+        ...cashDeposit,
+        accountBalance: new Intl.NumberFormat().format(
+          cashDeposit.accountBalance.toNumber()
+        ),
+      })),
+      immovableAssets: foundDeclaration.immovableAssets.map(
+        (immovableAsset) => ({
+          ...immovableAsset,
+          estimatedValue: new Intl.NumberFormat().format(
+            immovableAsset.estimatedValue.toNumber()
+          ),
+          acquisitionCost: new Intl.NumberFormat().format(
+            immovableAsset.acquisitionCost.toNumber()
+          ),
+        })
+      ),
+      movableAssets: foundDeclaration.movableAssets.map((movableAsset) => ({
+        ...movableAsset,
+        estimatedValue: new Intl.NumberFormat().format(
+          movableAsset.estimatedValue.toNumber()
+        ),
+        acquisitionCost: new Intl.NumberFormat().format(
+          movableAsset.acquisitionCost.toNumber()
+        ),
+      })),
+      liabilities: foundDeclaration.liabilities.map((liability) => ({
+        ...liability,
+        loanAmount: new Intl.NumberFormat().format(
+          liability.loanAmount.toNumber()
+        ),
+        loanOutstanding: new Intl.NumberFormat().format(
+          liability.loanOutstanding.toNumber()
+        ),
+      })),
+      otherAssets: foundDeclaration.otherAssets.map((otherAsset) => ({
+        ...otherAsset,
+        estimatedValue: new Intl.NumberFormat().format(
+          otherAsset.estimatedValue.toNumber()
+        ),
+        acquisitionCost: new Intl.NumberFormat().format(
+          otherAsset.acquisitionCost.toNumber()
+        ),
+      })),
+      pastEmployments: foundDeclaration.pastEmployments.map(
+        (pastEmployment) => ({
+          ...pastEmployment,
+          annualSalary: new Intl.NumberFormat().format(
+            pastEmployment.annualSalary.toNumber()
+          ),
+          allowances: pastEmployment?.allowances
+            ? new Intl.NumberFormat().format(
+                pastEmployment.allowances.toNumber()
+              )
+            : '',
+        })
+      ),
+      securities: foundDeclaration.securities.map((security) => ({
+        ...security,
+        acquisitionCost: new Intl.NumberFormat().format(security.acquisitionCost.toNumber()),
+        currentMarketValue: new Intl.NumberFormat().format(security.currentMarketValue.toNumber()),
+        yearlyInterest: security.yearlyInterest
+          ? new Intl.NumberFormat().format(security.yearlyInterest.toNumber())
+          : '',
+      })),
+    };
+    return serializedDeclaration;
   }
   static async getDeclarations(userId: string): Promise<Declaration[]> {
     try {
@@ -108,10 +193,28 @@ class DeclarationService {
           userId: true,
         },
       });
-
+      //@ts-ignore
       return lastDeclaration;
     } catch (error) {
       console.error('Error getting last declaration:', error);
+      throw error;
+    }
+  }
+  static async isDeclarationExist(
+    declarationId: string
+  ): Promise<{ id: string } | null> {
+    try {
+      const declarationExist = await declaration.findUnique({
+        where: {
+          id: declarationId,
+        },
+        select: {
+          id: true,
+        },
+      });
+      return declarationExist;
+    } catch (error) {
+      console.error('Error checking declaration:', error);
       throw error;
     }
   }
@@ -143,11 +246,10 @@ class DeclarationService {
                 },
               },
               rank: employment.rank,
-              status: employment.status,
               allowances: employment.allowances,
               allowancesCurrency: employment.allowancesCurrency,
               allowancesDescription: employment.allowancesDescription,
-              employeePin: employment.employeePin,
+              employeeNo: employment.employeeNo,
               establishmentRegNo: employment.establishmentRegNo,
               sourceOfIncome: employment.sourceOfIncome,
               SSNo: employment.SSNo,

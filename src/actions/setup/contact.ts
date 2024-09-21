@@ -45,8 +45,7 @@ export const postUserContact = async (
       telephone,
       termsAndConditions,
     } = getContactClientSetupData(formData);
-    console.log('isNationalIdExist', isNationalIdExist);
-    console.log('isPassportExist', isPassportExist);
+
 
     const contactResult = validateContactSetup({
       isNationalIdExist,

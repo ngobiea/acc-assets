@@ -165,7 +165,6 @@ model Declaration {
 
 model Employment {
   id                 String      @id @default(uuid()) @unique
-  status             String
   mdaId              String
   mda                MDA         @relation(fields: [mdaId], references: [id])
   employeeCategory   String
@@ -179,11 +178,11 @@ model Employment {
   allowancesDescription String?
   SSNo               String?
   employeeId         String
-  employeePin        String?
+  employeeNo        String?
   establishmentRegNo String?
   contractType       String
   contractStartDate  DateTime
-  contractEndDate    DateTime
+  contractEndDate    DateTime?
   sourceOfIncome     String?
   declarationId      String
   declaration        Declaration @relation(fields: [declarationId], references: [id], onDelete: Cascade)

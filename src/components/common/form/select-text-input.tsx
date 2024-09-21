@@ -60,11 +60,12 @@ export default function SelectTextInput({
           containerProps={{
             className: 'min-w-[90px]',
           }}
+          min={type === 'number' ? 0 : undefined}
         />
       </div>
       <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
         {(errors as any)[inputValue] &&
-          `${idType} ${(errors as any)[inputValue]?.message}`}
+          `${idType?idType:""} ${(errors as any)[inputValue]?.message}`}
       </p>
     </div>
   );

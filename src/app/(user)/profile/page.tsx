@@ -9,7 +9,7 @@ import ProfileContactPage from '@/components/profile/contact/contact-card';
 import PersonalUpdateForm from '@/components/profile/personal/update-personal';
 import UserEmploymentUpdateForm from '@/components/profile/user-employment/update-user-employment';
 import ProfileNationalTable from '@/components/profile/nationalId/nationalCardTable';
-import ProfilePassportTable from '@/components/profile/passport/passport.table';
+import ProfilePassportTable from '@/components/profile/passport/passportTable';
 import ProfileCitizenshipTable from '@/components/profile/nationality/citizenshipTable';
 import ContactUpdateForm from '@/components/profile/contact/update-contact';
 import NationalCardUpdateForm from '@/components/profile/nationalId/add-nationalCard';

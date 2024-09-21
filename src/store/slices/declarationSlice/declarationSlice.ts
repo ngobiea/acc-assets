@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-const initialState: DeclarationState = {
+export const initializeDeclaration: DeclarationState = {
   activeDeclarationStep: 0,
   isFirstDeclarationStep: false,
   isLastDeclarationStep: false,
@@ -20,7 +20,7 @@ const initialState: DeclarationState = {
   isPassportExist: false,
   isSameAsPermanent: false,
   isContactFormOpen: false,
-  isCurrentEmploymentFormOpen: false,
+  isEmploymentFormOpen: false,
   isFamilyFormOpen: false,
   isImmovableAssetFormOpen: false,
   isLiabilitiesFormOpen: false,
@@ -35,7 +35,7 @@ const initialState: DeclarationState = {
 };
 
 const declarationSlice = createSlice({
-  initialState,
+  initialState: initializeDeclaration,
   name: 'declaration',
   reducers: {
     setIsLoadingDeclaration(state, action: PayloadAction<boolean>) {
@@ -50,8 +50,8 @@ const declarationSlice = createSlice({
     setIsContactFormOpen(state, action: PayloadAction<boolean>) {
       state.isContactFormOpen = action.payload;
     },
-    setIsCurrentEmploymentFormOpen(state, action: PayloadAction<boolean>) {
-      state.isCurrentEmploymentFormOpen = action.payload;
+    setIsEmploymentFormOpen(state, action: PayloadAction<boolean>) {
+      state.isEmploymentFormOpen = action.payload;
     },
     setIsFamilyFormOpen(state, action: PayloadAction<boolean>) {
       state.isFamilyFormOpen = action.payload;
@@ -100,7 +100,7 @@ export const {
   toggleIsStartDeclaration,
   setIsCashDepositFormOpen,
   setIsContactFormOpen,
-  setIsCurrentEmploymentFormOpen,
+
   setIsFamilyFormOpen,
   setIsImmovableAssetFormOpen,
   setIsLiabilitiesFormOpen,
@@ -114,6 +114,7 @@ export const {
   handleNextDeclarationStep,
   handlePrevDeclarationStep,
   setActiveDeclarationStep,
+  setIsEmploymentFormOpen,
 } = declarationSlice.actions;
 
 export const declarationReducer = declarationSlice.reducer;

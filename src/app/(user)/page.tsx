@@ -22,7 +22,7 @@ export default async function Home() {
     redirect(routes.setup);
   }
   const declarations = await DeclarationService.getDeclarations(user.id);
-
+   
   return (
     <>
       <DeclarationStartForm isAnyLastDeclaration={declarations.length > 0} />
