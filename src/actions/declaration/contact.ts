@@ -3,62 +3,47 @@
 import { validateRequest } from '@/lib/verify-auth';
 import routes from '@/utils/routes';
 import { redirect } from 'next/navigation';
-import ContactService from '@/services/contact-service';
-import PassportService from '@/services/passport-service';
-import NationalCardService from '@/services/nationalCard-service';
-import { Contact } from '@prisma/client';
-import {
-  getContactClientSetupData,
-  validateContactSetup,
-} from '@/utils/action/contact';
-import { validateNationalIdSetup } from '@/utils/action/nationalId';
-import { validatePassportSetup } from '@/utils/action/passport';
+import DContactService from '@/services/d-contact-service';
+import { DContact } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
+import { contactClientDSchema } from '@/utils/validators/declaration';
+import type { ContactDFormState } from '@/utils/declaration';
+
+const getFormData = (formData: FormData): ContactClientDForm => {
+  return {
+    isSameAsPermanent: formData.get('isSameAsPermanent') as string,
+    mobile: formData.get('mobile') as string,
+    telephone: formData.get('telephone') as string,
+    permanentAddress: formData.get('permanentAddress') as string,
+    permanentDistrict: formData.get('permanentDistrict') as string,
+    presentAddress: formData.get('presentAddress') as string,
+    presentDistrict: formData.get('presentDistrict') as string,
+    declarationId: formData.get('declarationId') as string,
+    id: formData.get('id') as string,
+  };
+};
 
 export const postDUserContact = async (
-  _useFormState: ContactSetupFormState,
+  _useFormState: ContactDFormState,
   formData: FormData
-): Promise<ContactSetupFormState> => {
+): Promise<ContactDFormState> => {
   try {
     const { user } = await validateRequest();
     if (!user) {
       redirect(routes.login);
     }
-    const id = formData.get('id') as string;
-    const {
-      isNationalIdExist,
-      isPassportExist,
-      isSameAsPermanent,
-      mobile,
-      nationalId,
-      nationalIdCountry,
-      nationalIdExpiryDate,
-      nationalIdIssueDate,
-      passportCountry,
-      passportExpiryDate,
-      passportIssueDate,
-      passportNumber,
-      permanentAddress,
-      permanentDistrict,
-      presentAddress,
-      presentDistrict,
-      telephone,
-      termsAndConditions,
-    } = getContactClientSetupData(formData);
-    console.log('isNationalIdExist', isNationalIdExist);
-    console.log('isPassportExist', isPassportExist);
+    const data = getFormData(formData);
 
-    const contactResult = validateContactSetup({
-      isNationalIdExist,
-      isPassportExist,
-      isSameAsPermanent,
-      mobile,
-      permanentAddress,
-      permanentDistrict,
-      presentAddress,
-      presentDistrict,
-      telephone,
-      termsAndConditions,
+    const contactResult = contactClientDSchema.safeParse({
+      telephone: data.telephone,
+      mobile: data.mobile,
+      permanentAddress: data.permanentAddress,
+      permanentDistrict: data.permanentDistrict,
+      presentAddress: data.presentAddress,
+      presentDistrict: data.permanentDistrict,
+      isSameAsPermanent: data.isSameAsPermanent,
+      id: data.id,
+      declarationId: data.declarationId,
     });
 
     if (!contactResult.success) {
@@ -67,80 +52,47 @@ export const postDUserContact = async (
       };
     }
 
-    if (isPassportExist === 'Yes') {
-      const passportResult = validatePassportSetup({
-        passportExpiryDate,
-        passportCountry,
-        passportIssueDate,
-        passportNumber,
-      });
-      if (!passportResult.success) {
-        return {
-          errors: passportResult.error.flatten().fieldErrors,
-        };
-      }
-    }
-    if (isNationalIdExist === 'Yes') {
-      const nationalIdResult = validateNationalIdSetup({
-        nationalId,
-        nationalIdCountry,
-        nationalIdExpiryDate,
-        nationalIdIssueDate,
-      });
-      if (!nationalIdResult.success) {
-        return {
-          errors: nationalIdResult.error.flatten().fieldErrors,
-        };
-      }
-    }
-
-    let contact: Contact | null = null;
-    if (id) {
-      contact = await ContactService.updateContact({
-        newContact: {
-          telephone,
-          mobile,
-          permanentAddress,
-          permanentDistrict,
-          presentAddress:
-            isSameAsPermanent === 'true' ? permanentAddress : presentAddress,
-          presentDistrict:
-            isSameAsPermanent === 'true' ? permanentDistrict : presentDistrict,
-          userId: user.id,
-        },
-        userId: user.id,
+    let contact: DContact | null = null;
+    if (data.id) {
+      contact = await DContactService.updateContact({
+        declarationId: data.declarationId,
+        mobile: data.mobile,
+        permanentAddress: data.permanentAddress,
+        permanentDistrict: data.permanentDistrict,
+        presentAddress:
+          data.isSameAsPermanent === 'true'
+            ? data.permanentAddress
+            : data.presentAddress,
+        presentDistrict:
+          data.isSameAsPermanent === 'true'
+            ? data.permanentDistrict
+            : data.presentDistrict,
+        telephone: data.telephone,
       });
     } else {
-      contact = await ContactService.createContact({
-        telephone,
-        mobile,
-        permanentAddress,
-        permanentDistrict,
+      contact = await DContactService.createContact({
+        declarationId: data.declarationId,
+        telephone: data.telephone,
+        mobile: data.mobile,
+        permanentAddress: data.permanentAddress,
+        permanentDistrict: data.permanentDistrict,
         presentAddress:
-          isSameAsPermanent === 'true' ? permanentAddress : presentAddress,
+          data.isSameAsPermanent === 'true'
+            ? data.permanentAddress
+            : data.presentAddress,
         presentDistrict:
-          isSameAsPermanent === 'true' ? permanentDistrict : presentDistrict,
-        userId: user.id,
+          data.isSameAsPermanent === 'true'
+            ? data.permanentDistrict
+            : data.presentDistrict,
       });
     }
-    if (isPassportExist === 'Yes') {
-      const passport = await PassportService.createPassport({
-        passportNumber,
-        issueDate: new Date(passportIssueDate),
-        expiryDate: new Date(passportExpiryDate),
-        country: passportCountry,
-        userId: user.id,
-      });
-    }
-    if (isNationalIdExist === 'Yes') {
-      const nationalCard = await NationalCardService.createNationalCard({
-        nationalId,
-        issueDate: new Date(nationalIdIssueDate),
-        expiryDate: new Date(nationalIdExpiryDate),
-        country: nationalIdCountry,
-        userId: user.id,
-      });
-    }
+    revalidatePath(routes.profile);
+    return {
+      data: {
+        contact: contact.id,
+      },
+      errors: {},
+    };
   } catch (error) {
     console.error('Error creating contact:', error);
     return {
@@ -149,6 +101,5 @@ export const postDUserContact = async (
       },
     };
   }
-  revalidatePath(routes.profile);
   redirect(routes.profile);
 };

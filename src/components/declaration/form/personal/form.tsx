@@ -20,8 +20,11 @@ import { handleNextDeclarationStep } from '@/store/slices/declarationSlice/decla
 import { DPersonal } from '@prisma/client';
 import { postDPersonal } from '@/actions/declaration/personal';
 
-
-export default function DeclarationPersonalForm({ personal }: { personal: DPersonal }) {
+export default function DeclarationPersonalForm({
+  personal,
+}: {
+  personal: DPersonal;
+}) {
   const dispatch = useAppDispatch();
   const { idType } = useAppSelector((state) => state.setup);
   const { file } = useAppSelector((state) => state.app);
@@ -87,7 +90,7 @@ export default function DeclarationPersonalForm({ personal }: { personal: DPerso
       }
     });
     return () => subscription.unsubscribe();
-  }, [watch]);
+  }, [dispatch, watch]);
   console.log(formState.errors);
   console.log(errors);
   useEffect(() => {
@@ -107,26 +110,12 @@ export default function DeclarationPersonalForm({ personal }: { personal: DPerso
     } else {
       reset();
     }
-  }, [
-    personal?.aliases,
-    personal?.dateOfBirth,
-    personal?.firstName,
-    personal?.gender,
-    personal?.maritalStatus,
-    personal?.middleName,
-    personal?.pid,
-    personal?.surname,
-    personal?.title,
-    setValue,
-    reset,
-    personal?.country,
-    personal?.acquireBy,
-  ]);
+  }, [personal, reset, setValue]);
   useEffect(() => {
     if (file) {
       clearErrors('image');
     }
-  }, [file]);
+  }, [clearErrors, file]);
 
   useEffect(() => {
     if (formState?.data) {
@@ -178,15 +167,16 @@ export default function DeclarationPersonalForm({ personal }: { personal: DPerso
   }, [
     dispatch,
     formState?.data,
-    formState.errors.title,
+    formState.errors.acquireBy,
+    formState.errors.country,
+    formState.errors.dateOfBirth,
+    formState.errors.firstName,
+    formState.errors.gender,
+    formState.errors.image,
+    formState.errors.maritalStatus,
     formState.errors.pid,
     formState.errors.surname,
-    formState.errors.firstName,
-    formState.errors.dateOfBirth,
-    formState.errors.maritalStatus,
-    formState.errors.gender,
-    formState.errors.country,
-    formState.errors.acquireBy,
+    formState.errors.title,
     setError,
   ]);
 

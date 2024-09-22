@@ -220,6 +220,7 @@ export default function ContactForm({
     formState.errors.presentDistrict,
     formState.errors.telephone,
     formState.errors.termsAndConditions,
+    formState.errors.isSameAsPermanent,
   ]);
 
   return (

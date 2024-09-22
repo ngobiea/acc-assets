@@ -56,13 +56,9 @@ class DContactService {
     }
   }
 
-  static async updateContact({
-    newContact,
-    declarationId,
-  }: {
-    declarationId: string;
-    newContact: ContactForm;
-  }): Promise<DContact> {
+  static async updateContact(
+    newContact: DContactForm
+  ): Promise<DContact> {
     try {
       const {
         permanentAddress,
@@ -71,6 +67,7 @@ class DContactService {
         presentDistrict,
         mobile,
         telephone,
+        declarationId,
       } = newContact;
       const updatedContact = await dContact.update({
         where: {
@@ -82,7 +79,7 @@ class DContactService {
           presentAddress,
           presentDistrict,
           mobile,
-          telephone,
+          telephone, 
         },
       });
       return updatedContact;

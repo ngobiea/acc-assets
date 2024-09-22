@@ -88,8 +88,8 @@ interface UserEmploymentForm {
 }
 
 interface DContactForm {
-  telephone?: string;
-  mobile?: string;
+  telephone: string;
+  mobile: string;
   permanentAddress: string;
   permanentDistrict: string;
   presentAddress: string;

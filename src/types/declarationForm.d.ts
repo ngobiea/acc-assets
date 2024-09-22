@@ -55,7 +55,17 @@ interface EmploymentForm {
   otherSourceOfIncome: string;
   id: string;
 }
-
+interface ContactClientDForm {
+  telephone: string;
+  mobile: string;
+  permanentAddress: string;
+  permanentDistrict: string;
+  presentAddress: string;
+  presentDistrict: string;
+  isSameAsPermanent: boolean | string;
+  declarationId: string;
+  id: string;
+}
 interface PastEmploymentClientForm {
   employerName: string;
   designation: string;

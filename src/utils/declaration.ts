@@ -261,3 +261,20 @@ export interface SecurityData {
   updatedAt: Date;
 }
 
+export interface ContactDFormState {
+  errors: {
+    telephone?: string[];
+    mobile?: string[];
+    permanentAddress?: string[];
+    permanentDistrict?: string[];
+    presentAddress?: string[];
+    presentDistrict?: string[];
+    passport?: string[];
+    isSameAsPermanent?: string[];
+   
+    _form?: string[];
+  };
+  data?: {
+    contact: string;
+  };
+}

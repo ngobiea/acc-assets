@@ -116,20 +116,16 @@ export const pastEmploymentSchema = z
     }
   );
 
-export const contactSchema = z.object({
+export const contactClientDSchema = z.object({
   telephone: z.optional(z.string().trim()),
   mobile: z.optional(z.string().trim()),
-  // permanentAddress: z.string().trim().min(1, 'Permanent address is required'),
-  // permanentDistrict: z.string().trim().min(1, 'Permanent district is required'),
+  permanentAddress: z.string().trim().min(1, 'Permanent address is required'),
+  permanentDistrict: z.string().trim().min(1, 'Permanent district is required'),
   presentAddress: z.optional(z.string().trim()),
   presentDistrict: z.optional(z.string().trim()),
-  isSameAsPermanent: z.optional(z.boolean()),
-  // isSameAsPermanent: z
-  //   .string({ message: 'Please select an option' })
-  //   .trim()
-  //   .refine((value) => value === 'true' || value === 'false', {
-  //     message: 'Please select an option',
-  //   }),
+  isSameAsPermanent: z
+    .string()
+    .or(z.boolean({ message: 'Please select an option' })),
 });
 export const familySchema = z
   .object({

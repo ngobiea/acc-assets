@@ -4,7 +4,7 @@ import routes from '@/utils/routes';
 import { personalSchema } from '@/utils/validators/setup';
 import { redirect } from 'next/navigation';
 import DPersonalService from '@/services/d-personal-service';
-import type { DPersonal} from '@prisma/client';
+import type { DPersonal } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 
 export const postDPersonal = async (
@@ -71,7 +71,7 @@ export const postDPersonal = async (
           title,
           acquireBy,
           country,
-          declarationId
+          declarationId,
         },
         declarationId,
       });

@@ -1,111 +1,60 @@
 'use client';
 import { Button, CardBody } from '@/components/materialTailwind';
-import {
-  setIsNationalCardExist,
-  setIsPassportExist,
-  setIsSameAsPermanent,
-} from '@/store/slices/setupSlice/setupSlice';
+import { setIsSameAsPermanent } from '@/store/slices/setupSlice/setupSlice';
 import { useFormState } from 'react-dom';
-import { postUserContact } from '@/actions/setup/contact';
 import { SLDistricts } from '@/utils/selectOptions';
+import { postDUserContact } from '@/actions/declaration/contact';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { contactClientSetupSchema } from '@/utils/validators/setup';
 import TextInput from '@/components/common/form/text-input';
 import SelectInput from '@/components/common/form/select-input';
 import SwitchInput from '@/components/common/form/switch-input';
 import type { DContact } from '@prisma/client';
+import { contactClientDSchema } from '@/utils/validators/declaration';
+import {
+  handleNextDeclarationStep,
+  handlePrevDeclarationStep,
+} from '@/store/slices/declarationSlice/declarationSlice';
 export default function ContactDeclarationForm({
   contact,
 }: {
   contact: DContact;
 }) {
   const dispatch = useAppDispatch();
-  const { isSameAsPermanent, isPassportExist, isNationalCardExist } =
-    useAppSelector((state) => state.setup);
-  const [formState, action] = useFormState(postUserContact, { errors: {} });
+  const { isSameAsPermanent } = useAppSelector((state) => state.setup);
+  const [formState, action] = useFormState(postDUserContact, { errors: {} });
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
-    unregister,
     setValue,
     watch,
+    reset,
   } = useForm<FormValues>({
-    resolver: zodResolver(contactClientSetupSchema),
+    resolver: zodResolver(contactClientDSchema),
   });
 
-  // console.log(errors);
-  // console.log(formState);
   const watchForm = watch([]);
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    const submitted = data as ContactClientSetupForm;
-    const formData = new FormData();
-    formData.append('telephone', submitted.telephone);
-    formData.append('mobile', submitted.mobile);
-    formData.append('permanentAddress', submitted.permanentAddress);
-    formData.append('permanentDistrict', submitted.permanentDistrict);
-    formData.append('isSameAsPermanent', submitted.isSameAsPermanent);
-    formData.append('presentAddress', submitted.presentAddress);
-    formData.append('presentDistrict', submitted.presentDistrict);
-    formData.append('termsAndConditions', submitted.termsAndConditions);
-    formData.append('isPassportExist', submitted.isPassportExist);
-    formData.append('isNationalIdExist', submitted.isNationalIdExist);
-    if (submitted.isPassportExist === 'Yes') {
-      formData.append('passportNumber', submitted.passportNumber);
-      formData.append('passportCountry', submitted.passportCountry);
-      formData.append('passportIssueDate', submitted.passportIssueDate);
-      formData.append('passportExpiryDate', submitted.passportExpiryDate);
-    }
-    if (submitted.isNationalIdExist === 'Yes') {
-      formData.append('nationalId', submitted.nationalId);
-      formData.append('nationalIdCountry', submitted.nationalIdCountry);
-      formData.append('nationalIdIssueDate', submitted.nationalIdIssueDate);
-      formData.append('nationalIdExpiryDate', submitted.nationalIdExpiryDate);
-    }
-    action(formData);
-    console.log(data);
-  };
   useEffect(() => {
     const subscription = watch((value, { name }) => {
-      const currentValues = value as ContactClientSetupForm;
+      const currentValues = value as ContactClientDForm;
       currentValues.isSameAsPermanent;
-      if (name === 'isPassportExist') {
-        dispatch(setIsPassportExist(currentValues.isPassportExist === 'Yes'));
-      }
       if (name === 'isSameAsPermanent') {
         console.log(typeof currentValues.isSameAsPermanent);
         dispatch(setIsSameAsPermanent(!!currentValues.isSameAsPermanent));
-      }
-      if (name === 'isNationalIdExist') {
-        dispatch(
-          setIsNationalCardExist(currentValues.isNationalIdExist === 'Yes')
-        );
       }
     });
     return () => subscription.unsubscribe();
   }, [watch, dispatch]);
 
   useEffect(() => {
-    if (!isPassportExist) {
-      unregister('passportNumber');
-      unregister('passportCountry');
-      unregister('passportIssueDate');
-      unregister('passportExpiryDate');
+    if (formState.data?.contact) {
+      dispatch(handleNextDeclarationStep());
     }
-    if (!isNationalCardExist) {
-      unregister('nationalId');
-      unregister('nationalIdCountry');
-      unregister('nationalIdIssueDate');
-      unregister('nationalIdExpiryDate');
-    }
-  }, [isNationalCardExist, isPassportExist, unregister]);
-  console.log(formState.errors);
-  useEffect(() => {
     if (formState.errors.telephone) {
       setError('telephone', {
         message: formState.errors.telephone?.join(', '),
@@ -136,88 +85,57 @@ export default function ContactDeclarationForm({
         message: formState.errors.presentDistrict?.join(', '),
       });
     }
-    if (formState.errors.termsAndConditions) {
-      setError('termsAndConditions', {
-        message: formState.errors.termsAndConditions?.join(', '),
-      });
-    }
     if (formState.errors.isSameAsPermanent) {
       setError('isSameAsPermanent', {
         message: formState.errors.isSameAsPermanent?.join(', '),
       });
     }
-    if (formState.errors.isPassportExist) {
-      setError('isPassportExist', {
-        message: formState.errors.isPassportExist?.join(', '),
-      });
-    }
-    if (formState.errors.isNationalIdExist) {
-      setError('isNationalIdExist', {
-        message: formState.errors.isNationalIdExist?.join(', '),
-      });
-    }
-    if (formState.errors.passportNumber) {
-      setError('passportNumber', {
-        message: formState.errors.passportNumber?.join(', '),
-      });
-    }
-    if (formState.errors.passportCountry) {
-      setError('passportCountry', {
-        message: formState.errors.passportCountry?.join(', '),
-      });
-    }
-    if (formState.errors.passportIssueDate) {
-      setError('passportIssueDate', {
-        message: formState.errors.passportIssueDate?.join(', '),
-      });
-    }
-    if (formState.errors.passportExpiryDate) {
-      setError('passportExpiryDate', {
-        message: formState.errors.passportExpiryDate?.join(', '),
-      });
-    }
-    if (formState.errors.nationalId) {
-      setError('nationalId', {
-        message: formState.errors.nationalId?.join(', '),
-      });
-    }
-    if (formState.errors.nationalIdCountry) {
-      setError('nationalIdCountry', {
-        message: formState.errors.nationalIdCountry?.join(', '),
-      });
-    }
-    if (formState.errors.nationalIdIssueDate) {
-      setError('nationalIdIssueDate', {
-        message: formState.errors.nationalIdIssueDate?.join(', '),
-      });
-    }
-    if (formState.errors.nationalIdExpiryDate) {
-      setError('nationalIdExpiryDate', {
-        message: formState.errors.nationalIdExpiryDate?.join(', '),
-      });
-    }
   }, [
     dispatch,
-    setError,
-    formState.errors.isNationalIdExist,
-    formState.errors.isPassportExist,
+    formState.data?.contact,
+    formState.errors.isSameAsPermanent,
     formState.errors.mobile,
-    formState.errors.nationalId,
-    formState.errors.nationalIdCountry,
-    formState.errors.nationalIdExpiryDate,
-    formState.errors.nationalIdIssueDate,
-    formState.errors.passportCountry,
-    formState.errors.passportExpiryDate,
-    formState.errors.passportIssueDate,
-    formState.errors.passportNumber,
     formState.errors.permanentAddress,
     formState.errors.permanentDistrict,
     formState.errors.presentAddress,
     formState.errors.presentDistrict,
     formState.errors.telephone,
-    formState.errors.termsAndConditions,
+    setError,
   ]);
-
+  useEffect(() => {
+    if (contact) {
+      setValue('telephone', contact?.telephone || '');
+      setValue('mobile', contact?.mobile || '');
+      setValue('permanentAddress', contact?.permanentAddress);
+      setValue('permanentDistrict', contact?.permanentDistrict);
+      setValue('presentAddress', contact?.presentAddress || '');
+      setValue('presentDistrict', contact?.presentDistrict || '');
+      setValue(
+        'isSameAsPermanent',
+        contact.permanentAddress === contact.presentAddress &&
+          contact.permanentDistrict === contact.presentDistrict
+      );
+    } else {
+      reset();
+    }
+  }, [contact, setValue, reset]);
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    const submitted = data as ContactClientSetupForm;
+    const formData = new FormData();
+    formData.append('telephone', submitted.telephone);
+    formData.append('mobile', submitted.mobile);
+    formData.append('permanentAddress', submitted.permanentAddress);
+    formData.append('permanentDistrict', submitted.permanentDistrict);
+    formData.append('isSameAsPermanent', submitted.isSameAsPermanent);
+    formData.append('presentAddress', submitted.presentAddress);
+    formData.append('presentDistrict', submitted.presentDistrict);
+    formData.append('id', contact?.id || '');
+    formData.append('declarationId', contact?.declarationId || '');
+    action(formData);
+    console.log(data);
+  };
+  console.log(errors);
+  console.log(formState.errors);
   return (
     <>
       <CardBody>
@@ -284,9 +202,15 @@ export default function ContactDeclarationForm({
             </div>
           )}
 
-          <div className=' absolute bottom-0 right-0'>
-            <Button type='submit' color='blue'>
-              Save and Continue
+          <div className='flex justify-between mt-5'>
+            <Button
+              onClick={() => dispatch(handlePrevDeclarationStep())}
+              color='blue'
+            >
+              Prev
+            </Button>
+            <Button type='submit' color='blue' className='hover:animate-bounce'>
+              Save & Continue
             </Button>
           </div>
         </form>

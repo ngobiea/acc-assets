@@ -103,7 +103,7 @@ export default function ContactUpdateForm({
       setValue('presentAddress', contact.presentAddress ?? '');
       setValue('presentDistrict', contact.presentDistrict ?? '');
       if (contact.permanentAddress === contact.presentAddress) {
-        // setValue('isSameAsPermanent', true);
+        setValue('isSameAsPermanent', true);
         dispatch(setIsSameAsPermanent(true));
       } else {
         // setValue('isSameAsPermanent', false);

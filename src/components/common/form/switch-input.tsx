@@ -1,5 +1,8 @@
-import { Checkbox, Input, Switch, Typography } from '@/components/materialTailwind';
-import type { UseFormRegister, FieldErrors, Path } from 'react-hook-form';
+import {
+  Switch,
+  Typography,
+} from '@/components/materialTailwind';
+import type { UseFormRegister, Path } from 'react-hook-form';
 
 type SwitchProps = {
   register: UseFormRegister<FormValues>;
@@ -7,17 +10,21 @@ type SwitchProps = {
   linkLabel: string;
   value: Path<FormValues>;
   disabled?: boolean;
+  defaultChecked?: boolean;
+
 };
 export default function SwitchInput({
   register,
   label,
   linkLabel,
-    value,
-     disabled,
+  value,
+  disabled,
+  defaultChecked
 }: SwitchProps) {
   return (
     <div className='w-full mb-5 group'>
       <Switch
+        defaultChecked={defaultChecked}
         disabled={disabled}
         color='blue'
         {...register(value)}
