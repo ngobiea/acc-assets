@@ -9,6 +9,7 @@ import routes from '@/utils/routes';
 import type { DeclarationData } from '@/utils/declaration';
 import EmploymentForm from '@/components/declaration/employment/form';
 import PastEmploymentForm from '@/components/declaration/pastEmployment/form-past-employment';
+import FamilyForm from '@/components/declaration/family/form-family';
 export const dynamic = 'force-dynamic';
 interface NewDeclarationProps {
   params: {
@@ -35,11 +36,12 @@ export default async function NewDeclaration({ params }: NewDeclarationProps) {
         reason={declaration.reason}
       />
       <PastEmploymentForm declarationId={params.id} />
-      <main className=' w-full mt-4'>
+      <FamilyForm declarationId={params.id} />
+      <section className=' w-full mt-4'>
         <Card className=' px-5 '>
           <DeclarationForm declaration={declaration} />
         </Card>
-      </main>
+      </section>
     </>
   );
 }

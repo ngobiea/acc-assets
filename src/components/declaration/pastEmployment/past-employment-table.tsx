@@ -14,7 +14,7 @@ export default function PastEmploymentGridTable ({
   return (
     <Card id={pastEmployment.id}>
       <CardBody className='border border-blue-400'>
-        <div className='grid md:grid-cols-2 md:gap-6 mb-2'>
+        <div className='grid md:grid-cols-2 gap-3 mb-2'>
           <div className='grid grid-cols-2'>
             <Typography color='gray' className=' font-bold'>
               Previous Employer:
@@ -28,7 +28,7 @@ export default function PastEmploymentGridTable ({
             <Typography>{`${pastEmployment.designation}`}</Typography>
           </div>
         </div>
-        <div className='grid md:grid-cols-2 md:gap-6 mb-2'>
+        <div className='grid md:grid-cols-2 gap-3 mb-2'>
           <div className='grid grid-cols-2'>
             <Typography color='gray' className=' font-bold'>
               Grade / Rank:
@@ -48,7 +48,7 @@ export default function PastEmploymentGridTable ({
             </Typography>
           </div>
         </div>
-        <div className='grid md:grid-cols-2 md:gap-6 mb-2'>
+        <div className='grid md:grid-cols-2 gap-3 mb-2'>
           <div className='grid grid-cols-2'>
             <Typography color='gray' className=' font-bold'>
               Annual Salary:
@@ -70,7 +70,7 @@ export default function PastEmploymentGridTable ({
             </Typography>
           </div>
         </div>
-        <div className='grid md:grid-cols-2 md:gap-6 mb-2'>
+        <div className='grid md:grid-cols-2 gap-3 mb-2'>
           <div className='grid grid-cols-2'>
             <Typography color='gray' className=' font-bold'>
               Start Date<sup> (mm/dd/yyyy):</sup>
@@ -90,7 +90,7 @@ export default function PastEmploymentGridTable ({
             </Typography>
           </div>
         </div>
-        <div className='grid md:grid-cols-2 md:gap-6 mb-2'>
+        <div className='grid md:grid-cols-2 gap-3 mb-2'>
           <div className='grid grid-cols-2'>
             <Typography color='gray' className=' font-bold'>
               Other Allowances Details:
@@ -102,8 +102,7 @@ export default function PastEmploymentGridTable ({
             </Typography>
           </div>
         </div>
-
-        <div className='grid md:grid-cols-2 md:gap-6 mb-2'>
+        <div className='grid md:grid-cols-2 gap-3 mb-2'>
           <div className='grid grid-cols-2'>
             <Typography color='gray' className=' font-bold'>
               Action:

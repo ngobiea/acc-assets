@@ -44,7 +44,7 @@ export default function LiabilityForm() {
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = event.target;
-    console.log(name, value);
+    // console.log(name, value);
     if (name === 'relation') {
       if (value === 'Other') {
         setShowOtherRelation(true);

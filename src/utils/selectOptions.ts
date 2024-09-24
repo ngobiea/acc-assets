@@ -1202,7 +1202,7 @@ export const depositSource = [
 export const gender = [
   {
     id: 'Male',
-    value: 'Female',
+    value: 'Male',
   },
   {
     id: 'Female',

@@ -9,7 +9,7 @@ export default function SubmitCitizen({
   handleSubmit: (e: React.FormEvent<HTMLButtonElement>) => void;
 }) {
     const { pending } = useFormStatus();
-    console.log(pending);
+    // console.log(pending);
 
   return (
     <Button loading={pending} onClick={handleSubmit} color='blue'>

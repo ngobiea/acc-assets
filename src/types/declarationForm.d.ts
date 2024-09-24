@@ -103,6 +103,7 @@ interface FamilyClientForm {
   designation: string;
   otherRelation: string;
   isFamilyEmployment: string;
+  declarationId: string;
 }
 
 interface cashDepositClientForm {

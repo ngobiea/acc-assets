@@ -132,10 +132,10 @@ export default function ContactDeclarationForm({
     formData.append('id', contact?.id || '');
     formData.append('declarationId', contact?.declarationId || '');
     action(formData);
-    console.log(data);
+    // console.log(data);
   };
-  console.log(errors);
-  console.log(formState.errors);
+  // console.log(errors);
+  // console.log(formState.errors);
   return (
     <>
       <CardBody>

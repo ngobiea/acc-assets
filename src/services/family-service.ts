@@ -2,24 +2,32 @@ import { family } from '@/lib/db';
 import type { Family } from '@prisma/client';
 
 export default class FamilyService {
-  static async crateFamily(newFamily: Family): Promise<string> {
+  static async crateFamily(newFamily: FamilyClientForm): Promise<string> {
     try {
       const createdFamily = await family.create({
         data: {
           surname: newFamily.surname,
           firstName: newFamily.firstName,
           middleName: newFamily.middleName,
-          relation: newFamily.relation,
+          relation:
+            newFamily.relation === 'Other'
+              ? newFamily.otherRelation
+              : newFamily.relation,
           address: newFamily.address,
           dateOfBirth: new Date(newFamily.dateOfBirth),
           gender: newFamily.gender,
           nationality: newFamily.nationality,
-          employeeNo: newFamily.employeeNo,
-          category: newFamily.category,
-          institution: newFamily.institution,
-          SSNo: newFamily.SSNo,
-          pinCode: newFamily.pinCode,
-          designation: newFamily.designation,
+          employeeNo:
+            newFamily.isFamilyEmployment === 'Yes' ? newFamily.employeeNo : '',
+          category:
+            newFamily.isFamilyEmployment === 'Yes' ? newFamily.category : '',
+          institution:
+            newFamily.isFamilyEmployment === 'Yes' ? newFamily.institution : '',
+          SSNo: newFamily.isFamilyEmployment === 'Yes' ? newFamily.SSNo : '',
+          pinCode:
+            newFamily.isFamilyEmployment === 'Yes' ? newFamily.pinCode : '',
+          designation:
+            newFamily.isFamilyEmployment === 'Yes' ? newFamily.designation : '',
           businessName: newFamily.businessName,
           mobile: newFamily.mobile,
           phoneNumber: newFamily.phoneNumber,

@@ -197,13 +197,13 @@ export default function EmploymentForm({
     formState.errors.currency,
     formState.errors.allowancesCurrency,
   ]);
-  console.log(formState.errors);
+  // console.log(formState.errors);
   useEffect(() => {
     if (!isEmploymentFormOpen) {
       reset();
     }
   }, [isEmploymentFormOpen, reset]);
-  console.log(errors);
+  // console.log(errors);
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const submitted = data as EmploymentClientForm;
     const formData = new FormData();
@@ -227,7 +227,7 @@ export default function EmploymentForm({
     formData.append('sourceOfIncome', submitted.sourceOfIncome);
     formData.append('otherSourceOfIncome', submitted.otherSourceOfIncome);
     formData.append('declarationId', declarationId);
-    console.log(data);
+    // console.log(data);
     action(formData);
   };
   return (

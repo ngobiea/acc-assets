@@ -1,7 +1,6 @@
 'use client';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
-  CardBody,
   Typography,
   Button,
   Card,
@@ -12,7 +11,6 @@ import {
   handlePrevDeclarationStep,
 } from '@/store/slices/declarationSlice/declarationSlice';
 import { MdOutlineWorkHistory } from 'react-icons/md';
-import PastEmploymentForm from '../form/past-employment/form';
 import { setIsPastEmploymentFormOpen } from '@/store/slices/declarationSlice/declarationSlice';
 import type { PastEmploymentData } from '@/utils/declaration';
 import PastEmploymentGridTable from './past-employment-table';

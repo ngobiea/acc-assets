@@ -138,6 +138,7 @@ export const familySchema = z
     gender: z.string().trim().min(1, 'Gender is required'),
     nationality: z.optional(z.string().trim()),
     phoneNumber: z.optional(z.string().trim()),
+    mobile: z.optional(z.string().trim()),
     email: z
       .string()
       .trim()
@@ -158,7 +159,7 @@ export const familySchema = z
       .trim()
       .min(1, 'Employment status is required'),
     employeeNo: z.optional(z.string().trim()),
-    employeeCategory: z.optional(z.string().trim()),
+    category: z.optional(z.string().trim()),
     institution: z.optional(z.string().trim()),
     SSNo: z.optional(z.string().trim()),
     pinCode: z.optional(z.string().trim()),

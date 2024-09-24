@@ -206,10 +206,10 @@ model Family {
   businessName   String?
   employeeNo       String?
   category         String?
-  institution      String
+  institution      String?
   SSNo             String?
   pinCode          String?
-  designation      String
+  designation      String?
   declarationId  String
   declaration    Declaration   @relation(fields: [declarationId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())

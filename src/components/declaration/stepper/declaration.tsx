@@ -8,7 +8,7 @@ import { Card, CardBody, Typography } from '@/components/materialTailwind';
 import { MdWarning } from 'react-icons/md';
 import CurrentEmploymentAccordion from '../employment/current-employment';
 import PastEmploymentAccordion from '../pastEmployment/past-employment';
-import FamilyAccordion from '../form/family/family';
+import FamilyAccordion from '../family/family';
 import ImmovableAccordion from '../form/immovable/immovable';
 import ContactAccordion from '../form/contact/contact';
 import LiabilityAccordion from '../form/liability/liabilities';
@@ -71,7 +71,9 @@ export default function DeclarationForm({
 
     {
       title: 'Family Details',
-      content: <Card className='my-5 '>{<FamilyAccordion />}</Card>,
+      content: <Card className='my-5 '>{<FamilyAccordion
+      families={declaration.families}
+      />}</Card>,
       // icon: <MdFamilyRestroom />,
     },
     {

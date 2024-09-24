@@ -91,8 +91,8 @@ export default function DeclarationPersonalForm({
     });
     return () => subscription.unsubscribe();
   }, [dispatch, watch]);
-  console.log(formState.errors);
-  console.log(errors);
+  // console.log(formState.errors);
+  // console.log(errors);
   useEffect(() => {
     if (personal) {
       setValue('title', personal?.title);

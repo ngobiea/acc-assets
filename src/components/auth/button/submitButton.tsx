@@ -4,7 +4,7 @@ import { useFormStatus } from 'react-dom';
 
 export default function SubmitButton({ title }: { title: string }) {
   const { pending } = useFormStatus();
-  console.log('pending', pending);
+  // console.log('pending', pending);
   return (
     <Button
       type='submit'

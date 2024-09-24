@@ -61,7 +61,7 @@ export default function DeclarationStartForm({
     });
 
     return () => subscription.unsubscribe();
-  }, [watch, setValue]);
+  }, [watch, setValue, showOtherInput, unregister]);
 
   const resetForm = () => {
     setValue('reason', '');
@@ -69,7 +69,7 @@ export default function DeclarationStartForm({
     setValue('otherReason', '');
     setShowOtherInput(false);
   };
-  console.log(formState.errors);
+  // console.log(formState.errors);
   useEffect(() => {
     if (formState.data) {
       resetForm();
@@ -123,7 +123,7 @@ export default function DeclarationStartForm({
       );
     }
 
-    console.log(submittedData);
+    // console.log(submittedData);
     action(formData);
   };
   return (

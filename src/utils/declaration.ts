@@ -116,13 +116,40 @@ export interface FamilyData {
   businessName: string | null;
   employeeNo: string | null;
   category: string | null;
-  institution: string;
+  institution: string | null;
   SSNo: string | null;
   pinCode: string | null;
-  designation: string;
+  designation: string | null;
   declarationId: string;
   createdAt: Date;
   updatedAt: Date;
+}
+export interface FamilyFormState{
+  errors: {
+    surname?: string[];
+    firstName?: string[];
+    middleName?: string[];
+    relation?: string[];
+    address?: string[];
+    dateOfBirth?: string[];
+    gender?: string[];
+    nationality?: string[];
+    phoneNumber?: string[];
+    email?: string[];
+    mobile?: string[];
+    businessName?: string[];
+    employeeNo?: string[];
+    category?: string[];
+    institution?: string[];
+    SSNo?: string[];
+    pinCode?: string[];
+    designation?: string[];
+    otherRelation?: string[];
+    _form?: string[];
+  },
+  data?: {
+    family: string;
+  }
 }
 export interface ImmovableAssetData {
   id: string;

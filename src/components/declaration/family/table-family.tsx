@@ -1,113 +1,73 @@
-import { deleteCurrentLastEmployment } from '@/actions/declaration/currentLastEmployment';
 import {
   Button,
   Card,
   CardBody,
   Typography,
 } from '@/components/materialTailwind';
-import type { EmploymentData } from '@/utils/declaration';
+import type { FamilyData } from '@/utils/declaration';
 
-export default function CurrentEmploymentGridTable({
-  employment,
-  reason,
-}: {
-  employment: EmploymentData;
-  reason: string;
-}) {
-  const deleteEmployment = deleteCurrentLastEmployment.bind(null, {
-    declarationId: employment.declarationId,
-    id: employment.id,
-  });
-  // console.log(deleteEmployment);
+export default function FamilyGridTable({ family }: { family: FamilyData }) {
   return (
-    <Card id={employment.id} className=''>
+    <Card id={family.id} className=''>
       <CardBody className='border border-blue-400 '>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
           <div className='grid grid-cols-2 '>
             <Typography color='gray' className=' font-bold'>
-              Ministy / Dept / Agency:
+              Surname:
             </Typography>
-            <Typography>
-              {employment?.mda.abbreviation + ' - ' + employment?.mda.name}
-            </Typography>
+            <Typography>{family?.surname}</Typography>
           </div>
           <div className='grid grid-cols-2  '>
             <Typography color='gray' className=' font-bold'>
-              Employee Category:
+              First Name:
             </Typography>
-            <Typography>{`${employment?.employeeCategory}`}</Typography>
+            <Typography>{family?.firstName}</Typography>
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3 '>
           <div className='grid grid-cols-2 '>
             <Typography color='gray' className=' font-bold'>
-              {reason === 'Appointment' || reason === 'Biennial Declaration'
-                ? 'Current Posting:'
-                : 'Last Posting:'}
+              Middle Name:
             </Typography>
-            <Typography>{`
-                ${employment?.posting ? employment.posting : 'N/A'}
-            `}</Typography>
+            <Typography>
+              {family?.middleName ? family.middleName : 'N/A'}
+            </Typography>
           </div>
           <div className='grid grid-cols-2 '>
             <Typography color='gray' className=' font-bold'>
-              Job Title / Designation:
+              Relation:
             </Typography>
-            <Typography>{`${employment?.designation}`}</Typography>
+            <Typography>{family?.relation}</Typography>
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3  gap-3'>
           <div className='grid grid-cols-2'>
             <Typography color='gray' className=' font-bold'>
-              Grade / Rank:
+              Address:
             </Typography>
-            <Typography>{employment?.rank}</Typography>
+            <Typography>{family?.address}</Typography>
           </div>
           <div className='grid grid-cols-2'>
             <Typography color='gray' className=' font-bold'>
-              Annual Salary:
+              DOB <sup>(mm/dd/yyyy)</sup>
             </Typography>
-            <Typography>
-              {employment.currency + '' + employment.annualSalary}
-            </Typography>
+            <Typography>{family?.dateOfBirth.toLocaleDateString()}</Typography>
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
           <div className='grid grid-cols-2'>
             <Typography color='gray' className=' font-bold'>
-              Other Allowances:
+              Gender:
             </Typography>
-            <Typography>
-              {employment?.allowances
-                ? employment.allowancesCurrency + '' + employment.allowances
-                : 'N/A'}
-            </Typography>
+            <Typography>{family?.gender || 'N/A'}</Typography>
           </div>
           <div className='grid grid-cols-2'>
             <Typography color='gray' className=' font-bold'>
-              Other Allowances Details:
+              Nationality:
             </Typography>
             <Typography>
-              {employment?.allowancesDescription
-                ? employment.allowancesDescription
-                : 'N/A'}
+              {family?.nationality ? family.nationality : 'N/A'}
             </Typography>
-          </div>
-        </div>
-        <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2'>
-            <Typography color='gray' className=' font-bold'>
-              Social Security No(SSNo):
-            </Typography>
-            <Typography>
-              {employment?.SSNo ? employment.SSNo : 'N/A'}
-            </Typography>
-          </div>
-          <div className='grid grid-cols-2'>
-            <Typography color='gray' className=' font-bold'>
-              Employee ID:
-            </Typography>
-            <Typography>{employment?.employeeId}</Typography>
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
@@ -116,54 +76,74 @@ export default function CurrentEmploymentGridTable({
               Employee No:
             </Typography>
             <Typography>
-              {employment.employeeNo ? employment.employeeNo : 'N/A'}
+              {family?.employeeNo || 'N/A'}
             </Typography>
           </div>
           <div className='grid grid-cols-2'>
             <Typography color='gray' className=' font-bold'>
-              Establishment Registration No:
+              Employment Category:
             </Typography>
             <Typography>
-              {employment.establishmentRegNo
-                ? employment.establishmentRegNo
-                : 'N/A'}
+              {family?.category ? family.category : 'N/A'}
             </Typography>
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
           <div className='grid grid-cols-2'>
             <Typography color='gray' className=' font-bold'>
-              Contract Type:
+              Employment Institution:
             </Typography>
-            <Typography>{employment?.contractType}</Typography>
+            <Typography>
+              {family.institution ? family.institution : 'N/A'}
+            </Typography>
           </div>
           <div className='grid grid-cols-2'>
             <Typography color='gray' className=' font-bold'>
-              Start Date (mm/dd/yyyy):
+              Employment SSNo:
             </Typography>
-            <Typography>
-              {employment.contractStartDate.toLocaleDateString()}
-            </Typography>
+            <Typography>{family?.SSNo ? family.SSNo : 'N/A'}</Typography>
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
           <div className='grid grid-cols-2'>
             <Typography color='gray' className=' font-bold'>
-              End Date (mm/dd/yyyy):
+              Employment PIN Code:
             </Typography>
-            <Typography>
-              {employment?.contractEndDate
-                ? employment?.contractEndDate.toLocaleDateString()
-                : 'N/A'}
-            </Typography>
+            <Typography>{family?.pinCode || 'N/A'}</Typography>
           </div>
           <div className='grid grid-cols-2'>
             <Typography color='gray' className=' font-bold'>
-              Source of Income:
+              Employment Designation:
             </Typography>
-            <Typography>
-              {employment.sourceOfIncome ? employment.sourceOfIncome : 'N/A'}
+            <Typography>{family?.designation || 'N/A'}</Typography>
+          </div>
+        </div>
+        <div className='grid md:grid-cols-2 mb-3 gap-3'>
+          <div className='grid grid-cols-2'>
+            <Typography color='gray' className=' font-bold'>
+              Business Name:
             </Typography>
+            <Typography>{family?.businessName || 'N/A'}</Typography>
+          </div>
+          <div className='grid grid-cols-2'>
+            <Typography color='gray' className=' font-bold'>
+              Email:
+            </Typography>
+            <Typography>{family?.email || 'N/A'}</Typography>
+          </div>
+        </div>
+        <div className='grid md:grid-cols-2 mb-3 gap-3'>
+          <div className='grid grid-cols-2'>
+            <Typography color='gray' className=' font-bold'>
+              Phone:
+            </Typography>
+            <Typography>{family?.phoneNumber || 'N/A'}</Typography>
+          </div>
+          <div className='grid grid-cols-2'>
+            <Typography color='gray' className=' font-bold'>
+              Mobile:
+            </Typography>
+            <Typography>{family?.mobile || 'N/A'}</Typography>
           </div>
         </div>
         <div className='grid md:grid-cols-2 md:gap-6 mb-2'>
@@ -171,7 +151,7 @@ export default function CurrentEmploymentGridTable({
             <Typography color='gray' className=' font-bold'>
               Action:
             </Typography>
-            <form className='' action={deleteEmployment}>
+            <form className='' action={'deleteEmployment'}>
               <Button
                 variant='gradient'
                 color='red'
