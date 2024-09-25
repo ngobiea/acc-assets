@@ -146,12 +146,13 @@ export default function FamilyGridTable({ family }: { family: FamilyData }) {
             <Typography>{family?.mobile || 'N/A'}</Typography>
           </div>
         </div>
-        <div className='grid md:grid-cols-2 md:gap-6 mb-2'>
+        <div className='grid md:grid-cols-2 md:gap-3 mb-2'>
+          <div></div>
           <div className='grid grid-cols-2'>
             <Typography color='gray' className=' font-bold'>
               Action:
             </Typography>
-            <form className='' action={'deleteEmployment'}>
+            <form className='' action={''}>
               <Button
                 variant='gradient'
                 color='red'

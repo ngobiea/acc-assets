@@ -59,25 +59,10 @@ export default function FamilyForm({declarationId}: { declarationId: string }) {
       }
         if (name === 'isFamilyEmployment') {
           setShowEmploymentInput(currentValues.isFamilyEmployment === 'Yes');
-
-          // if (currentValues.isFamilyEmployment === 'No') {
-          //   resetField('employeeNo');
-          //   resetField('category');
-          //   resetField('institution');
-          //   resetField('SSNo');
-          //   resetField('pinCode');
-          //   resetField('designation');
-
-          //   unregister('employeeNo');
-          //   unregister('category');
-          //   unregister('institution');
-          //   unregister('SSNo');
-          //   unregister('pinCode');
-          //   unregister('designation');
-          // }
         }
     });
-  }, [resetField, unregister, watch]);
+    return () => subscription.unsubscribe();
+  }, [ watch]);
   console.log(errors);
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);

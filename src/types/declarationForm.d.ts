@@ -110,23 +110,24 @@ interface cashDepositClientForm {
   ownerName: string;
   relation: string;
   registerOwner: string;
-  AccountNo: string;
+  accountNo: string;
   type: string;
   institutionOrBank: string;
   location: string;
-  accountBalance: number;
+  accountBalance: string;
   currency: string;
   source: string;
   otherRelation: string;
   otherSource: string;
+  declarationId: string;
 }
 
 interface CashAtHandClientForm {
   currency: string;
-  amount: number;
+  amount: string;
   details: string;
   jointIncome: string;
-  isCashAtHand: string;
+  declarationId: string;
   
 }
 

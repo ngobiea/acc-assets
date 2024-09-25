@@ -3,7 +3,7 @@ import { cashDeposit } from '@/lib/db';
 
 export default class CashDepositService {
   static async createCashDeposit(
-    newCashDeposit: CashDeposit
+    newCashDeposit: cashDepositClientForm
   ): Promise<CashDeposit> {
     try {
       const createdCashDeposit = await cashDeposit.create({

@@ -14,6 +14,7 @@ export const initializeDeclaration: DeclarationState = {
   isSubmittingNationalCard: false,
   isSubmittingPassport: false,
   isCashDepositFormOpen: false,
+  isCashAtHandFormOpen: false,
   isIDType: false,
   isNationalCardExist: false,
   isOtherCitizen: false,
@@ -93,6 +94,9 @@ const declarationSlice = createSlice({
     setActiveDeclarationStep(state, action: PayloadAction<number>) {
       state.activeDeclarationStep = action.payload;
     },
+    setIsCashAtHandFormOpen(state, action: PayloadAction<boolean>) {
+      state.isCashAtHandFormOpen = action.payload;
+    },
   },
 });
 
@@ -115,6 +119,7 @@ export const {
   handlePrevDeclarationStep,
   setActiveDeclarationStep,
   setIsEmploymentFormOpen,
+  setIsCashAtHandFormOpen
 } = declarationSlice.actions;
 
 export const declarationReducer = declarationSlice.reducer;

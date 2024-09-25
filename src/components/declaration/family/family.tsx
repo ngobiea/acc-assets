@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   Typography,
   Card,
-  CardBody,
   Button,
   CardFooter,
 } from '@/components/materialTailwind';

@@ -41,6 +41,7 @@ interface DeclarationState {
   isContactFormOpen: boolean;
   isFamilyFormOpen: boolean;
   isCashDepositFormOpen: boolean;
+  isCashAtHandFormOpen: boolean;
   isImmovableAssetFormOpen: boolean;
   isMovableAssetFormOpen: boolean;
   isOtherAssetFormOpen: boolean;

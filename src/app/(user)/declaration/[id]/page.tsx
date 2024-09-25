@@ -6,11 +6,11 @@ import DeclarationService from '@/services/declaration-service';
 import { validateRequest } from '@/lib/verify-auth';
 import { notFound, redirect } from 'next/navigation';
 import routes from '@/utils/routes';
-import type { DeclarationData } from '@/utils/declaration';
 import EmploymentForm from '@/components/declaration/employment/form';
 import PastEmploymentForm from '@/components/declaration/pastEmployment/form-past-employment';
 import FamilyForm from '@/components/declaration/family/form-family';
-export const dynamic = 'force-dynamic';
+import CashAtHandForm from '@/components/declaration/cash-at-hand/form';
+import CashDepositForm from '@/components/declaration/cash-deposit/form';
 interface NewDeclarationProps {
   params: {
     id: string;
@@ -37,6 +37,8 @@ export default async function NewDeclaration({ params }: NewDeclarationProps) {
       />
       <PastEmploymentForm declarationId={params.id} />
       <FamilyForm declarationId={params.id} />
+      <CashAtHandForm declarationId={params.id} />
+      <CashDepositForm declarationId={params.id} />
       <section className=' w-full mt-4'>
         <Card className=' px-5 '>
           <DeclarationForm declaration={declaration} />

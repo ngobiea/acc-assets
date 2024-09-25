@@ -8,7 +8,9 @@ type FormValues =
   | EmploymentClientForm
   | PastEmploymentClientForm
   | ContactClientDForm
-  | FamilyClientForm;
+  | FamilyClientForm
+  | CashAtHandClientForm
+  | cashDepositClientForm;
 
 interface Option {
   id: string;

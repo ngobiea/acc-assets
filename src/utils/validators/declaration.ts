@@ -203,31 +203,58 @@ export const familySchema = z
     }
   );
 
-export const cashDepositSchema = z.object({
-  ownerName: z.string().trim().min(1, 'Owner name is required'),
-  relation: z.string().trim().min(1, 'Relation is required'),
-  registerOwner: z.string().trim().min(1, 'Register owner is required'),
-  accountNo: z.string().trim().min(1, 'Account number is required'),
-  type: z.string().trim().min(1, 'Type is required'),
-  institutionOrBank: z
-    .string()
-    .trim()
-    .min(1, 'Institution or bank is required'),
-  location: z.string().trim().min(1, 'Location is required'),
-  accountBalance: z
-    .string()
-    .trim()
-    .min(1, 'Account balance is required')
-    .refine(
-      (value) => {
-        const num = Number(value);
-        return !isNaN(num) && num >= 0;
-      },
-      { message: 'Account balance must be a positive number' }
-    ),
-  currency: z.string().trim().min(1, 'Currency is required'),
-  source: z.string().trim().min(1, 'Source is required'),
-});
+export const cashDepositSchema = z
+  .object({
+    accountNo: z.string().trim().min(1, 'Account number is required'),
+    ownerName: z.string().trim().min(1, 'Owner name is required'),
+    relation: z.string().trim().min(1, 'Relation is required'),
+    registerOwner: z.string().trim().min(1, 'Register owner is required'),
+    type: z.string().trim().min(1, 'Type is required'),
+    institutionOrBank: z
+      .string()
+      .trim()
+      .min(1, 'Institution or bank is required'),
+    location: z.string().trim().min(1, 'Location is required'),
+    accountBalance: z
+      .string()
+      .trim()
+      .min(1, 'Account balance is required')
+      .refine(
+        (value) => {
+          const num = Number(value);
+          return !isNaN(num) && num >= 0;
+        },
+        { message: 'Account balance must be a positive number' }
+      ),
+    currency: z.string().trim().min(1, 'Currency is required'),
+    source: z.string().trim().min(1, 'Source is required'),
+    otherRelation: z.optional(z.string().trim()),
+    otherSource: z.optional(z.string().trim()),
+  })
+  .refine(
+    (data) => {
+      if (data.source === 'Other') {
+        return !!data.otherSource;
+      }
+      return true;
+    },
+    {
+      message: 'Please provide a source',
+      path: ['otherSource'],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.relation === 'Other') {
+        return !!data.otherRelation;
+      }
+      return true;
+    },
+    {
+      message: 'Please provide a relation',
+      path: ['otherRelation'],
+    }
+  );
 export const cashAtHandSchema = z.object({
   currency: z.string().trim().min(1, 'Currency is required'),
   amount: z

@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import PersonalForm from '../form/personal/personal';
 import { useAppSelector } from '@/store/hooks';
-import CashDepositAccordion from '../form/cash-deposit/cash-deposits';
 import { Card, CardBody, Typography } from '@/components/materialTailwind';
 import { MdWarning } from 'react-icons/md';
 import CurrentEmploymentAccordion from '../employment/current-employment';
@@ -17,6 +16,7 @@ import OtherAccordion from '../form/other-asset/other';
 import SecurityAccordion from '../form/security/securities';
 import type { DeclarationData } from '@/utils/declaration';
 import { DPersonal, DContact } from '@prisma/client';
+import CashDepositAccordion from '../cash-deposit/cash-deposits';
 
 export default function DeclarationForm({
   declaration,
@@ -78,7 +78,10 @@ export default function DeclarationForm({
     },
     {
       title: 'Cash and Deposit',
-      content: <Card className='my-5 '>{<CashDepositAccordion />}</Card>,
+      content: <Card className='my-5 '>{<CashDepositAccordion
+        cashAtHand={declaration.cashAtHand}
+        cashDeposits={declaration.cashDeposits}
+      />}</Card>,
       // icon: <BsCashCoin />,
     },
     {
