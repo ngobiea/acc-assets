@@ -148,6 +148,7 @@ interface ImmovableAssetClientForm {
   acquisitionCost: string;
   acquisitionCurrency: string;
   acquisitionYear: string;
+  declarationId: string;
 }
 interface MovableAssetClientForm {
   ownerName: string;
@@ -159,7 +160,7 @@ interface MovableAssetClientForm {
   registrationNo: string;
   location: string;
   purpose: string;
-  estimatedValue: number;
+  estimatedValue: string;
   currency: string;
   financeSource: string;
   otherFinanceSource: string;
@@ -167,6 +168,7 @@ interface MovableAssetClientForm {
   acquisitionCost: string;
   acquisitionCurrency: string;
   acquisitionYear: string;
+  declarationId: string;
 }
 
 interface OtherAssetClientForm {
@@ -185,6 +187,7 @@ interface OtherAssetClientForm {
   acquisitionCost: string;
   acquisitionCurrency: string;
   acquisitionYear: string;
+  declarationId: string;
 }
 
 interface SecurityClientForm {
@@ -207,6 +210,7 @@ interface SecurityClientForm {
   acquisitionCost: string;
   acquisitionCurrency: string;
   acquisitionYear: string;
+  declarationId: string;
 }
 
 interface LiabilityClientForm {
@@ -225,5 +229,10 @@ interface LiabilityClientForm {
   currencyOutstanding: string;
   maturityDate: string;
   remarks: string;
+  declarationId: string;
 }
 
+interface PreviewClientForm {
+  declarationId: string;
+  isAccepted: string;
+}

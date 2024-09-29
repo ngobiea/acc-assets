@@ -10,7 +10,13 @@ type FormValues =
   | ContactClientDForm
   | FamilyClientForm
   | CashAtHandClientForm
-  | cashDepositClientForm;
+  | cashDepositClientForm
+  | ImmovableAssetClientForm
+  | MovableAssetClientForm
+  | SecurityClientForm
+  | LiabilityClientForm
+  | OtherAssetClientForm
+  | PreviewClientForm;
 
 interface Option {
   id: string;

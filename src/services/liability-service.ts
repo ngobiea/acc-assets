@@ -2,7 +2,9 @@ import { Liability } from '@prisma/client';
 import { liability } from '@/lib/db';
 
 export default class LiabilityService {
-  static async createLiability(newLiability: Liability): Promise<Liability> {
+  static async createLiability(
+    newLiability: LiabilityClientForm
+  ): Promise<Liability> {
     try {
       const createdLiability = await liability.create({
         data: {
@@ -15,12 +17,15 @@ export default class LiabilityService {
           loanOutstanding: newLiability.loanOutstanding,
           loanPurpose: newLiability.loanPurpose,
           loanRepayment: newLiability.loanRepayment,
-          paymentPeriod: newLiability.paymentPeriod,
-          relation: newLiability.relation,
+          paymentPeriod: Number(newLiability.paymentPeriod),
+          relation:
+            newLiability.relation === 'Other'
+              ? newLiability.otherRelation
+              : newLiability.relation,
           creditorAddress: newLiability.creditorAddress,
           maturityDate: newLiability.maturityDate,
           remarks: newLiability.remarks,
-          yearContracted: newLiability.yearContracted,
+          yearContracted: Number(newLiability.yearContracted),
         },
       });
       return createdLiability;

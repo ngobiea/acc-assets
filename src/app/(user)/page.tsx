@@ -5,7 +5,7 @@ import { Sidebar } from '@/components/user/common/side-bar';
 import DeclarationTable from '@/components/declaration/declaration-table';
 import UserService from '@/services/user-service';
 import DeclarationService from '@/services/declaration-service';
-import DeclarationStartForm from '@/components/declaration/form/intro';
+import DeclarationStartForm from '@/components/declaration/intro';
 
 export default async function Home() {
   const { user } = await validateRequest();
@@ -22,7 +22,7 @@ export default async function Home() {
     redirect(routes.setup);
   }
   const declarations = await DeclarationService.getDeclarations(user.id);
-   
+
   return (
     <>
       <DeclarationStartForm isAnyLastDeclaration={declarations.length > 0} />

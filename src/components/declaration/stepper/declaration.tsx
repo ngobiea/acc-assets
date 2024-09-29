@@ -1,23 +1,24 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import PersonalForm from '../form/personal/personal';
+import PersonalForm from '../personal/personal';
 import { useAppSelector } from '@/store/hooks';
 import { Card, CardBody, Typography } from '@/components/materialTailwind';
 import { MdWarning } from 'react-icons/md';
 import CurrentEmploymentAccordion from '../employment/current-employment';
 import PastEmploymentAccordion from '../pastEmployment/past-employment';
 import FamilyAccordion from '../family/family';
-import ImmovableAccordion from '../form/immovable/immovable';
-import ContactAccordion from '../form/contact/contact';
-import LiabilityAccordion from '../form/liability/liabilities';
-import MovableAccordion from '../form/movable/movable';
-import OtherAccordion from '../form/other-asset/other';
-import SecurityAccordion from '../form/security/securities';
+import ImmovableAccordion from '../immovable/immovable';
+import ContactAccordion from '../contact/contact';
+import LiabilityAccordion from '../liability/liabilities';
+import MovableAccordion from '../movable/movable';
+import OtherAccordion from '../other-asset/other';
+import SecurityAccordion from '../security/securities';
 import type { DeclarationData } from '@/utils/declaration';
 import { DPersonal, DContact } from '@prisma/client';
 import CashDepositAccordion from '../cash-deposit/cash-deposits';
-
+import Preview from '../preview/preview';
+import React from 'react';
 export default function DeclarationForm({
   declaration,
 }: {
@@ -26,99 +27,68 @@ export default function DeclarationForm({
   const declarationSteps = [
     {
       title: 'Personal',
-      content: (
-        <Card className=' my-5 '>
-          {<PersonalForm personal={declaration?.personal as DPersonal} />}
-        </Card>
-      ),
+      content: <PersonalForm personal={declaration?.personal as DPersonal} />,
     },
     {
       title: 'Current Employment',
       content: (
-        <Card className='my-5 '>
-          {
-            <CurrentEmploymentAccordion
-              reason={declaration.reason}
-              employments={declaration.employments}
-            />
-          }
-        </Card>
+        <CurrentEmploymentAccordion
+          reason={declaration.reason}
+          employments={declaration.employments}
+        />
       ),
     },
     {
       title: 'Past Employment',
       content: (
-        <Card className='my-5 '>
-          {
-            <PastEmploymentAccordion
-              pastEmployments={declaration.pastEmployments}
-            />
-          }
-        </Card>
+        <PastEmploymentAccordion
+          pastEmployments={declaration.pastEmployments}
+        />
       ),
-      // icon: <MdWorkHistory />,
     },
-
     {
       title: 'Contact Details',
-      content: (
-        <Card className='my-5 '>
-          {<ContactAccordion contact={declaration.contact as DContact} />}
-        </Card>
-      ),
-      // icon: <MdOutlineContactPhone />,
+      content: <ContactAccordion contact={declaration.contact as DContact} />,
     },
-
     {
       title: 'Family Details',
-      content: <Card className='my-5 '>{<FamilyAccordion
-      families={declaration.families}
-      />}</Card>,
-      // icon: <MdFamilyRestroom />,
+      content: <FamilyAccordion families={declaration.families} />,
     },
     {
       title: 'Cash and Deposit',
-      content: <Card className='my-5 '>{<CashDepositAccordion
-        cashAtHand={declaration.cashAtHand}
-        cashDeposits={declaration.cashDeposits}
-      />}</Card>,
-      // icon: <BsCashCoin />,
+      content: (
+        <CashDepositAccordion
+          cashAtHand={declaration.cashAtHand}
+          cashDeposits={declaration.cashDeposits}
+        />
+      ),
     },
     {
       title: 'Immovable Assets',
-      content: <Card className='my-5 '>{<ImmovableAccordion />}</Card>,
-      // icon: <PiBuildingApartmentDuotone />,
+      content: (
+        <ImmovableAccordion immovableAssets={declaration.immovableAssets} />
+      ),
     },
     {
       title: 'Movable Assets',
-      content: <Card className='my-5 '>{<MovableAccordion />}</Card>,
-      // icon: <PiCarProfileBold />,
+      content: <MovableAccordion movableAssets={declaration.movableAssets} />,
     },
     {
       title: 'Securities',
-      content: <Card className='my-5 '>{<SecurityAccordion />}</Card>,
-      // icon: <MdOutlineSecurity />,
+      content: <SecurityAccordion securities={declaration.securities} />,
     },
     {
       title: 'Other Assets',
-      content: <Card className='my-5 '>{<OtherAccordion />}</Card>,
-      // icon: <MdOutlineDevicesOther />,
+      content: <OtherAccordion otherAssets={declaration.otherAssets} />,
     },
     {
       title: 'Liabilities',
-      content: <Card className='my-5 '>{<LiabilityAccordion />}</Card>,
-      // icon: <GiTakeMyMoney />,
+      content: <LiabilityAccordion liabilities={declaration.liabilities} />,
     },
-    // {
-    //   title: 'Preview',
-    //   content: <MdStart />,
-    //   icon: <MdPreview />,
-    // },
-    // {
-    //   title: 'Declaration',
-    //   content: <MdStart />,
-    //   icon: <BiDetail />,
-    // },
+    {
+      title: 'Preview',
+      content: <Preview declaration={declaration} />,
+    },
   ];
   const { activeDeclarationStep } = useAppSelector(
     (state) => state.declaration

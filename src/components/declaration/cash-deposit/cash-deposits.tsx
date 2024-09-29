@@ -27,15 +27,15 @@ export default function CashDepositAccordion({
   const dispatch = useAppDispatch();
   const {} = useAppSelector((state) => state.declaration);
   return (
-    <Card>
-      <div className='bg-blue-100 px-5 py-5 rounded-t-md'>
+    <Card className='my-5'>
+      <div className='bg-blue-100 px-5 py-5 rounded-t-xl border border-blue-500'>
         <div
           className='flex sm:justify-between space-x-2 flex-col sm:flex-row space-y-2 sm:space-y-0
         '
         >
-          <div className='flex spacer-x-1'>
+          <div className='flex space-x-2'>
             <BsCashCoin className='text-3xl' />
-            <Typography variant='h4' color='blue-gray'>
+            <Typography variant='h5' color='blue-gray'>
               Cash Deposits
             </Typography>
           </div>
@@ -52,7 +52,7 @@ export default function CashDepositAccordion({
       </div>
       {cashDeposits?.length === 0 && (
         <Typography
-          className='p-4 text-blue-gray-400 text-center border border-blue-400'
+          className='p-4 text-blue-gray-400 text-center border-x border-b border-blue-400 rounded-b-xl'
           variant='h6'
         >
           No data available
@@ -66,7 +66,7 @@ export default function CashDepositAccordion({
           />
         );
       })}
-      <div className='bg-blue-100 px-5 py-5 mt-3'>
+      <div className='bg-blue-100 px-5 py-5 mt-5 rounded-t-xl border border-blue-500'>
         <div
           className='flex sm:justify-between space-x-2 flex-col sm:flex-row space-y-2 sm:space-y-0
         '
@@ -92,14 +92,14 @@ export default function CashDepositAccordion({
       </div>
       {!cashAtHand && (
         <Typography
-          className='p-4 text-blue-gray-400 text-center border border-blue-400'
+          className='p-4 text-blue-gray-400 text-center border-x border-b border-blue-400 '
           variant='h6'
         >
           No data available
         </Typography>
       )}
       {cashAtHand && <CashAtHandGridTable cashAtHand={cashAtHand} />}
-      <CardFooter className='border border-blue-400 '>
+      <CardFooter className='border-x border-b border-blue-400 rounded-b-xl '>
         <div className='flex justify-between'>
           <Button
             onClick={() => dispatch(handlePrevDeclarationStep())}

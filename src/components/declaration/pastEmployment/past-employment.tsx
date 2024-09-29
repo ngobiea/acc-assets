@@ -21,8 +21,8 @@ export default function PastEmploymentAccordion({pastEmployments}: {
   const {} = useAppSelector((state) => state.declaration);
 
   return (
-    <Card>
-      <div className='bg-blue-50 px-5 py-5 rounded-t-md'>
+    <Card className='border border-blue-400 my-6'>
+      <div className='bg-blue-50 px-5 py-5 rounded-t-xl'>
         <div
           className='flex sm:justify-between space-x-2 flex-col sm:flex-row space-y-2 sm:space-y-0
         '
@@ -47,21 +47,21 @@ export default function PastEmploymentAccordion({pastEmployments}: {
       </div>
       {pastEmployments.length === 0 && (
         <Typography
-          className='p-4 text-blue-gray-400 text-center border border-blue-400'
+          className='p-4 text-blue-gray-400 text-center border-t border-blue-400'
           variant='h6'
         >
           No data available
         </Typography>
       )}
-      {
-        pastEmployments.map((employment) => {
-          return (<PastEmploymentGridTable
+      {pastEmployments.map((employment) => {
+        return (
+          <PastEmploymentGridTable
             key={employment.id}
-          pastEmployment={employment}
-          />)
-        })
-      }
-      <CardFooter className='border border-blue-400'>
+            pastEmployment={employment}
+          />
+        );
+      })}
+      <CardFooter className='border-t border-blue-400'>
         <div className=' flex justify-between'>
           <Button
             onClick={() => dispatch(handlePrevDeclarationStep())}

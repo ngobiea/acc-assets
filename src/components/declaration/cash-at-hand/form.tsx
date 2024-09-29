@@ -56,7 +56,6 @@ export default function CashAtHandForm({
   useEffect(() => {
     if (formState.data) {
       dispatch(setIsCashAtHandFormOpen(false));
-      reset();
     }
     if (formState.errors.amount) {
       setError('amount', { message: formState.errors.amount.join(', ') });
@@ -83,27 +82,32 @@ export default function CashAtHandForm({
     setError,
   ]);
   console.log(errors);
-  console.log(formState)
+  console.log(formState);
+  useEffect(() => {
+    if (!isCashAtHandFormOpen) {
+      reset();
+    }
+  }, [isCashAtHandFormOpen, reset]);
 
   return (
     <Dialog
       size='lg'
       open={isCashAtHandFormOpen}
-      handler={() => {
-        dispatch(setIsCashAtHandFormOpen(!isCashAtHandFormOpen));
-        reset();
-      }}
+      handler={() => dispatch(setIsCashAtHandFormOpen(!isCashAtHandFormOpen))}
       className='pb-10 relative'
+      animate={{
+        mount: { scale: 1, y: 0 },
+        unmount: { scale: 0.9, y: -100 },
+      }}
     >
       <DialogHeader className='relative m-0 block'>
         <Typography variant='h4' className='text-blue-gray text-center'>
           Cash at Hand
         </Typography>
         <IconButton
-          onClick={() => {
-            dispatch(setIsCashAtHandFormOpen(!isCashAtHandFormOpen));
-            reset();
-          }}
+          onClick={() =>
+            dispatch(setIsCashAtHandFormOpen(!isCashAtHandFormOpen))
+          }
           className='!absolute right-3.5 top-3.5 hover:animate-bounce'
           variant='text'
           size='lg'

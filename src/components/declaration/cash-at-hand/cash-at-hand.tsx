@@ -13,17 +13,17 @@ export default function CashAtHandGridTable({
 }) {
   return (
     <Card id={cashAtHand.id} className=''>
-      <CardBody className='border border-blue-400 '>
+      <CardBody className='border-x border-b border-blue-400 '>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 '>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               {`Amount:`}
             </Typography>
             <Typography>
-              {cashAtHand?.currency + '' + cashAtHand?.amount}
+              {cashAtHand?.currency + cashAtHand?.amount}
             </Typography>
           </div>
-          <div className='grid grid-cols-2  '>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Description:
             </Typography>
@@ -31,7 +31,7 @@ export default function CashAtHandGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3 '>
-          <div className='grid grid-cols-2 '>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Joint Income / Properties Details:
             </Typography>
@@ -39,7 +39,8 @@ export default function CashAtHandGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 md:gap-3 mb-2'>
-          <div className='grid grid-cols-2'>
+          <div></div>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Action:
             </Typography>

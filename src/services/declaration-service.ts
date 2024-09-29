@@ -135,9 +135,6 @@ class DeclarationService {
         ...security,
         acquisitionCost: new Intl.NumberFormat().format(security.acquisitionCost.toNumber()),
         currentMarketValue: new Intl.NumberFormat().format(security.currentMarketValue.toNumber()),
-        yearlyInterest: security.yearlyInterest
-          ? new Intl.NumberFormat().format(security.yearlyInterest.toNumber())
-          : '',
       })),
     };
     return serializedDeclaration;

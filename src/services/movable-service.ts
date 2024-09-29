@@ -3,7 +3,7 @@ import { MovableAsset } from '@prisma/client';
 
 export default class MovableAssetService {
   static async createMovableAsset(
-    newMovableAsset: MovableAsset
+    newMovableAsset: MovableAssetClientForm
   ): Promise<MovableAsset> {
     try {
       const createdMovableAsset = await movableAsset.create({
@@ -12,15 +12,21 @@ export default class MovableAssetService {
           acquisitionCost: newMovableAsset.acquisitionCost,
           acquisitionCurrency: newMovableAsset.acquisitionCurrency,
           acquisitionMode: newMovableAsset.acquisitionMode,
-          acquisitionYear: newMovableAsset.acquisitionYear,
+          acquisitionYear: Number(newMovableAsset.acquisitionYear),
           assetType: newMovableAsset.assetType,
           currency: newMovableAsset.currency,
           estimatedValue: newMovableAsset.estimatedValue,
           location: newMovableAsset.location,
           ownerName: newMovableAsset.ownerName,
           registerOwner: newMovableAsset.registerOwner,
-          relation: newMovableAsset.relation,
-          financeSource: newMovableAsset.financeSource,
+          relation:
+            newMovableAsset.relation === 'Other'
+              ? newMovableAsset.otherRelation
+              : newMovableAsset.relation,
+          financeSource:
+            newMovableAsset.financeSource === 'Other'
+              ? newMovableAsset.otherFinanceSource
+              : newMovableAsset.financeSource,
           registrationNo: newMovableAsset.registrationNo,
           purpose: newMovableAsset.purpose,
           description: newMovableAsset.description,

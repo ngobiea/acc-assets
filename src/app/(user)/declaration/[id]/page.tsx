@@ -11,6 +11,11 @@ import PastEmploymentForm from '@/components/declaration/pastEmployment/form-pas
 import FamilyForm from '@/components/declaration/family/form-family';
 import CashAtHandForm from '@/components/declaration/cash-at-hand/form';
 import CashDepositForm from '@/components/declaration/cash-deposit/form';
+import ImmovableAssetsForm from '@/components/declaration/immovable/form';
+import MovableAssetsForm from '@/components/declaration/movable/form';
+import SecurityForm from '@/components/declaration/security/form';
+import OtherAssetsForm from '@/components/declaration/other-asset/form';
+import LiabilityForm from '@/components/declaration/liability/form';
 interface NewDeclarationProps {
   params: {
     id: string;
@@ -39,6 +44,11 @@ export default async function NewDeclaration({ params }: NewDeclarationProps) {
       <FamilyForm declarationId={params.id} />
       <CashAtHandForm declarationId={params.id} />
       <CashDepositForm declarationId={params.id} />
+      <ImmovableAssetsForm declarationId={params.id} />
+      <MovableAssetsForm declarationId={params.id} />
+      <SecurityForm declarationId={params.id} />
+      <OtherAssetsForm declarationId={params.id} />
+      <LiabilityForm declarationId={params.id} />
       <section className=' w-full mt-4'>
         <Card className=' px-5 '>
           <DeclarationForm declaration={declaration} />

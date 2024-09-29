@@ -15,8 +15,14 @@ export default class CashDepositService {
           location: newCashDeposit.location,
           ownerName: newCashDeposit.ownerName,
           registerOwner: newCashDeposit.registerOwner,
-          relation: newCashDeposit.relation,
-          source: newCashDeposit.source,
+          relation:
+            newCashDeposit.relation === 'Other'
+              ? newCashDeposit.otherRelation
+              : newCashDeposit.relation,
+          source:
+            newCashDeposit.source === 'Other'
+              ? newCashDeposit.otherSource
+              : newCashDeposit.source,
           type: newCashDeposit.type,
           declarationId: newCashDeposit.declarationId,
         },

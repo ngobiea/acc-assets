@@ -1,4 +1,4 @@
-import DeclarationStartForm from '@/components/declaration/form/intro';
+import DeclarationStartForm from '@/components/declaration/intro';
 import type { ReactNode } from 'react';
 
 export default function DeclarationRootLayout({
@@ -6,9 +6,5 @@ export default function DeclarationRootLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  return (
-    <>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }

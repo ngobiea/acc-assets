@@ -1,4 +1,3 @@
-import { decl } from 'postcss';
 import { z } from 'zod';
 
 export const declarationSchema = z
@@ -145,11 +144,10 @@ export const familySchema = z
       .optional()
       .refine(
         (value) => {
-          // Check if the field is provided, and if so, validate it as an email
           if (value !== undefined && value.length > 0) {
             return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
           }
-          return true; // If no value is provided, it's valid since the field is optional
+          return true;
         },
         { message: 'Invalid email address' }
       ),
@@ -272,240 +270,200 @@ export const cashAtHandSchema = z.object({
   jointIncome: z.optional(z.string().trim()),
 });
 
-export const immovableAssetsSchema = z.object({
-  ownerName: z.string().trim().min(1, 'Owner Name is required'),
-  relation: z.string().trim().min(1, 'Relation is required'),
-  registerOwner: z.string().trim().min(1, 'Register owner is required'),
-  assetType: z.string().trim().min(1, 'Asset type is required'),
-  location: z.string().trim().min(1, 'Location is required'),
-  plotNo: z.optional(z.string().trim()),
-  size: z.optional(z.string().trim()),
-  estimatedValue: z
-    .string()
-    .trim()
-    .min(1, 'Amount is required')
-    .refine(
-      (value) => {
-        const num = Number(value);
-        return !isNaN(num) && num >= 0;
-      },
-      { message: 'Amount must be a positive number' }
-    ),
-  currency: z.string().trim().min(1, 'Currency is required'),
-  financeSource: z.string().trim().min(1, 'Finance source is required'),
-  acquisitionMode: z.string().trim().min(1, 'Acquisition mode is required'),
-  acquisitionCost: z
-    .string()
-    .trim()
-    .min(1, 'Acquisition cost is required')
-    .refine(
-      (value) => {
-        const num = Number(value);
-        return !isNaN(num) && num >= 0;
-      },
-      { message: 'Amount must be a positive number' }
-    ),
-  acquisitionCurrency: z.string().trim().min(1, 'Currency is required'),
-  acquisitionYear: z
-    .string()
-    .trim()
-    .min(1, 'Acquisition year is required')
-    .refine(
-      (value) => {
-        // Check if the value is a valid year (four digits and in a reasonable range)
-        const currentYear = new Date().getFullYear();
-        const year = parseInt(value, 10);
-        return /^\d{4}$/.test(value) && year >= 1900 && year <= currentYear;
-      },
-      {
-        message:
-          'Invalid year, please enter a valid year between 1900 and the current year',
-      }
-    ),
-});
-
-export const movableAssetsSchema = z.object({
-  ownerName: z.string().trim().min(1, 'Owner Name is required'),
-  relation: z.string().trim().min(1, 'Relation is required'),
-  registerOwner: z.string().trim().min(1, 'Register owner is required'),
-  assetType: z.string().trim().min(1, 'Asset type is required'),
-  description: z.optional(z.string().trim()),
-  registrationNo: z.string().trim().min(1, 'Registration number is required'),
-  location: z.optional(z.string().trim()),
-  purpose: z.string().trim().min(1, 'Purpose is required'),
-  estimatedValue: z
-    .string()
-    .trim()
-    .min(1, 'Amount is required')
-    .refine(
-      (value) => {
-        const num = Number(value);
-        return !isNaN(num) && num >= 0;
-      },
-      { message: 'Amount must be a positive number' }
-    ),
-  currency: z.string().trim().min(1, 'Currency is required'),
-  financeSource: z.string().trim().min(1, 'Finance source is required'),
-  acquisitionMode: z.string().trim().min(1, 'Acquisition mode is required'),
-  acquisitionCost: z
-    .string()
-    .trim()
-    .min(1, 'Acquisition cost is required')
-    .refine(
-      (value) => {
-        const num = Number(value);
-        return !isNaN(num) && num >= 0;
-      },
-      { message: 'Amount must be a positive number' }
-    ),
-  acquisitionCurrency: z.string().trim().min(1, 'Currency is required'),
-  acquisitionYear: z
-    .string()
-    .trim()
-    .min(1, 'Acquisition year is required')
-    .refine(
-      (value) => {
-        // Check if the value is a valid year (four digits and in a reasonable range)
-        const currentYear = new Date().getFullYear();
-        const year = parseInt(value, 10);
-        return /^\d{4}$/.test(value) && year >= 1900 && year <= currentYear;
-      },
-      {
-        message:
-          'Invalid year, please enter a valid year between 1900 and the current year',
-      }
-    ),
-});
-
-export const otherAssetsSchema = z.object({
-  ownerName: z.string().trim().min(1, 'Owner Name is required'),
-  relation: z.string().trim().min(1, 'Relation is required'),
-  registerOwner: z.string().trim().min(1, 'Register owner is required'),
-  assetType: z.string().trim().min(1, 'Asset type is required'),
-  location: z.optional(z.string().trim()),
-  estimatedValue: z
-    .string()
-    .trim()
-    .min(1, 'Amount is required')
-    .refine(
-      (value) => {
-        const num = Number(value);
-        return !isNaN(num) && num >= 0;
-      },
-      { message: 'Amount must be a positive number' }
-    ),
-  currency: z.string().trim().min(1, 'Currency is required'),
-  financeSource: z.string().trim().min(1, 'Finance source is required'),
-  remarks: z.optional(z.string().trim()),
-  acquisitionMode: z.string().trim().min(1, 'Acquisition mode is required'),
-  acquisitionCost: z
-    .string()
-    .trim()
-    .min(1, 'Acquisition cost is required')
-    .refine(
-      (value) => {
-        const num = Number(value);
-        return !isNaN(num) && num >= 0;
-      },
-      { message: 'Amount must be a positive number' }
-    ),
-  acquisitionCurrency: z.string().trim().min(1, 'Currency is required'),
-
-  acquisitionYear: z
-    .string()
-    .trim()
-    .min(1, 'Acquisition year is required')
-    .refine(
-      (value) => {
-        // Check if the value is a valid year (four digits and in a reasonable range)
-        const currentYear = new Date().getFullYear();
-        const year = parseInt(value, 10);
-        return /^\d{4}$/.test(value) && year >= 1900 && year <= currentYear;
-      },
-      {
-        message:
-          'Invalid year, please enter a valid year between 1900 and the current year',
-      }
-    ),
-});
-
-export const securitySchema = z.object({
-  ownerName: z.string().trim().min(1, 'Owner Name is required'),
-  relation: z.string().trim().min(1, 'Relation is required'),
-  registerOwner: z.string().trim().min(1, 'Register owner is required'),
-  name: z.optional(z.string().trim()),
-  type: z.string().trim().min(1, 'Type is required'),
-  certificateNo: z.string().trim().min(1, 'Certificate number is required'),
-  numberOfShares: z.optional(z.string().trim()),
-  company: z.string().trim().min(1, 'Company is required'),
-  yearlyInterest: z.optional(z.string().trim()),
-  natureOfShares: z.optional(z.string().trim()),
-  currentMarketValue: z
-    .string()
-    .trim()
-    .min(1, 'Current market value is required')
-    .refine(
-      (value) => {
-        const num = Number(value);
-        return !isNaN(num) && num >= 0;
-      },
-      { message: 'Amount must be a positive number' }
-    ),
-  currency: z.string().trim().min(1, 'Currency is required'),
-  financeSource: z.string().trim().min(1, 'Finance source is required'),
-  acquisitionMode: z.string().trim().min(1, 'Acquisition mode is required'),
-  acquisitionCost: z
-    .string()
-    .trim()
-    .min(1, 'Acquisition cost is required')
-    .refine(
-      (value) => {
-        const num = Number(value);
-        return !isNaN(num) && num >= 0;
-      },
-      { message: 'Amount must be a positive number' }
-    ),
-  acquisitionCurrency: z.string().trim().min(1, 'Currency is required'),
-  acquisitionYear: z
-    .string()
-    .trim()
-    .min(1, 'Acquisition year is required')
-    .refine(
-      (value) => {
-        // Check if the value is a valid year (four digits and in a reasonable range)
-        const currentYear = new Date().getFullYear();
-        const year = parseInt(value, 10);
-        return /^\d{4}$/.test(value) && year >= 1900 && year <= currentYear;
-      },
-      {
-        message:
-          'Invalid year, please enter a valid year between 1900 and the current year',
-      }
-    ),
-});
-
-export const liabilitySchema = z.object({
-  debtorName: z.string().trim().min(1, 'Debtor name is required'),
-  relation: z.string().trim().min(1, 'Relation is required'),
-  creditor: z.string().trim().min(1, 'Creditor is required'),
-  creditorAddress: z.optional(z.string().trim()),
-  loanAmount: z
-    .string()
-    .trim()
-    .min(1, 'Loan amount is required')
-    .refine(
-      (value) => {
-        const num = Number(value);
-        return !isNaN(num) && num >= 0;
-      },
-      { message: 'Amount must be a positive number' }
-    ),
-  currency: z.string().trim().min(1, 'Currency is required'),
-  yearContracted: z.optional(
-    z
+export const immovableAssetsSchema = z
+  .object({
+    ownerName: z.string().trim().min(1, 'Owner Name is required'),
+    relation: z.string().trim().min(1, 'Relation is required'),
+    registerOwner: z.string().trim().min(1, 'Register owner is required'),
+    assetType: z.string().trim().min(1, 'Asset type is required'),
+    location: z.string().trim().min(1, 'Location is required'),
+    plotNo: z.optional(z.string().trim()),
+    size: z.optional(z.string().trim()),
+    estimatedValue: z
       .string()
       .trim()
-      .min(1, 'Year contracted is required')
+      .min(1, 'Amount is required')
+      .refine(
+        (value) => {
+          const num = Number(value);
+          return !isNaN(num) && num >= 0;
+        },
+        { message: 'Amount must be a positive number' }
+      ),
+    currency: z.string().trim().min(1, 'Currency is required'),
+    financeSource: z.string().trim().min(1, 'Finance source is required'),
+    acquisitionMode: z.string().trim().min(1, 'Acquisition mode is required'),
+    acquisitionCost: z
+      .string()
+      .trim()
+      .min(1, 'Acquisition cost is required')
+      .refine(
+        (value) => {
+          const num = Number(value);
+          return !isNaN(num) && num >= 0;
+        },
+        { message: 'Amount must be a positive number' }
+      ),
+    acquisitionCurrency: z.string().trim().min(1, 'Currency is required'),
+    acquisitionYear: z
+      .string()
+      .trim()
+      .min(1, 'Acquisition year is required')
+      .refine(
+        (value) => {
+          const currentYear = new Date().getFullYear();
+          const year = parseInt(value, 10);
+          return /^\d{4}$/.test(value) && year >= 1900 && year <= currentYear;
+        },
+        {
+          message:
+            'Invalid year, please enter a valid year between 1900 and the current year',
+        }
+      ),
+    otherFinanceSource: z.optional(z.string().trim()),
+    otherRelation: z.optional(z.string().trim()),
+  })
+  .refine(
+    (data) => {
+      if (data.financeSource === 'Other') {
+        return !!data.otherFinanceSource;
+      }
+      return true;
+    },
+    {
+      message: 'Please provide finance source',
+      path: ['otherFinanceSource'],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.relation === 'Other') {
+        return !!data.otherRelation;
+      }
+      return true;
+    },
+    {
+      message: 'Please provide a relation',
+      path: ['otherRelation'],
+    }
+  );
+
+export const movableAssetsSchema = z
+  .object({
+    ownerName: z.string().trim().min(1, 'Owner Name is required'),
+    relation: z.string().trim().min(1, 'Relation is required'),
+    registerOwner: z.string().trim().min(1, 'Register owner is required'),
+    assetType: z.string().trim().min(1, 'Asset type is required'),
+    description: z.optional(z.string().trim()),
+    registrationNo: z.string().trim().min(1, 'Registration number is required'),
+    location: z.optional(z.string().trim()),
+    purpose: z.string().trim().min(1, 'Purpose is required'),
+    estimatedValue: z
+      .string()
+      .trim()
+      .min(1, 'Amount is required')
+      .refine(
+        (value) => {
+          const num = Number(value);
+          return !isNaN(num) && num >= 0;
+        },
+        { message: 'Amount must be a positive number' }
+      ),
+    currency: z.string().trim().min(1, 'Currency is required'),
+    financeSource: z.string().trim().min(1, 'Finance source is required'),
+    acquisitionMode: z.string().trim().min(1, 'Acquisition mode is required'),
+    acquisitionCost: z
+      .string()
+      .trim()
+      .min(1, 'Acquisition cost is required')
+      .refine(
+        (value) => {
+          const num = Number(value);
+          return !isNaN(num) && num >= 0;
+        },
+        { message: 'Amount must be a positive number' }
+      ),
+    acquisitionCurrency: z.string().trim().min(1, 'Currency is required'),
+    acquisitionYear: z
+      .string()
+      .trim()
+      .min(1, 'Acquisition year is required')
+      .refine(
+        (value) => {
+          const currentYear = new Date().getFullYear();
+          const year = parseInt(value, 10);
+          return /^\d{4}$/.test(value) && year >= 1900 && year <= currentYear;
+        },
+        {
+          message:
+            'Invalid year, please enter a valid year between 1900 and the current year',
+        }
+      ),
+    otherFinanceSource: z.optional(z.string().trim()),
+    otherRelation: z.optional(z.string().trim()),
+  })
+  .refine(
+    (data) => {
+      if (data.financeSource === 'Other') {
+        return !!data.otherFinanceSource;
+      }
+      return true;
+    },
+    {
+      message: 'Please provide finance source',
+      path: ['otherFinanceSource'],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.relation === 'Other') {
+        return !!data.otherRelation;
+      }
+      return true;
+    },
+    {
+      message: 'Please provide a relation',
+      path: ['otherRelation'],
+    }
+  );
+export const otherAssetsSchema = z
+  .object({
+    ownerName: z.string().trim().min(1, 'Owner Name is required'),
+    relation: z.string().trim().min(1, 'Relation is required'),
+    registerOwner: z.string().trim().min(1, 'Register owner is required'),
+    assetType: z.string().trim().min(1, 'Asset type is required'),
+    location: z.optional(z.string().trim()),
+    estimatedValue: z
+      .string()
+      .trim()
+      .min(1, 'Amount is required')
+      .refine(
+        (value) => {
+          const num = Number(value);
+          return !isNaN(num) && num >= 0;
+        },
+        { message: 'Amount must be a positive number' }
+      ),
+    currency: z.string().trim().min(1, 'Currency is required'),
+    financeSource: z.string().trim().min(1, 'Finance source is required'),
+    remarks: z.optional(z.string().trim()),
+    acquisitionMode: z.string().trim().min(1, 'Acquisition mode is required'),
+    acquisitionCost: z
+      .string()
+      .trim()
+      .min(1, 'Acquisition cost is required')
+      .refine(
+        (value) => {
+          const num = Number(value);
+          return !isNaN(num) && num >= 0;
+        },
+        { message: 'Amount must be a positive number' }
+      ),
+    acquisitionCurrency: z.string().trim().min(1, 'Currency is required'),
+    acquisitionYear: z
+      .string()
+      .trim()
+      .min(1, 'Acquisition year is required')
       .refine(
         (value) => {
           // Check if the value is a valid year (four digits and in a reasonable range)
@@ -517,13 +475,169 @@ export const liabilitySchema = z.object({
           message:
             'Invalid year, please enter a valid year between 1900 and the current year',
         }
-      )
-  ),
-  loanPurpose: z.string().trim().min(1, 'Loan purpose is required'),
-  loanRepayment: z.string().trim().min(1, 'Loan repayment is required'),
-  paymentPeriod: z.string().trim().min(1, 'Payment period is required'),
-  loanOutstanding: z.string().trim().min(1, 'Loan outstanding is required'),
-  currencyOutstanding: z.string().trim().min(1, 'Currency is required'),
-  maturityDate: z.optional(z.string().date('Maturity date is required')),
-  remarks: z.optional(z.string().trim()),
-});
+      ),
+    otherFinanceSource: z.optional(z.string().trim()),
+    otherRelation: z.optional(z.string().trim()),
+  })
+  .refine(
+    (data) => {
+      if (data.financeSource === 'Other') {
+        return !!data.otherFinanceSource;
+      }
+      return true;
+    },
+    {
+      message: 'Please provide finance source',
+      path: ['otherFinanceSource'],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.relation === 'Other') {
+        return !!data.otherRelation;
+      }
+      return true;
+    },
+    {
+      message: 'Please provide a relation',
+      path: ['otherRelation'],
+    }
+  );
+
+export const securitySchema = z
+  .object({
+    ownerName: z.string().trim().min(1, 'Owner Name is required'),
+    relation: z.string().trim().min(1, 'Relation is required'),
+    registerOwner: z.string().trim().min(1, 'Register owner is required'),
+    name: z.optional(z.string().trim()),
+    type: z.string().trim().min(1, 'Type is required'),
+    certificateNo: z.string().trim().min(1, 'Certificate number is required'),
+    numberOfShares: z.optional(z.string().trim()),
+    company: z.string().trim().min(1, 'Company is required'),
+    yearlyInterest: z.optional(z.string().trim()),
+    natureOfShares: z.optional(z.string().trim()),
+    currentMarketValue: z
+      .string()
+      .trim()
+      .min(1, 'Current market value is required')
+      .refine(
+        (value) => {
+          const num = Number(value);
+          return !isNaN(num) && num >= 0;
+        },
+        { message: 'Amount must be a positive number' }
+      ),
+    currency: z.string().trim().min(1, 'Currency is required'),
+    financeSource: z.string().trim().min(1, 'Finance source is required'),
+    acquisitionMode: z.string().trim().min(1, 'Acquisition mode is required'),
+    acquisitionCost: z
+      .string()
+      .trim()
+      .min(1, 'Acquisition cost is required')
+      .refine(
+        (value) => {
+          const num = Number(value);
+          return !isNaN(num) && num >= 0;
+        },
+        { message: 'Amount must be a positive number' }
+      ),
+    acquisitionCurrency: z.string().trim().min(1, 'Currency is required'),
+    acquisitionYear: z
+      .string()
+      .trim()
+      .min(1, 'Acquisition year is required')
+      .refine(
+        (value) => {
+          // Check if the value is a valid year (four digits and in a reasonable range)
+          const currentYear = new Date().getFullYear();
+          const year = parseInt(value, 10);
+          return /^\d{4}$/.test(value) && year >= 1900 && year <= currentYear;
+        },
+        {
+          message:
+            'Invalid year, please enter a valid year between 1900 and the current year',
+        }
+      ),
+    otherFinanceSource: z.optional(z.string().trim()),
+    otherRelation: z.optional(z.string().trim()),
+  })
+  .refine(
+    (data) => {
+      if (data.financeSource === 'Other') {
+        return !!data.otherFinanceSource;
+      }
+      return true;
+    },
+    {
+      message: 'Please provide finance source',
+      path: ['otherFinanceSource'],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.relation === 'Other') {
+        return !!data.otherRelation;
+      }
+      return true;
+    },
+    {
+      message: 'Please provide a relation',
+      path: ['otherRelation'],
+    }
+  );
+export const liabilitySchema = z
+  .object({
+    debtorName: z.string().trim().min(1, 'Debtor name is required'),
+    relation: z.string().trim().min(1, 'Relation is required'),
+    creditor: z.string().trim().min(1, 'Creditor is required'),
+    creditorAddress: z.optional(z.string().trim()),
+    loanAmount: z
+      .string()
+      .trim()
+      .min(1, 'Loan amount is required')
+      .refine(
+        (value) => {
+          const num = Number(value);
+          return !isNaN(num) && num >= 0;
+        },
+        { message: 'Amount must be a positive number' }
+      ),
+    currency: z.string().trim().min(1, 'Currency is required'),
+    yearContracted: z.optional(
+      z
+        .string()
+        .trim()
+        .min(1, 'Year contracted is required')
+        .refine(
+          (value) => {
+            const currentYear = new Date().getFullYear();
+            const year = parseInt(value, 10);
+            return /^\d{4}$/.test(value) && year >= 1900 && year <= currentYear;
+          },
+          {
+            message:
+              'Invalid year, please enter a valid year between 1900 and the current year',
+          }
+        )
+    ),
+    loanPurpose: z.string().trim().min(1, 'Loan purpose is required'),
+    loanRepayment: z.string().trim().min(1, 'Loan repayment is required'),
+    paymentPeriod: z.string().trim().min(1, 'Payment period is required'),
+    loanOutstanding: z.string().trim().min(1, 'Loan outstanding is required'),
+    currencyOutstanding: z.string().trim().min(1, 'Currency is required'),
+    maturityDate: z.optional(z.string().date('Maturity date is required')),
+    remarks: z.optional(z.string().trim()),
+    otherRelation: z.optional(z.string().trim()),
+  })
+  .refine(
+    (data) => {
+      if (data.relation === 'Other') {
+        return !!data.otherRelation;
+      }
+      return true;
+    },
+    {
+      message: 'Please provide a relation',
+      path: ['otherRelation'],
+    }
+  );

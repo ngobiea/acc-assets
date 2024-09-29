@@ -1,4 +1,5 @@
 import { Input } from '@/components/materialTailwind';
+import type { HTMLInputTypeAttribute } from 'react';
 import type { UseFormRegister, FieldErrors, Path } from 'react-hook-form';
 
 type SelectTextProps = {
@@ -6,7 +7,7 @@ type SelectTextProps = {
   label: string;
   options: Option[];
   errors: FieldErrors<FormValues>;
-  type?: string;
+  type?: HTMLInputTypeAttribute;
   selectValue: Path<FormValues>;
   inputValue: Path<FormValues>;
   placeholder: string;

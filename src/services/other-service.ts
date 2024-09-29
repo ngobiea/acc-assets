@@ -3,7 +3,7 @@ import { OtherAsset } from '@prisma/client';
 
 export default class OtherAssetService {
   static async createOtherAsset(
-    newOtherAsset: OtherAsset
+    newOtherAsset: OtherAssetClientForm
   ): Promise<OtherAsset> {
     try {
       const createdOtherAsset = await otherAsset.create({
@@ -11,14 +11,14 @@ export default class OtherAssetService {
           assetType: newOtherAsset.assetType,
           estimatedValue: newOtherAsset.estimatedValue,
           ownerName: newOtherAsset.ownerName,
-          relation: newOtherAsset.relation,
+          relation: newOtherAsset.relation === 'Other' ? newOtherAsset.otherRelation : newOtherAsset.relation,
           declarationId: newOtherAsset.declarationId,
           acquisitionCost: newOtherAsset.acquisitionCost,
           acquisitionCurrency: newOtherAsset.acquisitionCurrency,
           acquisitionMode: newOtherAsset.acquisitionMode,
-          acquisitionYear: newOtherAsset.acquisitionYear,
+          acquisitionYear: Number(newOtherAsset.acquisitionYear),
           currency: newOtherAsset.currency,
-          financeSource: newOtherAsset.financeSource,
+          financeSource: newOtherAsset.financeSource === 'Other' ? newOtherAsset.otherFinanceSource : newOtherAsset.financeSource,
           registerOwner: newOtherAsset.registerOwner,
           location: newOtherAsset.location,
           remarks: newOtherAsset.remarks,

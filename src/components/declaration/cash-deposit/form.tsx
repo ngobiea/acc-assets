@@ -96,7 +96,6 @@ export default function CashDepositForm({
   useEffect(() => {
     if (formState.data) {
       dispatch(setIsCashDepositFormOpen(false));
-      reset();
     }
     if (formState.errors.accountBalance) {
       setError('accountBalance', {
@@ -178,25 +177,32 @@ export default function CashDepositForm({
   ]);
   console.log(formState);
   console.log(errors);
+  useEffect(() => {
+    if (!isCashDepositFormOpen) {
+      reset();
+      setShowOtherRelation(false);
+      setShowOtherSource(false);
+    }
+  }, [isCashDepositFormOpen, reset]);
   return (
     <Dialog
       size='lg'
       open={isCashDepositFormOpen}
-      handler={() => {
-        dispatch(setIsCashDepositFormOpen(!isCashDepositFormOpen));
-        reset();
-      }}
+      handler={() => dispatch(setIsCashDepositFormOpen(!isCashDepositFormOpen))}
       className='pb-10 relative'
+      animate={{
+        mount: { scale: 1, y: 0 },
+        unmount: { scale: 0.9, y: -100 },
+      }}
     >
       <DialogHeader className='relative m-0 block'>
         <Typography variant='h4' className='text-blue-gray text-center'>
           Cash Deposit
         </Typography>
         <IconButton
-          onClick={() => {
-            dispatch(setIsCashDepositFormOpen(!isCashDepositFormOpen));
-            reset();
-          }}
+          onClick={() =>
+            dispatch(setIsCashDepositFormOpen(!isCashDepositFormOpen))
+          }
           className='!absolute right-3.5 top-3.5 hover:animate-bounce'
           variant='text'
           size='lg'

@@ -364,7 +364,7 @@ model Security {
   certificateNo   String
   numberOfShares  String?
   company         String
-  yearlyInterest  Decimal?      @db.Decimal(15, 2)
+  yearlyInterest  String?      
   natureOfShares  String?
   currentMarketValue Decimal    @db.Decimal(15, 2)
   currency        String

@@ -1,5 +1,4 @@
-import type { MDA,DContact,DPersonal,Employment } from '@prisma/client';
-import { Prisma } from '@prisma/client';
+import type { MDA, DContact, DPersonal } from '@prisma/client';
 export interface DeclarationData {
   id: string;
   reason: string;
@@ -124,7 +123,7 @@ export interface FamilyData {
   createdAt: Date;
   updatedAt: Date;
 }
-export interface FamilyFormState{
+export interface FamilyFormState {
   errors: {
     surname?: string[];
     firstName?: string[];
@@ -146,10 +145,10 @@ export interface FamilyFormState{
     designation?: string[];
     otherRelation?: string[];
     _form?: string[];
-  },
+  };
   data?: {
     family: string;
-  }
+  };
 }
 export interface ImmovableAssetData {
   id: string;
@@ -298,7 +297,7 @@ export interface ContactDFormState {
     presentDistrict?: string[];
     passport?: string[];
     isSameAsPermanent?: string[];
-   
+
     _form?: string[];
   };
   data?: {

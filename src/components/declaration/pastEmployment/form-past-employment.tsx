@@ -10,6 +10,8 @@ import {
   DialogBody,
   Typography,
   IconButton,
+  Card,
+  CardBody,
 } from '@/components/materialTailwind';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { setIsPastEmploymentFormOpen } from '@/store/slices/declarationSlice/declarationSlice';
@@ -40,7 +42,6 @@ export default function PastEmploymentForm({
     handleSubmit,
     formState: { errors },
     setError,
-    unregister,
     watch,
     reset,
   } = useForm<FormValues>({
@@ -83,12 +84,10 @@ export default function PastEmploymentForm({
     formData.append('otherSourceOfIncome', submitted.otherSourceOfIncome);
     formData.append('declarationId', declarationId);
     action(formData);
-    console.log(data);
   };
   useEffect(() => {
     if (formState.data) {
       dispatch(setIsPastEmploymentFormOpen(false));
-      reset();
     }
     if (formState.errors.employerName) {
       setError('employerName', {
@@ -174,6 +173,7 @@ export default function PastEmploymentForm({
   useEffect(() => {
     if (!isPastEmploymentFormOpen) {
       reset();
+      setShowOtherInput(false);
     }
   }, [isPastEmploymentFormOpen, reset]);
   console.log(errors);
@@ -188,24 +188,26 @@ export default function PastEmploymentForm({
       className='pb-10 relative'
     >
       <DialogHeader className='relative m-0 block'>
-        <Typography variant='h4' color='gray' className='lg:ml-10'>
+        <Typography variant='h4' color='gray' className=' text-center'>
           Past Employment
         </Typography>
         <IconButton
           size='sm'
           variant='text'
           className='!absolute right-3.5 top-3.5'
-          onClick={() => {
-            dispatch(setIsPastEmploymentFormOpen(false));
-          }}
+          onClick={() => dispatch(setIsPastEmploymentFormOpen(false))}
         >
           <HiXMark className='h-10 w-10 font-bold' />
         </IconButton>
       </DialogHeader>
       <DialogBody className='h-[calc(100vh-170px)] overflow-y-auto'>
-        <Typography className=' text-center'>
-          All fields marked with * are required to be filled in.
-        </Typography>
+        <Card className=' w-full bg-blue-50 mt-3'>
+          <CardBody>
+            <Typography className='text-center'>
+              All fields marked with * are required to be filled in.
+            </Typography>
+          </CardBody>
+        </Card>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className='max-w-3xl mx-auto py-10'

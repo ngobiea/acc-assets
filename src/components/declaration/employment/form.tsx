@@ -6,6 +6,8 @@ import {
   DialogBody,
   Typography,
   IconButton,
+  Card,
+  CardBody,
 } from '@/components/materialTailwind';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { setIsEmploymentFormOpen } from '@/store/slices/declarationSlice/declarationSlice';
@@ -75,7 +77,6 @@ export default function EmploymentForm({
   useEffect(() => {
     if (formState.data) {
       dispatch(setIsEmploymentFormOpen(false));
-      reset();
     }
     if (formState.errors.mdaId) {
       setError('mdaId', {
@@ -201,6 +202,7 @@ export default function EmploymentForm({
   useEffect(() => {
     if (!isEmploymentFormOpen) {
       reset();
+      setShowOtherInput(false);
     }
   }, [isEmploymentFormOpen, reset]);
   // console.log(errors);
@@ -236,9 +238,13 @@ export default function EmploymentForm({
       size='lg'
       handler={() => dispatch(setIsEmploymentFormOpen(!isEmploymentFormOpen))}
       className='pb-10 relative'
+      animate={{
+        mount: { scale: 1, y: 0 },
+        unmount: { scale: 0.9, y: -100 },
+      }}
     >
       <DialogHeader className='relative m-0 block'>
-        <Typography variant='h4' color='gray'>
+        <Typography variant='h4' color='gray' className='text-center'>
           {reason === 'Appointment' || reason === 'Biennial Declaration'
             ? 'Current Employment'
             : 'Last Employment'}
@@ -255,9 +261,13 @@ export default function EmploymentForm({
         </IconButton>
       </DialogHeader>
       <DialogBody className='h-[calc(100vh-170px)] overflow-y-auto'>
-        <Typography className=' text-center'>
-          All fields marked with * are required to be filled in.
-        </Typography>
+        <Card className=' w-full bg-blue-50 mt-3'>
+          <CardBody>
+            <Typography className='text-center'>
+              All fields marked with * are required to be filled in.
+            </Typography>
+          </CardBody>
+        </Card>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className='max-w-3xl mx-auto py-10'

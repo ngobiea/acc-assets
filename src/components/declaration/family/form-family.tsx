@@ -23,10 +23,10 @@ import SelectInput from '@/components/common/form/select-input';
 import RadioInput from '@/components/common/form/radio-input';
 import { useFormState } from 'react-dom';
 import { postFamily } from '@/actions/declaration/family';
+import React from 'react';
 
 export default function FamilyForm({declarationId}: { declarationId: string }) {
   const dispatch = useAppDispatch();
-  const [showOtherInput, setShowOtherInput] = useState(false);
   const [showEmploymentInput, setShowEmploymentInput] = useState(false);
   const { isFamilyFormOpen } = useAppSelector((state) => state.declaration);
     const [formState, action] = useFormState(postFamily, {
@@ -37,9 +37,6 @@ export default function FamilyForm({declarationId}: { declarationId: string }) {
     handleSubmit,
     formState: { errors },
     setError,
-    unregister,
-    setValue,
-    resetField,
     reset,
     watch,
   } = useForm<FormValues>({
@@ -50,20 +47,12 @@ export default function FamilyForm({declarationId}: { declarationId: string }) {
   useEffect(() => {
     const subscription = watch((value, { name }) => {
       const currentValues = value as FamilyClientForm;
-      if (name === 'relation') {
-        if (currentValues.relation === 'Other') {
-          setShowOtherInput(true);
-        } else {
-          setShowOtherInput(false);
-        }
-      }
         if (name === 'isFamilyEmployment') {
           setShowEmploymentInput(currentValues.isFamilyEmployment === 'Yes');
         }
     });
     return () => subscription.unsubscribe();
   }, [ watch]);
-  console.log(errors);
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
     const submitted = data as FamilyClientForm;
@@ -96,7 +85,7 @@ export default function FamilyForm({declarationId}: { declarationId: string }) {
     useEffect(() => {
       if (formState.data) {
         dispatch(setIsFamilyFormOpen(false));
-        reset();
+  
       }
       if (formState.errors.firstName) {
         setError('firstName', {
@@ -143,13 +132,11 @@ export default function FamilyForm({declarationId}: { declarationId: string }) {
           message: formState.errors.email.join(', '),
         });
       }
-
       if (formState.errors.mobile) {
         setError('mobile', {
           message: formState.errors.mobile.join(', '),
         });
       }
-
       if (formState.errors.businessName) {
         setError('businessName', {
           message: formState.errors.businessName.join(', '),
@@ -209,6 +196,13 @@ export default function FamilyForm({declarationId}: { declarationId: string }) {
       setError,
     ]);
 
+  
+  useEffect(() => {
+    if (!isFamilyFormOpen) {
+      reset();
+      setShowEmploymentInput(false);
+    }
+  }, [isFamilyFormOpen, reset]);
 
   return (
     <Dialog
@@ -216,6 +210,10 @@ export default function FamilyForm({declarationId}: { declarationId: string }) {
       open={isFamilyFormOpen}
       handler={() => dispatch(setIsFamilyFormOpen(!isFamilyFormOpen))}
       className='pb-10 relative'
+      animate={{
+        mount: { scale: 1, y: 0 },
+        unmount: { scale: 0.9, y: -100 },
+      }}
     >
       <DialogHeader className='relative m-0 block'>
         <Typography variant='h4' className='text-blue-gray text-center'>

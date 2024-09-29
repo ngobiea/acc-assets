@@ -7,7 +7,7 @@ import routes from '@/utils/routes';
 import { revalidatePath } from 'next/cache';
 import DeclarationService from '@/services/declaration-service';
 
-export const getFormData = async (
+const getFormData = async (
   formData: FormData
 ): Promise<cashDepositClientForm> => {
   return {

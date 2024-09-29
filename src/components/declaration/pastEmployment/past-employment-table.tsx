@@ -6,30 +6,30 @@ import {
 } from '@/components/materialTailwind';
 import type { PastEmploymentData } from '@/utils/declaration';
 
-export default function PastEmploymentGridTable ({
+export default function PastEmploymentGridTable({
   pastEmployment,
 }: {
   pastEmployment: PastEmploymentData;
-})  {
+}) {
   return (
     <Card id={pastEmployment.id}>
-      <CardBody className='border border-blue-400'>
-        <div className='grid md:grid-cols-2 gap-3 mb-2'>
-          <div className='grid grid-cols-2'>
+      <CardBody className='border-t border-blue-400'>
+        <div className='grid md:grid-cols-2 gap-3 mb-3'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Previous Employer:
             </Typography>
             <Typography>{pastEmployment?.employerName}</Typography>
           </div>
-          <div className='grid grid-cols-2 '>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Job Title / Designation:
             </Typography>
             <Typography>{`${pastEmployment.designation}`}</Typography>
           </div>
         </div>
-        <div className='grid md:grid-cols-2 gap-3 mb-2'>
-          <div className='grid grid-cols-2'>
+        <div className='grid md:grid-cols-2 gap-3 mb-3'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Grade / Rank:
             </Typography>
@@ -37,7 +37,7 @@ export default function PastEmploymentGridTable ({
                 ${pastEmployment?.rank ? pastEmployment.rank : 'N/A'}
             `}</Typography>
           </div>
-          <div className='grid grid-cols-2'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Source of Income:
             </Typography>
@@ -48,30 +48,28 @@ export default function PastEmploymentGridTable ({
             </Typography>
           </div>
         </div>
-        <div className='grid md:grid-cols-2 gap-3 mb-2'>
-          <div className='grid grid-cols-2'>
+        <div className='grid md:grid-cols-2 gap-3 mb-3'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Annual Salary:
             </Typography>
             <Typography>
-              {pastEmployment.currency + '' + pastEmployment.annualSalary}
+              {pastEmployment.currency + pastEmployment.annualSalary}
             </Typography>
           </div>
-          <div className='grid grid-cols-2'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Other Allowances:
             </Typography>
             <Typography>
               {pastEmployment?.allowances
-                ? pastEmployment.allowancesCurrency +
-                  '' +
-                  pastEmployment.allowances
+                ? pastEmployment.allowancesCurrency + pastEmployment.allowances
                 : 'N/A'}
             </Typography>
           </div>
         </div>
-        <div className='grid md:grid-cols-2 gap-3 mb-2'>
-          <div className='grid grid-cols-2'>
+        <div className='grid md:grid-cols-2 gap-3 mb-3'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Start Date<sup> (mm/dd/yyyy):</sup>
             </Typography>
@@ -79,7 +77,7 @@ export default function PastEmploymentGridTable ({
               {pastEmployment.contractStartDate.toLocaleDateString()}
             </Typography>
           </div>
-          <div className='grid grid-cols-2'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               End Date <sup>(mm/dd/yyyy)</sup> :
             </Typography>
@@ -90,8 +88,8 @@ export default function PastEmploymentGridTable ({
             </Typography>
           </div>
         </div>
-        <div className='grid md:grid-cols-2 gap-3 mb-2'>
-          <div className='grid grid-cols-2'>
+        <div className='grid md:grid-cols-2 gap-3 mb-3'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Other Allowances Details:
             </Typography>
@@ -102,8 +100,9 @@ export default function PastEmploymentGridTable ({
             </Typography>
           </div>
         </div>
-        <div className='grid md:grid-cols-2 gap-3 mb-2'>
-          <div className='grid grid-cols-2'>
+        <div className='grid md:grid-cols-2 gap-3 mb-3'>
+          <div></div>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Action:
             </Typography>
@@ -123,4 +122,4 @@ export default function PastEmploymentGridTable ({
       </CardBody>
     </Card>
   );
-};
+}

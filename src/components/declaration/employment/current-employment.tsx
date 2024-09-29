@@ -25,8 +25,8 @@ export default function CurrentEmploymentAccordion({
   const dispatch = useAppDispatch();
 
   return (
-    <Card className=' '>
-      <div className='bg-blue-50 px-5 py-5 rounded-t-md'>
+    <Card className='my-5 border border-blue-500'>
+      <div className='bg-blue-50 px-5 py-5 rounded-t-xl'>
         <div
           className='flex sm:justify-between space-x-2 flex-col sm:flex-row space-y-2 sm:space-y-0
         '
@@ -53,7 +53,7 @@ export default function CurrentEmploymentAccordion({
       </div>
       {employments?.length === 0 && (
         <Typography
-          className='p-4 text-blue-gray-400 text-center border border-blue-400'
+          className='p-4 text-blue-gray-400 text-center border-t border-blue-400'
           variant='h6'
         >
           No data available
@@ -68,7 +68,7 @@ export default function CurrentEmploymentAccordion({
           />
         );
       })}
-      <CardFooter className='border border-blue-400 '>
+      <CardFooter className='border-t border-blue-400 '>
         <div className='flex justify-between'>
           <Button
             onClick={() => dispatch(handlePrevDeclarationStep())}

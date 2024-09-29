@@ -21,9 +21,9 @@ export default function CurrentEmploymentGridTable({
   // console.log(deleteEmployment);
   return (
     <Card id={employment.id} className=''>
-      <CardBody className='border border-blue-400 '>
+      <CardBody className='border-t border-blue-400 '>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 '>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Ministy / Dept / Agency:
             </Typography>
@@ -31,14 +31,14 @@ export default function CurrentEmploymentGridTable({
               {employment?.mda.abbreviation + ' - ' + employment?.mda.name}
             </Typography>
           </div>
-          <div className='grid grid-cols-2  '>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Employee Category:
             </Typography>
             <Typography>{`${employment?.employeeCategory}`}</Typography>
           </div>
         </div>
-        <div className='grid md:grid-cols-2 mb-3 gap-3 '>
+        <div className='grid md:grid-cols-2 mb-3 gap-3'>
           <div className='grid grid-cols-2 '>
             <Typography color='gray' className=' font-bold'>
               {reason === 'Appointment' || reason === 'Biennial Declaration'
@@ -57,33 +57,33 @@ export default function CurrentEmploymentGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3  gap-3'>
-          <div className='grid grid-cols-2'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Grade / Rank:
             </Typography>
             <Typography>{employment?.rank}</Typography>
           </div>
-          <div className='grid grid-cols-2'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Annual Salary:
             </Typography>
             <Typography>
-              {employment.currency + '' + employment.annualSalary}
+              {employment.currency + employment.annualSalary}
             </Typography>
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Other Allowances:
             </Typography>
             <Typography>
               {employment?.allowances
-                ? employment.allowancesCurrency + '' + employment.allowances
+                ? employment.allowancesCurrency + employment.allowances
                 : 'N/A'}
             </Typography>
           </div>
-          <div className='grid grid-cols-2'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Other Allowances Details:
             </Typography>
@@ -95,7 +95,7 @@ export default function CurrentEmploymentGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Social Security No(SSNo):
             </Typography>
@@ -103,7 +103,7 @@ export default function CurrentEmploymentGridTable({
               {employment?.SSNo ? employment.SSNo : 'N/A'}
             </Typography>
           </div>
-          <div className='grid grid-cols-2'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Employee ID:
             </Typography>
@@ -111,7 +111,7 @@ export default function CurrentEmploymentGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Employee No:
             </Typography>
@@ -119,7 +119,7 @@ export default function CurrentEmploymentGridTable({
               {employment.employeeNo ? employment.employeeNo : 'N/A'}
             </Typography>
           </div>
-          <div className='grid grid-cols-2'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Establishment Registration No:
             </Typography>
@@ -131,13 +131,13 @@ export default function CurrentEmploymentGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Contract Type:
             </Typography>
             <Typography>{employment?.contractType}</Typography>
           </div>
-          <div className='grid grid-cols-2'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Start Date (mm/dd/yyyy):
             </Typography>
@@ -147,7 +147,7 @@ export default function CurrentEmploymentGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               End Date (mm/dd/yyyy):
             </Typography>
@@ -157,7 +157,7 @@ export default function CurrentEmploymentGridTable({
                 : 'N/A'}
             </Typography>
           </div>
-          <div className='grid grid-cols-2'>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Source of Income:
             </Typography>
@@ -167,7 +167,8 @@ export default function CurrentEmploymentGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 md:gap-6 mb-2'>
-          <div className='grid grid-cols-2'>
+          <div></div>
+          <div className='grid grid-cols-2 gap-2'>
             <Typography color='gray' className=' font-bold'>
               Action:
             </Typography>
