@@ -6,23 +6,32 @@ import {
 } from '@/components/materialTailwind';
 
 import { SecurityData } from '@/utils/declaration';
+import { useFormState } from 'react-dom';
+import { deleteSecurity } from '@/actions/declaration/security';
 
 export default function SecurityGridTable({
   security,
 }: {
   security: SecurityData;
 }) {
+  const [formState, formAction] = useFormState(
+    deleteSecurity.bind(null, {
+      declarationId: security.declarationId,
+      id: security.id,
+    }),
+    { errors: {} }
+  );
   return (
     <Card id={security.id} className=''>
       <CardBody className='border-t border-blue-400'>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               {`Owner's Name:`}
             </Typography>
             <Typography>{security?.ownerName}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Relation:
             </Typography>
@@ -30,13 +39,13 @@ export default function SecurityGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Registered Owner:
             </Typography>
             <Typography>{security?.registerOwner}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Security Name:
             </Typography>
@@ -44,13 +53,13 @@ export default function SecurityGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Security Type:
             </Typography>
             <Typography>{security?.type}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Certificate No.:
             </Typography>
@@ -58,13 +67,13 @@ export default function SecurityGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Number of Shares & Stocks:
             </Typography>
             <Typography>{security?.numberOfShares || 'N/A'}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Company / Business / Bank Name:
             </Typography>
@@ -72,13 +81,13 @@ export default function SecurityGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Shares Yearly Interest
             </Typography>
             <Typography>{security?.yearlyInterest || 'N/A'}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Nature of Shares:
             </Typography>
@@ -86,7 +95,7 @@ export default function SecurityGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Current Market Value:
             </Typography>
@@ -94,7 +103,7 @@ export default function SecurityGridTable({
               {security?.currency + security.currentMarketValue}
             </Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Acquisition Cost:
             </Typography>
@@ -104,13 +113,13 @@ export default function SecurityGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Acquisition Mode:
             </Typography>
             <Typography>{security?.acquisitionMode}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Acquisition Year:
             </Typography>
@@ -118,7 +127,7 @@ export default function SecurityGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Finance Source:
             </Typography>
@@ -131,7 +140,7 @@ export default function SecurityGridTable({
             <Typography color='gray' className=' font-bold'>
               Action:
             </Typography>
-            <form className='' action={''}>
+            <form className='' action={formAction}>
               <Button
                 variant='gradient'
                 color='red'

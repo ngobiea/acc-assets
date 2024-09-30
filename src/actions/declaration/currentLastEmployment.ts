@@ -5,7 +5,6 @@ import DeclarationService from '@/services/declaration-service';
 import routes from '@/utils/routes';
 import { employmentSchema } from '@/utils/validators/declaration';
 import { redirect } from 'next/navigation';
-import type { EmploymentFormState } from '@/utils/declaration';
 import { revalidatePath } from 'next/cache';
 
 const getFormData = (formData: FormData): EmploymentClientForm => {
@@ -79,29 +78,37 @@ export const postCurrentLastEmployment = async (
   }
 };
 
-export const deleteCurrentLastEmployment = async ({
-  declarationId,
-  id,
-}: {
-  id: string;
-  declarationId: string;
-}): Promise<{ id: string; declarationId: string } | null> => {
+export const deleteCurrentLastEmployment = async (
+  {
+    declarationId,
+    id,
+  }: {
+    declarationId: string;
+    id: string;
+  },
+  _useFormState: DeleteFormState,
+  _formData: FormData
+): Promise<DeleteFormState> => {
   try {
     const { user } = await validateRequest();
     if (!user) {
       redirect(routes.login);
     }
-    console.log('declarationId', declarationId);
-    console.log('id', id);
- 
+
     await EmploymentService.deleteEmployment(id);
-    revalidatePath(routes.declarationId(declarationId));
-       return {
-         id: id,
-         declarationId: declarationId,
-       };
   } catch (error) {
     console.error(error);
-    return null;
+    return {
+      errors: {
+        _form: [
+          'An error occurred while deleting employment. Please try again later.',
+        ],
+      },
+    };
   }
+  revalidatePath(routes.declarationId(declarationId));
+  return {
+
+    errors: {},
+  };
 };

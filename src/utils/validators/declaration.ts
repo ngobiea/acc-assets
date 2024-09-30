@@ -640,4 +640,11 @@ export const liabilitySchema = z
       message: 'Please provide a relation',
       path: ['otherRelation'],
     }
-  );
+);
+  
+
+export const previewSchema = z.object({
+  isAccepted: z.boolean().refine((value) => value === true, {
+    message: 'Please accept the ACC terms and conditions',
+  }),
+});

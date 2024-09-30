@@ -74,30 +74,35 @@ export const postPastEmployment = async (
   }
 };
 
-
-export const deletePastEmployment = async ({
-  declarationId,
-  id,
-}: {
-  id: string;
-  declarationId: string;
-}): Promise<{ id: string; declarationId: string } | null> => {
+export const deletePastEmployment = async (
+  {
+    declarationId,
+    id,
+  }: {
+    declarationId: string;
+    id: string;
+  },
+  _useFormState: DeleteFormState,
+  _formData: FormData
+): Promise<DeleteFormState> => {
   try {
     const { user } = await validateRequest();
     if (!user) {
       redirect(routes.login);
     }
-    console.log('declarationId', declarationId);
-    console.log('id', id);
-
     await PastEmploymentService.deleteEmployment(id);
-    revalidatePath(routes.declarationId(declarationId));
-    return {
-      id: id,
-      declarationId: declarationId,
-    };
   } catch (error) {
     console.error(error);
-    return null;
+    return {
+      errors: {
+        _form: [
+          'An error occurred while deleting employment. Please try again later.',
+        ],
+      },
+    };
   }
+  revalidatePath(routes.declarationId(declarationId));
+  return {
+    errors: {},
+  };
 };

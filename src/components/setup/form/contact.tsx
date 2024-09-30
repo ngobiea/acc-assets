@@ -20,6 +20,7 @@ import SelectInput from '@/components/common/form/select-input';
 import RadioInput from '@/components/common/form/radio-input';
 import SwitchInput from '@/components/common/form/switch-input';
 import CheckBoxInput from '@/components/common/form/checkbox-input';
+import React from 'react';
 
 export default function ContactForm({
   contact,
@@ -42,8 +43,7 @@ export default function ContactForm({
     resolver: zodResolver(contactClientSetupSchema),
   });
 
-  // console.log(errors);
-  // console.log(formState);
+ 
   const watchForm = watch([]);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
@@ -224,199 +224,197 @@ export default function ContactForm({
   ]);
 
   return (
-    <>
-      <CardBody className='flex flex-col gap-4 '>
-        <form onSubmit={handleSubmit(onSubmit)} className='space-y-7'>
-          <Typography className=' text-center'>
-            All fields marked with * are required to be filled in.
-          </Typography>
+    <CardBody className='flex flex-col gap-4 '>
+      <form onSubmit={handleSubmit(onSubmit)} className='space-y-7'>
+        <Typography className=' text-center'>
+          All fields marked with * are required to be filled in.
+        </Typography>
+        <div className='grid lg:grid-cols-2 lg:gap-6'>
+          <TextInput
+            errors={errors}
+            label='Telephone'
+            placeholder='Enter your telephone number'
+            register={register}
+            value='telephone'
+          />
+          <TextInput
+            errors={errors}
+            label='Mobile'
+            placeholder='Enter your mobile number'
+            register={register}
+            value='mobile'
+          />
+        </div>
+        <div className='grid lg:grid-cols-2 lg:gap-6'>
+          <TextInput
+            errors={errors}
+            label='Permanent Address*'
+            placeholder='Enter your permanent address'
+            register={register}
+            value='permanentAddress'
+          />
+          <SelectInput
+            errors={errors}
+            label='Select Permanent District*'
+            options={SLDistricts.map(({ district, province }) => {
+              return { id: district, value: `${district} - ${province}` };
+            })}
+            register={register}
+            value='permanentDistrict'
+          />
+        </div>
+
+        <SwitchInput
+          label='Present Address'
+          linkLabel='Same as permanent address'
+          register={register}
+          value='isSameAsPermanent'
+        />
+        {!isSameAsPermanent && (
           <div className='grid lg:grid-cols-2 lg:gap-6'>
             <TextInput
               errors={errors}
-              label='Telephone'
-              placeholder='Enter your telephone number'
+              label='Present Address'
+              placeholder='Enter your present address'
               register={register}
-              value='telephone'
-            />
-            <TextInput
-              errors={errors}
-              label='Mobile'
-              placeholder='Enter your mobile number'
-              register={register}
-              value='mobile'
-            />
-          </div>
-          <div className='grid lg:grid-cols-2 lg:gap-6'>
-            <TextInput
-              errors={errors}
-              label='Permanent Address*'
-              placeholder='Enter your permanent address'
-              register={register}
-              value='permanentAddress'
+              value='presentAddress'
             />
             <SelectInput
               errors={errors}
-              label='Select Permanent District*'
+              label='Select Present District'
               options={SLDistricts.map(({ district, province }) => {
                 return { id: district, value: `${district} - ${province}` };
               })}
               register={register}
-              value='permanentDistrict'
+              value='presentDistrict'
             />
           </div>
-
-          <SwitchInput
-            label='Present Address'
-            linkLabel='Same as permanent address'
-            register={register}
-            value='isSameAsPermanent'
-          />
-          {!isSameAsPermanent && (
+        )}
+        <RadioInput
+          errors={errors}
+          radioLabel='Do you have a passport'
+          register={register}
+          value='isPassportExist'
+          values={[
+            { radioValue: 'Yes' },
+            { radioValue: 'No', defaultChecked: true },
+          ]}
+        />
+        {isPassportExist && (
+          <>
             <div className='grid lg:grid-cols-2 lg:gap-6'>
               <TextInput
                 errors={errors}
-                label='Present Address'
-                placeholder='Enter your present address'
+                label='Passport Number'
+                placeholder='Enter your passport number'
                 register={register}
-                value='presentAddress'
+                value='passportNumber'
               />
               <SelectInput
                 errors={errors}
-                label='Select Present District'
-                options={SLDistricts.map(({ district, province }) => {
-                  return { id: district, value: `${district} - ${province}` };
-                })}
+                label='Select Passport Country'
+                options={countries}
                 register={register}
-                value='presentDistrict'
+                value='passportCountry'
               />
             </div>
-          )}
-          <RadioInput
-            errors={errors}
-            radioLabel='Do you have a passport'
-            register={register}
-            value='isPassportExist'
-            values={[
-              { radioValue: 'Yes' },
-              { radioValue: 'No', defaultChecked: true },
-            ]}
-          />
-          {isPassportExist && (
-            <>
-              <div className='grid lg:grid-cols-2 lg:gap-6'>
-                <TextInput
-                  errors={errors}
-                  label='Passport Number'
-                  placeholder='Enter your passport number'
-                  register={register}
-                  value='passportNumber'
-                />
-                <SelectInput
-                  errors={errors}
-                  label='Select Passport Country'
-                  options={countries}
-                  register={register}
-                  value='passportCountry'
-                />
-              </div>
-              <div className='grid lg:grid-cols-2 lg:gap-6'>
-                <TextInput
-                  errors={errors}
-                  label='Issue Date'
-                  placeholder='Enter passport issue date'
-                  register={register}
-                  value='passportIssueDate'
-                  type='date'
-                />
-                <TextInput
-                  errors={errors}
-                  label='Enter passport expiry date'
-                  placeholder='Expiry Date'
-                  register={register}
-                  value='passportExpiryDate'
-                  type='date'
-                />
-              </div>
-            </>
-          )}
-          <RadioInput
-            errors={errors}
-            radioLabel='Do you have a national ID card'
-            register={register}
-            value='isNationalIdExist'
-            values={[
-              { radioValue: 'Yes' },
-              { radioValue: 'No', defaultChecked: true },
-            ]}
-          />
-          {isNationalCardExist && (
-            <>
-              <div className='grid lg:grid-cols-2 lg:gap-6'>
-                <TextInput
-                  errors={errors}
-                  label='National ID Number*'
-                  placeholder='Enter your National ID number'
-                  register={register}
-                  value='nationalId'
-                />
-                <SelectInput
-                  errors={errors}
-                  label='Select Country*'
-                  options={countries}
-                  register={register}
-                  value='nationalIdCountry'
-                />
-              </div>
-              <div className='grid lg:grid-cols-2 lg:gap-6'>
-                <TextInput
-                  errors={errors}
-                  label='Issue Date*'
-                  placeholder='Enter National Card issue date'
-                  register={register}
-                  value='nationalIdIssueDate'
-                  type='date'
-                />
-                <TextInput
-                  errors={errors}
-                  label='Enter National Car expiry date*'
-                  placeholder='Expiry Date'
-                  register={register}
-                  value='nationalIdExpiryDate'
-                  type='date'
-                />
-              </div>
-            </>
-          )}
-
-          <CheckBoxInput
-            errors={errors}
-            label=' I agree with the'
-            linkLabel='Terms and Conditions of the ACC'
-            register={register}
-            value='termsAndConditions'
-            placeholder=''
-          />
-          {formState.errors._form && (
-            <div className='flex w-full justify-between my-5 text-red-500'>
-              <Typography>{formState.errors._form.join(', ')}</Typography>
+            <div className='grid lg:grid-cols-2 lg:gap-6'>
+              <TextInput
+                errors={errors}
+                label='Issue Date'
+                placeholder='Enter passport issue date'
+                register={register}
+                value='passportIssueDate'
+                type='date'
+              />
+              <TextInput
+                errors={errors}
+                label='Enter passport expiry date'
+                placeholder='Expiry Date'
+                register={register}
+                value='passportExpiryDate'
+                type='date'
+              />
             </div>
-          )}
-          <div className='flex justify-between space-y-5 flex-col sm:flex-row sm:space-y-0 '>
-            <Button
-              color='blue'
-              onClick={() => {
-                window.scrollTo(0, 0);
-                dispatch(handlePrevSetupStep());
-              }}
-            >
-              Prev: Employment
-            </Button>
-            <Button type='submit' color='blue'>
-              Save & Continue
-            </Button>
+          </>
+        )}
+        <RadioInput
+          errors={errors}
+          radioLabel='Do you have a national ID card'
+          register={register}
+          value='isNationalIdExist'
+          values={[
+            { radioValue: 'Yes' },
+            { radioValue: 'No', defaultChecked: true },
+          ]}
+        />
+        {isNationalCardExist && (
+          <>
+            <div className='grid lg:grid-cols-2 lg:gap-6'>
+              <TextInput
+                errors={errors}
+                label='National ID Number*'
+                placeholder='Enter your National ID number'
+                register={register}
+                value='nationalId'
+              />
+              <SelectInput
+                errors={errors}
+                label='Select Country*'
+                options={countries}
+                register={register}
+                value='nationalIdCountry'
+              />
+            </div>
+            <div className='grid lg:grid-cols-2 lg:gap-6'>
+              <TextInput
+                errors={errors}
+                label='Issue Date*'
+                placeholder='Enter National Card issue date'
+                register={register}
+                value='nationalIdIssueDate'
+                type='date'
+              />
+              <TextInput
+                errors={errors}
+                label='Enter National Car expiry date*'
+                placeholder='Expiry Date'
+                register={register}
+                value='nationalIdExpiryDate'
+                type='date'
+              />
+            </div>
+          </>
+        )}
+
+        <CheckBoxInput
+          errors={errors}
+          label=' I agree with the'
+          linkLabel='Terms and Conditions of the ACC'
+          register={register}
+          value='termsAndConditions'
+          placeholder=''
+        />
+        {formState.errors._form && (
+          <div className='flex w-full justify-between my-5 text-red-500'>
+            <Typography>{formState.errors._form.join(', ')}</Typography>
           </div>
-        </form>
-      </CardBody>
-    </>
+        )}
+        <div className='flex justify-between space-y-5 flex-col sm:flex-row sm:space-y-0 '>
+          <Button
+            color='blue'
+            onClick={() => {
+              window.scrollTo(0, 0);
+              dispatch(handlePrevSetupStep());
+            }}
+          >
+            Prev: Employment
+          </Button>
+          <Button type='submit' color='blue'>
+            Save & Continue
+          </Button>
+        </div>
+      </form>
+    </CardBody>
   );
 }

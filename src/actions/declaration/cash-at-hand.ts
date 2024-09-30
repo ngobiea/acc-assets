@@ -46,15 +46,17 @@ export const postCashAtHand = async (
         },
       };
     }
-    const isCashAtHandExist = await CashAtHandService.isCashAtHandExist(cashAtHandData.declarationId);
+    const isCashAtHandExist = await CashAtHandService.isCashAtHandExist(
+      cashAtHandData.declarationId
+    );
     if (isCashAtHandExist) {
-       return {
-         errors: {
-           _form: [
-             'Cash at hand exist delete the previous one before adding new one.',
-           ],
-         },
-       };
+      return {
+        errors: {
+          _form: [
+            'Cash at hand exist delete the previous one before adding new one.',
+          ],
+        },
+      };
     }
     const createdCashAtHand = await CashAtHandService.createCashAtHand(
       cashAtHandData
@@ -73,4 +75,35 @@ export const postCashAtHand = async (
       },
     };
   }
+};
+
+export const deleteCashAtHand = async (
+  {
+    declarationId,
+    id,
+  }: {
+    declarationId: string;
+    id: string;
+  },
+  _useFormState: DeleteFormState,
+  _formData: FormData
+): Promise<DeleteFormState> => {
+  try {
+    const { user } = await validateRequest();
+    if (!user) {
+      redirect(routes.login);
+    }
+    await CashAtHandService.deleteCashAtHand(id);
+  } catch (error) {
+    console.error(error);
+    return {
+      errors: {
+        _form: ['An error occurred while deleting cash at hand'],
+      },
+    };
+  }
+  revalidatePath(routes.declarationId(declarationId));
+  return {
+    errors: {},
+  };
 };

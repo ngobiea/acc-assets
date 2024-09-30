@@ -13,7 +13,7 @@ import {
   setIsImmovableAssetFormOpen,
 } from '@/store/slices/declarationSlice/declarationSlice';
 import type { ImmovableAssetData } from '@/utils/declaration';
-import ImmovableGridTable from './table-immovable';
+import ImmovableGridTable from '../liability/table-immovable';
 
 export default function ImmovableAccordion({
   immovableAssets,

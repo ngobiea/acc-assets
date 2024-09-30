@@ -1,3 +1,59 @@
+interface EmploymentFormState {
+  errors: {
+    mdaId?: string[];
+    employeeCategory?: string[];
+    posting?: string[];
+    designation?: string[];
+    rank?: string[];
+    annualSalary?: string[];
+    currency?: string[];
+    allowances?: string[];
+    allowancesCurrency?: string[];
+    allowancesDescription?: string[];
+    SSNo?: string[];
+    employeeId?: string[];
+    employeeNo?: string[];
+    establishmentRegNo?: string[];
+    contractType?: string[];
+    contractStartDate?: string[];
+    contractEndDate?: string[];
+    sourceOfIncome?: string[];
+    otherSourceOfIncome?: string[];
+    _form?: string[];
+  };
+  data?: {
+    employment: string;
+  };
+}
+
+interface FamilyFormState {
+  errors: {
+    surname?: string[];
+    firstName?: string[];
+    middleName?: string[];
+    relation?: string[];
+    address?: string[];
+    dateOfBirth?: string[];
+    gender?: string[];
+    nationality?: string[];
+    phoneNumber?: string[];
+    email?: string[];
+    mobile?: string[];
+    businessName?: string[];
+    employeeNo?: string[];
+    category?: string[];
+    institution?: string[];
+    SSNo?: string[];
+    pinCode?: string[];
+    designation?: string[];
+    otherRelation?: string[];
+    _form?: string[];
+  };
+  data?: {
+    family: string;
+  };
+}
+
 interface CashAtHandFormState {
   errors: {
     currency?: string[];
@@ -156,5 +212,18 @@ interface LiabilityFormState {
   };
   data?: {
     liability: string;
+  };
+}
+
+interface DeleteFormState {
+  errors: {
+    _form?: string[];
+  };
+}
+
+interface PreviewFormState {
+  errors: {
+    isAccepted?: string[];
+    _form?: string[];
   };
 }

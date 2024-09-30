@@ -71,7 +71,7 @@ export default function LiabilityForm({
     formData.append('maturityDate', submitted.maturityDate);
     formData.append('remarks', submitted.remarks);
     formData.append('declarationId', declarationId);
-    // action(formData);
+    action(formData);
     console.log(data)
   };
 
@@ -288,7 +288,7 @@ export default function LiabilityForm({
           <div className='grid lg:grid-cols-2 lg:gap-6'>
             <TextInput
               errors={errors}
-              label='Year Loan Contracted'
+              label='Year Loan Contracted*'
               placeholder='Enter year loan was contracted'
               register={register}
               value='yearContracted'
@@ -296,7 +296,7 @@ export default function LiabilityForm({
             />
             <TextInput
               errors={errors}
-              label='Loan Purpose'
+              label='Loan Purpose*'
               placeholder='Enter purpose of loan'
               register={register}
               value='loanPurpose'
@@ -315,7 +315,7 @@ export default function LiabilityForm({
             />
             <TextInput
               errors={errors}
-              label='Maturity Date'
+              label='Maturity Date*'
               placeholder='Enter maturity date'
               register={register}
               value='maturityDate'
@@ -328,6 +328,11 @@ export default function LiabilityForm({
             register={register}
             value='remarks'
           />
+          {formState.errors._form && (
+            <div className='flex w-full justify-between my-5 text-red-500'>
+              <Typography>{formState.errors._form.join(', ')}</Typography>
+            </div>
+          )}
           <div className='flex justify-end'>
             <Button
               type='submit'

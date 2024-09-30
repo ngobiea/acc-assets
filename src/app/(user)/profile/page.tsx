@@ -15,6 +15,7 @@ import ContactUpdateForm from '@/components/profile/contact/update-contact';
 import NationalCardUpdateForm from '@/components/profile/nationalId/add-nationalCard';
 import CitizenUpdateForm from '@/components/profile/nationality/add-citizen-form';
 import PassportUpdateForm from '@/components/profile/passport/add-passport-button';
+import React from 'react';
 export default async function ProfilePage() {
   const { user } = await validateRequest();
   if (!user) {

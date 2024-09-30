@@ -185,6 +185,11 @@ export default function PassportUpdateForm() {
               </p>
             </div>
           </div>
+          {formState.errors._form && (
+            <div className='flex w-full justify-between my-5 text-red-500'>
+              <Typography>{formState.errors._form.join(', ')}</Typography>
+            </div>
+          )}
           <div className='mt-4 w-full flex justify-end'>
             <Button
               type='submit'

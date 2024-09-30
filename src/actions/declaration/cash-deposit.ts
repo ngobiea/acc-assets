@@ -71,3 +71,35 @@ export const postCashDeposit = async (
     };
   }
 };
+
+export const deleteCashDeposit = async (
+  {
+    declarationId,
+    id,
+  }: {
+    declarationId: string;
+    id: string;
+  },
+  _useFormState: DeleteFormState,
+  _formData: FormData
+): Promise<DeleteFormState> => {
+  try {
+    const { user } = await validateRequest();
+    if (!user) {
+      redirect(routes.login);
+    }
+    await CashDepositService.deleteCashDeposit(id);
+  } catch (error) {
+    return {
+      errors: {
+        _form: [
+          'An error occurred while deleting your form. Please try again later.',
+        ],
+      },
+    };
+  }
+  revalidatePath(routes.declarationId(declarationId));
+  return {
+    errors: {},
+  };
+};

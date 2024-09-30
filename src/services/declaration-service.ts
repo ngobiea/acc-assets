@@ -133,8 +133,12 @@ class DeclarationService {
       ),
       securities: foundDeclaration.securities.map((security) => ({
         ...security,
-        acquisitionCost: new Intl.NumberFormat().format(security.acquisitionCost.toNumber()),
-        currentMarketValue: new Intl.NumberFormat().format(security.currentMarketValue.toNumber()),
+        acquisitionCost: new Intl.NumberFormat().format(
+          security.acquisitionCost.toNumber()
+        ),
+        currentMarketValue: new Intl.NumberFormat().format(
+          security.currentMarketValue.toNumber()
+        ),
       })),
     };
     return serializedDeclaration;
@@ -442,6 +446,35 @@ class DeclarationService {
       return createdDeclaration;
     } catch (error) {
       console.error('Error creating declaration:', error);
+      throw error;
+    }
+  }
+
+  static async deleteDeclaration(declarationId: string): Promise<void> {
+    try {
+      await declaration.delete({
+        where: {
+          id: declarationId,
+        },
+      });
+    } catch (error) {
+      console.error('Error deleting declaration:', error);
+      throw error;
+    }
+  }
+  static async declare(id: string): Promise<Declaration> {
+    try {
+      const updateDeclaration = await declaration.update({
+        where: {
+          id,
+        },
+        data: {
+          status: 'DECLARED',
+        },
+      });
+      return updateDeclaration;
+    } catch (error) {
+      console.error('Error checking declaration:', error);
       throw error;
     }
   }

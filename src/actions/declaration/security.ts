@@ -76,3 +76,37 @@ export const postSecurity = async (
     };
   }
 };
+
+export const deleteSecurity = async (
+  {
+    declarationId,
+    id,
+  }: {
+    declarationId: string;
+    id: string;
+  },
+  _useFormState: DeleteFormState,
+  _formData: FormData
+): Promise<DeleteFormState> => {
+  try {
+    const { user } = await validateRequest();
+    if (!user) {
+      redirect(routes.login);
+    }
+
+    await SecurityService.deleteSecurity(id);
+  } catch (error) {
+    console.error(error);
+    return {
+      errors: {
+        _form: [
+          'An error occurred while deleting employment. Please try again later.',
+        ],
+      },
+    };
+  }
+  revalidatePath(routes.declarationId(declarationId));
+  return {
+    errors: {},
+  };
+};

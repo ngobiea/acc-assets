@@ -1,5 +1,5 @@
 'use client';
-import { Button, CardBody } from '@/components/materialTailwind';
+import { Button, CardBody, Typography } from '@/components/materialTailwind';
 import { setIsSameAsPermanent } from '@/store/slices/setupSlice/setupSlice';
 import { useFormState } from 'react-dom';
 import { SLDistricts } from '@/utils/selectOptions';
@@ -200,8 +200,12 @@ export default function ContactDeclarationForm({
             />
           </div>
         )}
-
-        <div className='flex justify-between mt-5'>
+        {formState.errors._form && (
+          <div className='flex w-full justify-between my-5 text-red-500'>
+            <Typography>{formState.errors._form.join(', ')}</Typography>
+          </div>
+        )}
+        <div className='flex flex-col space-y-5 sm:space-y-0 sm:flex-row justify-between mt-5'>
           <Button
             onClick={() => dispatch(handlePrevDeclarationStep())}
             color='blue'
@@ -209,7 +213,7 @@ export default function ContactDeclarationForm({
             Prev
           </Button>
           <Button type='submit' color='blue' className='hover:animate-bounce'>
-            Save & Continue
+            Save: Next
           </Button>
         </div>
       </form>

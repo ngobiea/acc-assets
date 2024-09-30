@@ -6,19 +6,28 @@ import {
 } from '@/components/materialTailwind';
 
 import { type OtherAssetData } from '@/utils/declaration';
+import { useFormState } from 'react-dom';
+import { deleteOtherAsset } from '@/actions/declaration/other';
 
-export default function OtherGridTable({ other }: { other: OtherAssetData }) {
+export default function OtherGridTable({ other }: { other: OtherAssetData; }) {
+  const [formState, formAction] = useFormState(
+    deleteOtherAsset.bind(null, {
+      declarationId: other.declarationId,
+      id: other.id,
+    }),
+    { errors: {} }
+  );
   return (
     <Card id={other.id} className=''>
       <CardBody className='border-t border-blue-400 '>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               {`Owner's Name:`}
             </Typography>
             <Typography>{other?.ownerName}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Relation:
             </Typography>
@@ -26,13 +35,13 @@ export default function OtherGridTable({ other }: { other: OtherAssetData }) {
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3 '>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Registered Owner:
             </Typography>
             <Typography>{other?.registerOwner}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Asset Type:
             </Typography>
@@ -40,19 +49,19 @@ export default function OtherGridTable({ other }: { other: OtherAssetData }) {
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3  gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Location:
             </Typography>
             <Typography>{other?.location || 'N/A'}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Estimated / Current Market Value:
             </Typography>
             <Typography>{other?.currency + other?.estimatedValue}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Finance Source:
             </Typography>
@@ -60,13 +69,13 @@ export default function OtherGridTable({ other }: { other: OtherAssetData }) {
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Acquisition Mode:
             </Typography>
             <Typography>{other?.acquisitionMode || 'N/A'}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Acquisition Cost:
             </Typography>
@@ -76,13 +85,13 @@ export default function OtherGridTable({ other }: { other: OtherAssetData }) {
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Acquisition Year:
             </Typography>
             <Typography>{other?.acquisitionYear || 'N/A'}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Remarks:
             </Typography>
@@ -95,7 +104,7 @@ export default function OtherGridTable({ other }: { other: OtherAssetData }) {
             <Typography color='gray' className=' font-bold'>
               Action:
             </Typography>
-            <form className='' action={''}>
+            <form className='' action={formAction}>
               <Button
                 variant='gradient'
                 color='red'

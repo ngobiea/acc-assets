@@ -319,6 +319,11 @@ export default function CashDepositForm({
               />
             )}
           </div>
+          {formState.errors._form && (
+            <div className='flex w-full justify-between my-5 text-red-500'>
+              <Typography>{formState.errors._form.join(', ')}</Typography>
+            </div>
+          )}
           <div className='flex justify-end'>
             <Button
               type='submit'

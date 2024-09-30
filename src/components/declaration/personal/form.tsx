@@ -5,7 +5,7 @@ import { titleData, personalIds } from '@/utils/selectOptions';
 import { useEffect } from 'react';
 import { countries, acquireNationalityBy } from '@/utils/countries';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { CardBody, Button } from '@/components/materialTailwind';
+import { CardBody, Button, Typography } from '@/components/materialTailwind';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { personalSchemaClient } from '@/utils/validators/setup';
@@ -284,6 +284,11 @@ export default function DeclarationPersonalForm({
           value={'acquireBy'}
         />
       </div>
+      {formState.errors._form && (
+        <div className='flex w-full justify-between my-5 text-red-500'>
+          <Typography>{formState.errors._form.join(', ')}</Typography>
+        </div>
+      )}
       <div className='flex justify-end mt-5'>
         <Button type='submit' color='blue' className='hover:animate-bounce'>
           Save & Continue

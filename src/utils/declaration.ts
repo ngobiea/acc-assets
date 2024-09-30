@@ -72,33 +72,7 @@ export interface EmploymentData {
   createdAt: Date;
   updatedAt: Date;
 }
-export interface EmploymentFormState {
-  errors: {
-    mdaId?: string[];
-    employeeCategory?: string[];
-    posting?: string[];
-    designation?: string[];
-    rank?: string[];
-    annualSalary?: string[];
-    currency?: string[];
-    allowances?: string[];
-    allowancesCurrency?: string[];
-    allowancesDescription?: string[];
-    SSNo?: string[];
-    employeeId?: string[];
-    employeeNo?: string[];
-    establishmentRegNo?: string[];
-    contractType?: string[];
-    contractStartDate?: string[];
-    contractEndDate?: string[];
-    sourceOfIncome?: string[];
-    otherSourceOfIncome?: string[];
-    _form?: string[];
-  };
-  data?: {
-    employment: string;
-  };
-}
+
 export interface FamilyData {
   id: string;
   surname: string;
@@ -123,33 +97,7 @@ export interface FamilyData {
   createdAt: Date;
   updatedAt: Date;
 }
-export interface FamilyFormState {
-  errors: {
-    surname?: string[];
-    firstName?: string[];
-    middleName?: string[];
-    relation?: string[];
-    address?: string[];
-    dateOfBirth?: string[];
-    gender?: string[];
-    nationality?: string[];
-    phoneNumber?: string[];
-    email?: string[];
-    mobile?: string[];
-    businessName?: string[];
-    employeeNo?: string[];
-    category?: string[];
-    institution?: string[];
-    SSNo?: string[];
-    pinCode?: string[];
-    designation?: string[];
-    otherRelation?: string[];
-    _form?: string[];
-  };
-  data?: {
-    family: string;
-  };
-}
+
 export interface ImmovableAssetData {
   id: string;
   ownerName: string;
@@ -205,6 +153,7 @@ export interface LiabilitiesData {
   paymentPeriod: number;
   loanOutstanding: string;
   currencyOutstanding: string;
+  declarationId: string;
   maturityDate: Date | null;
   remarks: string | null;
   createdAt: Date;
@@ -223,6 +172,7 @@ export interface PastEmploymentData {
   allowancesCurrency: string | null;
   allowancesDescription: string | null;
   sourceOfIncome: string | null;
+  declarationId: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -261,6 +211,7 @@ export interface OtherAssetData {
   acquisitionCost: string;
   acquisitionCurrency: string;
   acquisitionYear: number;
+  declarationId: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -283,6 +234,7 @@ export interface SecurityData {
   acquisitionCost: string;
   acquisitionCurrency: string;
   acquisitionYear: number;
+  declarationId: string;
   createdAt: Date;
   updatedAt: Date;
 }

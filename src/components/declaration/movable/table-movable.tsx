@@ -6,23 +6,32 @@ import {
 } from '@/components/materialTailwind';
 
 import type { MovableAssetData } from '@/utils/declaration';
+import { useFormState } from 'react-dom';
+import { deleteMovableAsset } from '@/actions/declaration/movable';
 
 export default function MovableGridTable({
   movable,
 }: {
   movable: MovableAssetData;
 }) {
+  const [formState, formAction] = useFormState(
+    deleteMovableAsset.bind(null, {
+      declarationId: movable.declarationId,
+      id: movable.id,
+    }),
+    { errors: {} }
+  );
   return (
     <Card id={movable.id} className=''>
       <CardBody className='border-t border-blue-400 '>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               {`Owner's Name:`}
             </Typography>
             <Typography>{movable?.ownerName}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Relation:
             </Typography>
@@ -30,13 +39,13 @@ export default function MovableGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3 '>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Registered Owner:
             </Typography>
             <Typography>{movable?.registerOwner}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Asset Type:
             </Typography>
@@ -44,13 +53,13 @@ export default function MovableGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3  gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Description:
             </Typography>
             <Typography>{movable?.description || 'N/A'}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Registration No.:
             </Typography>
@@ -58,13 +67,13 @@ export default function MovableGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Location:
             </Typography>
             <Typography>{movable?.location || 'N/A'}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Purpose:
             </Typography>
@@ -72,7 +81,7 @@ export default function MovableGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Estimated Current Market Value:
             </Typography>
@@ -80,7 +89,7 @@ export default function MovableGridTable({
               {movable?.currency + ' ' + movable?.estimatedValue}
             </Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Finance Source:
             </Typography>
@@ -88,13 +97,13 @@ export default function MovableGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Acquisition Mode:
             </Typography>
             <Typography>{movable?.acquisitionMode || 'N/A'}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Acquisition Cost:
             </Typography>
@@ -104,7 +113,7 @@ export default function MovableGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Acquisition Year:
             </Typography>
@@ -117,7 +126,7 @@ export default function MovableGridTable({
             <Typography color='gray' className=' font-bold'>
               Action:
             </Typography>
-            <form className='' action={''}>
+            <form className='' action={formAction}>
               <Button
                 variant='gradient'
                 color='red'

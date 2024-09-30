@@ -16,6 +16,7 @@ import MovableAssetsForm from '@/components/declaration/movable/form';
 import SecurityForm from '@/components/declaration/security/form';
 import OtherAssetsForm from '@/components/declaration/other-asset/form';
 import LiabilityForm from '@/components/declaration/liability/form';
+import React from 'react';
 interface NewDeclarationProps {
   params: {
     id: string;

@@ -188,120 +188,123 @@ const PersonalForm = ({ personal }: { personal: PersonalSetupAttributes }) => {
   ]);
 
   return (
-    <>
-      <CardBody className='flex flex-col gap-4'>
-        <form className='' onSubmit={handleSubmit(onSubmit)}>
-          <Typography className=' text-center'>
-            All fields marked with * are required to be filled in.
-          </Typography>
-          <ImagePicker register={register} errors={errors} value='image' />
+    <CardBody className='flex flex-col gap-4'>
+      <form className='' onSubmit={handleSubmit(onSubmit)}>
+        <Typography className=' text-center'>
+          All fields marked with * are required to be filled in.
+        </Typography>
+        <ImagePicker register={register} errors={errors} value='image' />
 
-          <div className='grid lg:grid-cols-2 lg:gap-6'>
-            <SelectInput
-              label='Select your title*'
-              errors={errors}
-              options={titleData}
-              register={register}
-              value={'title'}
-            />
-            <SelectTextInput
-              errors={errors}
-              label={idType === 'NIN' ? 'NIN*' : 'Passport Number*'}
-              options={personalIds}
-              placeholder={`Enter your ${idType} number`}
-              register={register}
-              inputValue={'pid'}
-              selectValue={'idType'}
-              idType={idType}
-            />
-          </div>
-          <div className='grid lg:grid-cols-2 lg:gap-6'>
-            <TextInput
-              register={register}
-              errors={errors}
-              label='Surname*'
-              placeholder='Enter your surname'
-              value='surname'
-            />
-            <TextInput
-              register={register}
-              errors={errors}
-              label='First Name*'
-              placeholder='Enter your first name'
-              value='firstName'
-            />
-          </div>
-          <div className='grid lg:grid-cols-2 lg:gap-6'>
-            <TextInput
-              register={register}
-              errors={errors}
-              label='Middle Name'
-              placeholder='Enter your middle name'
-              value='middleName'
-            />
-            <TextInput
-              register={register}
-              errors={errors}
-              label='Previous Name/Aliases'
-              placeholder='Enter your previous name/aliases'
-              value='aliases'
-            />
-          </div>
+        <div className='grid lg:grid-cols-2 lg:gap-6'>
+          <SelectInput
+            label='Select your title*'
+            errors={errors}
+            options={titleData}
+            register={register}
+            value={'title'}
+          />
+          <SelectTextInput
+            errors={errors}
+            label={idType === 'NIN' ? 'NIN*' : 'Passport Number*'}
+            options={personalIds}
+            placeholder={`Enter your ${idType} number`}
+            register={register}
+            inputValue={'pid'}
+            selectValue={'idType'}
+            idType={idType}
+          />
+        </div>
+        <div className='grid lg:grid-cols-2 lg:gap-6'>
           <TextInput
             register={register}
             errors={errors}
-            label='Date of Birth*'
-            placeholder='Enter your Date of Birth'
-            type='date'
-            value='dateOfBirth'
+            label='Surname*'
+            placeholder='Enter your surname'
+            value='surname'
           />
-          <div className='grid lg:grid-cols-2 lg:gap-6'>
-            <RadioInput
-              radioLabel='Marital Status*'
-              register={register}
-              value={'maritalStatus'}
-              values={[
-                { radioValue: 'Single' },
-                { radioValue: 'Married' },
-                { radioValue: 'Divorced' },
-                { radioValue: 'Separated' },
-                { radioValue: 'Widowed' },
-              ]}
-              errors={errors}
-            />
-            <RadioInput
-              radioLabel='Gender*'
-              errors={errors}
-              register={register}
-              value={'gender'}
-              values={[{ radioValue: 'Male' }, { radioValue: 'Female' }]}
-            />
+          <TextInput
+            register={register}
+            errors={errors}
+            label='First Name*'
+            placeholder='Enter your first name'
+            value='firstName'
+          />
+        </div>
+        <div className='grid lg:grid-cols-2 lg:gap-6'>
+          <TextInput
+            register={register}
+            errors={errors}
+            label='Middle Name'
+            placeholder='Enter your middle name'
+            value='middleName'
+          />
+          <TextInput
+            register={register}
+            errors={errors}
+            label='Previous Name/Aliases'
+            placeholder='Enter your previous name/aliases'
+            value='aliases'
+          />
+        </div>
+        <TextInput
+          register={register}
+          errors={errors}
+          label='Date of Birth*'
+          placeholder='Enter your Date of Birth'
+          type='date'
+          value='dateOfBirth'
+        />
+        <div className='grid lg:grid-cols-2 lg:gap-6'>
+          <RadioInput
+            radioLabel='Marital Status*'
+            register={register}
+            value={'maritalStatus'}
+            values={[
+              { radioValue: 'Single' },
+              { radioValue: 'Married' },
+              { radioValue: 'Divorced' },
+              { radioValue: 'Separated' },
+              { radioValue: 'Widowed' },
+            ]}
+            errors={errors}
+          />
+          <RadioInput
+            radioLabel='Gender*'
+            errors={errors}
+            register={register}
+            value={'gender'}
+            values={[{ radioValue: 'Male' }, { radioValue: 'Female' }]}
+          />
+        </div>
+        <div className='grid lg:grid-cols-2 lg:gap-6'>
+          <SelectInput
+            errors={errors}
+            title='Present Citizenship*'
+            options={countries}
+            register={register}
+            value={'country'}
+          />
+          <SelectInput
+            errors={errors}
+            title='Acquire By*'
+            label='Acquire By*'
+            options={acquireNationalityBy}
+            register={register}
+            value={'acquireBy'}
+          />
+        </div>
+        {formState.errors._form && (
+          <div className='flex w-full justify-between my-5 text-red-500'>
+            <Typography>{formState.errors._form.join(', ')}</Typography>
           </div>
-          <div className='grid lg:grid-cols-2 lg:gap-6'>
-            <SelectInput
-              errors={errors}
-              title='Present Citizenship*'
-              options={countries}
-              register={register}
-              value={'country'}
-            />
-            <SelectInput
-              errors={errors}
-              title='Acquire By*'
-              label='Acquire By*'
-              options={acquireNationalityBy}
-              register={register}
-              value={'acquireBy'}
-            />
-          </div>
-          <div className='flex justify-end mt-5'>
-            <Button type='submit' color='blue' className='hover:animate-bounce'>
-              Save & Continue
-            </Button>
-          </div>
-        </form>
-      </CardBody>
-    </>
+        )}
+        <div className='flex justify-end mt-5'>
+          <Button type='submit' color='blue' className='hover:animate-bounce'>
+            Save & Continue
+          </Button>
+        </div>
+      </form>
+    </CardBody>
   );
 };
 

@@ -23,7 +23,7 @@ export default class LiabilityService {
               ? newLiability.otherRelation
               : newLiability.relation,
           creditorAddress: newLiability.creditorAddress,
-          maturityDate: newLiability.maturityDate,
+          maturityDate: newLiability.maturityDate? new Date(newLiability.maturityDate): null,
           remarks: newLiability.remarks,
           yearContracted: Number(newLiability.yearContracted),
         },

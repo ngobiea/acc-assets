@@ -5,7 +5,6 @@ import DeclarationService from '@/services/declaration-service';
 import routes from '@/utils/routes';
 import { familySchema } from '@/utils/validators/declaration';
 import { redirect } from 'next/navigation';
-import type { FamilyFormState } from '@/utils/declaration';
 import { revalidatePath } from 'next/cache';
 
 const getFormData = (formData: FormData): FamilyClientForm => {
@@ -82,4 +81,35 @@ export const postFamily = async (
       },
     };
   }
+};
+
+export const deleteFamily = async (
+  {
+    declarationId,
+    id,
+  }: {
+    declarationId: string;
+    id: string;
+  },
+  _useFormState: DeleteFormState,
+  _formData: FormData
+): Promise<DeleteFormState> => {
+  try {
+    const { user } = await validateRequest();
+    if (!user) {
+      redirect(routes.login);
+    }
+    await FamilyService.deleteFamily(id);
+  } catch (error) {
+    console.log(error);
+    return {
+      errors: {
+        _form: ['An error occurred while deleting family data'],
+      },
+    };
+  }
+  revalidatePath(routes.declarationId(declarationId));
+  return {
+    errors: {},
+  };
 };
