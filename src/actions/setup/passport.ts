@@ -4,7 +4,7 @@ import { validateRequest } from '@/lib/verify-auth';
 import { redirect } from 'next/navigation';
 import routes from '@/utils/routes';
 import { passportSchema } from '@/utils/validators/setup';
-import type { Passport } from '@prisma/client';
+import { revalidatePath } from 'next/cache';
 
 export const postPassport = async (
   _useFormState: PassportFormState,
@@ -61,7 +61,7 @@ export const postPassport = async (
       expiryDate: new Date(expiryDate),
       userId: user.id,
     });
-
+    revalidatePath(routes.profile);
     return {
       errors: {},
       data: {
@@ -70,37 +70,35 @@ export const postPassport = async (
     };
   } catch (error) {
     console.log('Error fetching passports:', error);
-    throw error;
-  }
-  return {
-    errors: {},
-  };
-};
-
-export const getPassports = async (): Promise<Passport[]> => {
-  try {
-    const { user } = await validateRequest();
-    if (!user) {
-      redirect(routes.login);
-    }
-    const passports = await PassportService.getPassports(user.id);
-    return passports;
-  } catch (error) {
-    console.log('Error fetching passports:', error);
-    throw error;
+    return {
+      errors: {
+        _form: ['An error occurs while deleting national card'],
+      },
+    };
   }
 };
 
-export const deletePassport = async (id: string): Promise<string | null> => {
+export const deletePassport = async (
+  { id }: { id: string },
+  _useFormState: DeleteFormState,
+  _formData: FormData
+): Promise<DeleteFormState> => {
   try {
     const { user } = await validateRequest();
     if (!user) {
       redirect(routes.login);
     }
     await PassportService.deletePassport(id);
-    return id;
   } catch (error) {
     console.log('Error deleting passport:', error);
-    throw error;
+    return {
+      errors: {
+        _form: ['An error occurs while deleting national card'],
+      },
+    };
   }
+  revalidatePath(routes.profile);
+  return {
+    errors: {},
+  };
 };

@@ -7,6 +7,7 @@ import {
 } from '@/components/materialTailwind';
 import { MdOutlineDelete } from 'react-icons/md';
 import AddPassportButton from './button-add-passport';
+import DeletePassportForm from './delete-passport';
 const TABLE_HEAD = [
   'Passport No.',
   'Country',
@@ -115,15 +116,7 @@ export default function ProfilePassportTable({
                         </Typography>
                       </td>
                       <td className={classes}>
-                        <form action=''>
-                          <Button
-                            variant='text'
-                            color='red'
-                            className='flex items-center gap-1 hover:animate-bounce'
-                          >
-                            <MdOutlineDelete className='h-4 w-4' /> Delete
-                          </Button>
-                        </form>
+                        <DeletePassportForm id={id} />
                       </td>
                     </tr>
                   );

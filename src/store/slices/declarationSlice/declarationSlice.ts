@@ -9,8 +9,8 @@ export const initializeDeclaration: DeclarationState = {
   isDeletingNationalCard: false,
   isDeletingPassport: false,
   isLoadingDeclaration: false,
-  isStartDeclaration: false,
   isSubmittingCitizenship: false,
+  isDeclarationFormOpen:false,
   isSubmittingNationalCard: false,
   isSubmittingPassport: false,
   isCashDepositFormOpen: false,
@@ -42,8 +42,8 @@ const declarationSlice = createSlice({
     setIsLoadingDeclaration(state, action: PayloadAction<boolean>) {
       state.isLoadingDeclaration = action.payload;
     },
-    toggleIsStartDeclaration(state) {
-      state.isStartDeclaration = !state.isStartDeclaration;
+    setIsDeclarationFormOpen(state, action: PayloadAction<boolean>) {
+      state.isDeclarationFormOpen = action.payload;
     },
     setIsCashDepositFormOpen(state, action: PayloadAction<boolean>) {
       state.isCashDepositFormOpen = action.payload;
@@ -101,7 +101,6 @@ const declarationSlice = createSlice({
 });
 
 export const {
-  toggleIsStartDeclaration,
   setIsCashDepositFormOpen,
   setIsContactFormOpen,
 
@@ -119,7 +118,8 @@ export const {
   handlePrevDeclarationStep,
   setActiveDeclarationStep,
   setIsEmploymentFormOpen,
-  setIsCashAtHandFormOpen
+  setIsCashAtHandFormOpen,
+  setIsDeclarationFormOpen,
 } = declarationSlice.actions;
 
 export const declarationReducer = declarationSlice.reducer;

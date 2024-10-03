@@ -1,6 +1,7 @@
 import { IoMdLogIn } from 'react-icons/io';
 import LoginForm from '@/components/auth/login-form';
 import { CardHeader } from '@/components/materialTailwind';
+import React from 'react';
 
 const LoginPage: React.FC = () => {
   return (

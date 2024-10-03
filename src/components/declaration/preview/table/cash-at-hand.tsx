@@ -33,7 +33,7 @@ export default function CashAtHandPreviewGridTable({
         ) : (
           <>
             <div className='grid md:grid-cols-2 mb-3 gap-3'>
-              <div className='grid grid-cols-2 gap-2'>
+              <div className='grid sm:grid-cols-2 sm:gap-2'>
                 <Typography color='gray' className=' font-bold'>
                   {`Amount:`}
                 </Typography>
@@ -41,7 +41,7 @@ export default function CashAtHandPreviewGridTable({
                   {cashAtHand?.currency + '' + cashAtHand?.amount}
                 </Typography>
               </div>
-              <div className='grid grid-cols-2 gap-2'>
+              <div className='grid sm:grid-cols-2 sm:gap-2'>
                 <Typography color='gray' className=' font-bold'>
                   Description:
                 </Typography>
@@ -49,7 +49,7 @@ export default function CashAtHandPreviewGridTable({
               </div>
             </div>
             <div className='grid md:grid-cols-2 mb-3 gap-3 '>
-              <div className='grid grid-cols-2 gap-2'>
+              <div className='grid sm:grid-cols-2 sm:gap-2'>
                 <Typography color='gray' className=' font-bold'>
                   Joint Income / Properties Details:
                 </Typography>

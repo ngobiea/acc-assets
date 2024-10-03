@@ -2,7 +2,7 @@ import { validateRequest } from '@/lib/verify-auth';
 import UserService from '@/services/user-service';
 import MDAService from '@/services/mda-service';
 import routes from '@/utils/routes';
-import { notFound, redirect } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import ProfilePersonalPage from '@/components/profile/personal/personal-card';
 import ProfileEmploymentPage from '@/components/profile/user-employment/user-employment-card';
 import ProfileContactPage from '@/components/profile/contact/contact-card';

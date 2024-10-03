@@ -16,7 +16,7 @@ interface PersonalFormState {
     _form?: string[];
   };
   data?: {
-    personal: PersonalAttributes;
+    personalId: string;
   };
 }
 

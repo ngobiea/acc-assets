@@ -22,7 +22,7 @@ export const registerSchema = z
       .refine((value) => uppercaseRegex.test(value), {
         message: 'one uppercase letter',
       }),
-    passwordRepeat: z.string({message: 'Password confirmation is required'}),
+    passwordRepeat: z.string({ message: 'Password confirmation is required' }),
   })
   .refine((data) => data.password === data.passwordRepeat, {
     message: 'Passwords do not match',
@@ -47,4 +47,11 @@ export const loginSchema = z.object({
     .refine((value) => uppercaseRegex.test(value), {
       message: 'one uppercase letter',
     }),
+});
+
+export const verifyEmailSchema = z.object({
+  code: z
+    .string({ message: 'Verification code is required' })
+    .min(6, { message: 'Verification code must be 6 digits' })
+    .max(6, { message: 'Verification code must be 6 digits' }),
 });

@@ -11,14 +11,13 @@ import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import {
   setIdType,
   setIsIDType,
-  setIsOtherCitizen,
   setIsShowPersonalUpdateForm,
 } from '@/store/slices/setupSlice/setupSlice';
 import { acquireNationalityBy, countries } from '@/utils/countries';
 import { personalIds, titleData } from '@/utils/selectOptions';
-import { personalSchema } from '@/utils/validators/setup';
+import { personalSchemaClient } from '@/utils/validators/setup';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, type ChangeEvent } from 'react';
+import { useEffect } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { HiXMark } from 'react-icons/hi2';
 import { getFormatDate } from '@/utils/user';
@@ -27,77 +26,154 @@ import SelectInput from '@/components/common/form/select-input';
 import SelectTextInput from '@/components/common/form/select-text-input';
 import TextInput from '@/components/common/form/text-input';
 import RadioInput from '@/components/common/form/radio-input';
+import { useFormState } from 'react-dom';
+import { postPPersonal } from '@/actions/profile/personal';
+import { useRouter } from 'next/navigation';
+import routes from '@/utils/routes';
+import { setFile } from '@/store/slices/appSlice/appSlice';
+
 export default function PersonalUpdateForm({
   personal,
 }: {
   personal: PersonalSetupAttributes;
 }) {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const { idType, isShowPersonalUpdateForm } = useAppSelector(
     (state) => state.setup
   );
+  const { file } = useAppSelector((state) => state.app);
+  const [formState, action] = useFormState(postPPersonal, { errors: {} });
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
-    reset,
     setError,
-  } = useForm<FormValues>({
-    resolver: zodResolver(personalSchema),
-  });
-  useEffect(() => {
-    if (isShowPersonalUpdateForm) {
-      setValue('title', personal?.title);
-      setValue('pid', personal?.pid);
-      setValue('surname', personal?.surname);
-      setValue('firstName', personal?.firstName);
-      setValue('middleName', personal?.middleName ? personal?.middleName : '');
-      setValue('aliases', personal?.aliases ? personal?.aliases : '');
-      setValue('dateOfBirth', getFormatDate(personal?.dateOfBirth));
-      setValue('maritalStatus', personal?.maritalStatus);
-      setValue('gender', personal.gender);
-      setValue('country', personal?.country);
-      setValue('acquireBy', personal?.acquireBy);
-    } else {
-      reset();
-    }
-  }, [
-    isShowPersonalUpdateForm,
-    personal?.aliases,
-    personal?.dateOfBirth,
-    personal?.firstName,
-    personal.gender,
-    personal?.maritalStatus,
-    personal?.middleName,
-    personal?.pid,
-    personal?.surname,
-    personal?.title,
     setValue,
     reset,
-    personal?.country,
-    personal?.acquireBy,
-  ]);
+    clearErrors,
+    watch,
+  } = useForm<FormValues>({
+    resolver: zodResolver(personalSchemaClient),
+  });
   const onSubmit: SubmitHandler<FormValues> = (data) => {
+    if (!file) {
+      setError('image', {
+        message: 'Image is required',
+      });
+      //navigate to the top of the page
+      router.push(routes.profile + '/#i');
+      return;
+    }
     const formData = new FormData();
     const submitted = data as PersonalClientForm;
- formData.append('title', submitted.title);
- formData.append('pid', submitted.pid);
- formData.append('idType', idType);
- formData.append('surname', submitted.surname);
- formData.append('firstName', submitted.firstName);
- formData.append('middleName', submitted.middleName);
- formData.append('aliases', submitted.aliases);
- formData.append('dateOfBirth', submitted.dateOfBirth);
- formData.append('maritalStatus', submitted.maritalStatus);
- formData.append('gender', submitted.gender);
- formData.append('country', submitted.country);
- formData.append('acquireBy', submitted.acquireBy);
-    console.log(data);
-    // action(formData);
+    formData.append('title', submitted.title);
+    formData.append('pid', submitted.pid);
+    formData.append('idType', idType);
+    formData.append('surname', submitted.surname);
+    formData.append('firstName', submitted.firstName);
+    formData.append('middleName', submitted.middleName);
+    formData.append('aliases', submitted.aliases);
+    formData.append('dateOfBirth', submitted.dateOfBirth);
+    formData.append('maritalStatus', submitted.maritalStatus);
+    formData.append('gender', submitted.gender);
+    formData.append('country', submitted.country);
+    formData.append('acquireBy', submitted.acquireBy);
+    if (file) {
+      formData.append('image', file);
+    }
+    if (personal) {
+      formData.append('id', personal.id);
+    } else {
+      formData.append('id', '');
+    }
+    action(formData);
   };
- 
+  const watchIdType = watch('idType');
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) => {
+      const currentValues = value as PersonalClientForm;
+      if (type === 'change' && name === 'idType') {
+        dispatch(
+          setIdType(currentValues.idType === 'NIN' ? 'NIN' : 'Passport')
+        );
+        if (currentValues.idType === 'Passport') {
+          dispatch(setIsIDType(true));
+        }
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [dispatch, watch]);
+  useEffect(() => {
+    if (isShowPersonalUpdateForm) {
+      if (personal) {
+        setValue('title', personal?.title);
+        setValue('pid', personal?.pid);
+        setValue('surname', personal?.surname);
+        setValue('firstName', personal?.firstName);
+        setValue('middleName', personal?.middleName ? personal?.middleName : '');
+        setValue('aliases', personal?.aliases ? personal?.aliases : '');
+        setValue('dateOfBirth', getFormatDate(personal?.dateOfBirth));
+        setValue('maritalStatus', personal?.maritalStatus);
+        setValue('gender', personal.gender);
+        setValue('country', personal?.country);
+        setValue('acquireBy', personal?.acquireBy);
+        setValue('idType', personal?.idType);
+      } else {
+        reset();
+        dispatch(setFile(null));
+      }
+    }
+  }, [personal, setValue, reset, isShowPersonalUpdateForm, dispatch]);
 
+
+  useEffect(() => {
+    if (formState?.data) {
+      dispatch(setIsShowPersonalUpdateForm(false));
+    }
+    if (formState.errors.title) {
+      setError('title', {
+        message: formState.errors.title?.join(', '),
+      });
+    }
+    if (formState.errors.pid) {
+      setError('pid', {
+        message: formState.errors.pid?.join(', '),
+      });
+    }
+    if (formState.errors.surname) {
+      setError('surname', {
+        message: formState.errors.surname?.join(', '),
+      });
+    }
+    if (formState.errors.firstName) {
+      setError('firstName', {
+        message: formState.errors.firstName?.join(', '),
+      });
+    }
+    if (formState.errors.dateOfBirth) {
+      setError('dateOfBirth', {
+        message: formState.errors.dateOfBirth?.join(', '),
+      });
+    }
+    if (formState.errors.maritalStatus) {
+      setError('maritalStatus', {
+        message: formState.errors.maritalStatus?.join(', '),
+      });
+    }
+    if (formState.errors.gender) {
+      setError('gender', { message: formState.errors.gender.join(', ') });
+    }
+    if (formState.errors.country) {
+      setError('country', { message: formState.errors.country.join(', ') });
+    }
+    if (formState.errors.acquireBy) {
+      setError('acquireBy', { message: formState.errors.acquireBy.join(', ') });
+    }
+    if (formState.errors.image) {
+      setError('image', { message: formState.errors.image.join(', ') });
+    }
+  }, [dispatch, setError, formState]);
   return (
     <Dialog
       open={isShowPersonalUpdateForm}
@@ -128,7 +204,7 @@ export default function PersonalUpdateForm({
           className='max-w-3xl mx-auto py-10'
           onSubmit={handleSubmit(onSubmit)}
         >
-          <Typography className=' text-center'>
+          <Typography className=' text-center' id='i'>
             All fields marked with * are required to be filled in.
           </Typography>
           <ImagePicker register={register} errors={errors} value='image' />
@@ -142,6 +218,7 @@ export default function PersonalUpdateForm({
               value={'title'}
             />
             <SelectTextInput
+              disabled={true}
               errors={errors}
               label={idType === 'NIN' ? 'NIN*' : 'Passport Number*'}
               options={personalIds}
@@ -185,6 +262,7 @@ export default function PersonalUpdateForm({
             />
           </div>
           <TextInput
+            disabled
             register={register}
             errors={errors}
             label='Date of Birth*'

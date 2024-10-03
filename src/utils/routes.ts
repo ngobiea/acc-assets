@@ -1,20 +1,22 @@
-
 const routes = {
   home: '/',
   login: '/login',
   register: '/register',
+  verify: '/verify',
   googleLogin: '/auth/google',
   facebookLogin: '/auth/facebook',
-  userSetup: (userId: string) => { 
+  userSetup: (userId: string) => {
     return `/setup/${userId}`;
   },
   setup: '/setup',
-  declaration: '/declaration',
+  previewDeclaration: (id: string) => {
+    return '/declaration/preview/' + id;
+  },
   newDeclaration: '/declaration/new',
-  declarationId: (id: string) => { 
+  declarationId: (id: string) => {
     return `/declaration/${id}`;
   },
-  profile:'/profile',
+  profile: '/profile',
   terms() {
     return '/terms';
   },

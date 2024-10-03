@@ -9,6 +9,7 @@ import { Citizenship } from '@prisma/client';
 import { MdAdd, MdOutlineDelete } from 'react-icons/md';
 import AddCitizenButton from './button-add-citizen';
 const TABLE_HEAD = ['Nationality', 'Acquired By', 'Action'];
+import DeleteCitizenForm from './delete-citizen';
 export default function ProfileCitizenshipTable({
   citizenships,
 }: {
@@ -87,15 +88,9 @@ export default function ProfileCitizenshipTable({
                       </Typography>
                     </td>
                     <td className={classes}>
-                      <form action=''>
-                        <Button
-                          variant='text'
-                          color='red'
-                          className='flex items-center gap-1 hover:animate-bounce px-0'
-                        >
-                          <MdOutlineDelete className='h-4 w-4' /> Delete
-                        </Button>
-                      </form>
+                      <div className='flex items-center gap-2'>
+                        <DeleteCitizenForm id={id} />
+                      </div>
                     </td>
                   </tr>
                 );

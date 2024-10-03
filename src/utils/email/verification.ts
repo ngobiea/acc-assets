@@ -1,53 +1,53 @@
-export const signUpEmail = ({email, verificationLink}:{email:string, verificationLink:string}) => {
+export const signUpEmail = ({
+  code,
+  date,
+  name,
+}: {
+  name: string;
+  code: string;
+  date: string;
+}) => {
   return `
-    <html>
-  <head>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        color: #333;
-      }
-      .container {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f8f8f8;
-        border-radius: 5px;
-      }
-      h1 {
-        font-size: 24px;
-        color: #2b7858;
-      }
-      p {
-        margin-top: 10px;
-      }
-      .link {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #34c759;
-        color: #ffff;
-        text-decoration: none;
-        border-radius: 3px;
-      }
-      .link:hover{
-        background-color: #3b9c55;
-        color: #ffff;
-
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Welcome to our platform!</h1>
-      <p>Hello ${email},</p>
-      <p>We're excited to have you on board. To complete your registration, please click the link below to verify your email address:</p>
-      <a class="link" href="${verificationLink}">Verify Email Address</a>
-      <p>This quick step helps us ensure the security of your account and allows you to receive important updates from us. If you have any questions or need assistance, feel free to contact our support team at support@dlsms.com.</p>
-      <p>Thank you for joining us!</p>
-      <p>Best, Regard<br>Augustine F. Ngobie<br>Senior Software Engineer<br>Distance Learning Student Monitoring System(DLSMS)</p>
-    </div>
-  </body>
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification Email</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f4f4f4;">
+    <table cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+        <tr>
+            <td style="padding: 20px; text-align: center;">
+                <img src="https://accsl-declaration.s3.eu-north-1.amazonaws.com/accsl2.jpeg" alt="ACC Logo" style="max-width: 150px; height: auto;">
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 0 20px;">
+                <p style="color: #888888; font-size: 14px;">${date}</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 20px;">
+                <h2 style="margin: 0; color: #333333;">Hello ${name},</h2>
+                <p style="margin-top: 20px; color: #555555;">Your verification code is:</p>
+                <p style="font-size: 32px; font-weight: bold; color: #007bff; letter-spacing: 5px; text-align: center; margin: 30px 0;">${code}</p>
+                <p style="color: #555555;">Please note:</p>
+                <ul style="color: #555555;">
+                    <li>This code is valid for 1 hour only.</li>
+                    <li>Keep this code confidential and do not share it with anyone.</li>
+                    <li>This is an auto-generated email. Please do not reply.</li>
+                </ul>
+                <p style="color: #555555;">If you didn't request this code, please ignore this email.</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 20px; text-align: center; background-color: #f8f8f8; border-radius: 0 0 8px 8px;">
+                <p style="margin: 0; color: #888888; font-size: 14px;">&copy; 2024 ACC SL. All rights reserved.</p>
+            </td>
+        </tr>
+    </table>
+</body>
 </html>
     `;
 };

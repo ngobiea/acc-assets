@@ -7,12 +7,12 @@ import { type User } from '@prisma/client';
 class UserService {
   static async createUser(newUser: UserForm): Promise<User> {
     try {
-      const { email,password } = newUser;
-
+      const { email, password, code } = newUser;
       const createdUser = await user.create({
         data: {
           email,
           password,
+          code,
         },
       });
       return createdUser;
@@ -58,6 +58,7 @@ class UserService {
       throw error;
     }
   }
+  // static async getUserEmail()
 
   static async crateUserSession(userId: string) {
     const session = await lucia.createSession(userId, {});
@@ -140,6 +141,46 @@ class UserService {
       return foundUser;
     } catch (error) {
       console.error('Error fetching user:', error);
+      throw error;
+    }
+  }
+
+  static async verifyEmail({ email }: { email: string }): Promise<User | null> {
+    try {
+      const foundUser = await user.update({
+        where: {
+          email,
+        },
+        data: {
+          isVerified: true,
+        },
+      });
+      return foundUser;
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      throw error;
+    }
+  }
+
+  static async updateCode({
+    email,
+    code,
+  }: {
+    email: string;
+    code: string | null;
+  }) {
+    try {
+      const updatedUser = await user.update({
+        where: {
+          email,
+        },
+        data: {
+          code,
+        },
+      });
+      return updatedUser;
+    } catch (error) {
+      console.error('Error updating code:', error);
       throw error;
     }
   }

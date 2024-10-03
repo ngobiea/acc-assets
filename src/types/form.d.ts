@@ -16,7 +16,11 @@ type FormValues =
   | SecurityClientForm
   | LiabilityClientForm
   | OtherAssetClientForm
-  | PreviewClientForm;
+  | PreviewClientForm
+  | NationalCardFormClient
+  | PassportFormClient
+  | CitizenshipForm
+  | verifyClientForm;
 
 interface Option {
   id: string;

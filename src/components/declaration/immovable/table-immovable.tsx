@@ -8,6 +8,7 @@ import {
 import type { ImmovableAssetData } from '@/utils/declaration';
 import { useFormState } from 'react-dom';
 import { deleteImmovableAsset } from '@/actions/declaration/immovable';
+import { useEffect } from 'react';
 
 export default function ImmovableGridTable({
   immovable,
@@ -21,6 +22,11 @@ export default function ImmovableGridTable({
     }),
     { errors: {} }
   );
+    useEffect(() => {
+      if (formState.errors._form) {
+        console.error(formState.errors);
+      }
+    }, [formState]);
   return (
     <Card id={immovable.id} className=''>
       <CardBody className='border-t border-blue-400 '>

@@ -13,6 +13,7 @@ import {
 import ContactService from '@/services/contact-service';
 import DContactService from '@/services/d-contact-service';
 import { revalidatePath } from 'next/cache';
+import type { Declaration } from '@prisma/client';
 
 export const postDeclaration = async (
   _useFormState: DeclarationFormState,
@@ -28,56 +29,52 @@ export const postDeclaration = async (
     const reason = formData.get('reason') as string;
     const place = formData.get('place') as string;
     const otherReason = formData.get('otherReason') as string;
-    const isUseLastDeclaration = formData.get('isUseLastDeclaration') as string;
     const result = declarationSchema.safeParse({
       reason,
       place,
       otherReason: reason === 'Other' ? otherReason : '',
-      isUseLastDeclaration,
     });
     if (!result.success) {
       return {
         errors: result.error.flatten().fieldErrors,
       };
     }
-    if (isUseLastDeclaration === 'Yes') {
-      declaration = await DeclarationService.createFromLastDeclaration(user.id);
-    } else {
-      declaration = await DeclarationService.createDeclaration({
-        place,
-        reason: reason === 'Other' ? otherReason : reason,
-        userId: user.id,
-      });
-      const personal = await PersonalService.getPersonal(user.id);
-      const contact = await ContactService.getContact(user.id);
-      if (!personal) {
-        throw new Error('Can not find personal Info');
-      }
-      const dPersonal = await DPersonalService.createPersonal({
-        acquireBy: personal.acquireBy,
-        aliases: personal.aliases as string,
-        country: personal.country,
-        dateOfBirth: personal.dateOfBirth,
-        declarationId: declaration.id,
-        firstName: personal.firstName,
-        gender: personal.gender,
-        idType: personal.idType,
-        maritalStatus: personal.maritalStatus,
-        middleName: personal?.middleName as string,
-        pid: personal.pid,
-        surname: personal.surname,
-        title: personal.title,
-      });
-      const dContact = await DContactService.createContact({
-        declarationId: declaration.id,
-        permanentAddress: contact?.permanentAddress as string,
-        permanentDistrict: contact?.permanentDistrict as string,
-        presentAddress: contact?.presentAddress as string,
-        presentDistrict: contact?.presentDistrict as string,
-        mobile: contact?.mobile as string,
-        telephone: contact?.telephone as string,
-      });
+
+    declaration = await DeclarationService.createDeclaration({
+      place,
+      reason: reason === 'Other' ? otherReason : reason,
+      userId: user.id,
+    });
+    const personal = await PersonalService.getPersonal(user.id);
+    const contact = await ContactService.getContact(user.id);
+    if (!personal) {
+      throw new Error('Can not find personal Info');
     }
+    const dPersonal = await DPersonalService.createPersonal({
+      acquireBy: personal.acquireBy,
+      aliases: personal.aliases as string,
+      country: personal.country,
+      dateOfBirth: personal.dateOfBirth,
+      declarationId: declaration.id,
+      firstName: personal.firstName,
+      gender: personal.gender,
+      idType: personal.idType,
+      maritalStatus: personal.maritalStatus,
+      middleName: personal?.middleName as string,
+      pid: personal.pid,
+      surname: personal.surname,
+      title: personal.title,
+    });
+    const dContact = await DContactService.createContact({
+      declarationId: declaration.id,
+      permanentAddress: contact?.permanentAddress as string,
+      permanentDistrict: contact?.permanentDistrict as string,
+      presentAddress: contact?.presentAddress as string,
+      presentDistrict: contact?.presentDistrict as string,
+      mobile: contact?.mobile as string,
+      telephone: contact?.telephone as string,
+    });
+
     revalidatePath(routes.home);
     return {
       errors: {},
@@ -110,6 +107,7 @@ export const deleteDeclaration = async (
       redirect(routes.login);
     }
     await DeclarationService.deleteDeclaration(id);
+    revalidatePath(routes.home);
   } catch (error) {
     console.error(error);
     return {
@@ -138,7 +136,7 @@ export const postPreview = async (
     const declarationId = formData.get('declarationId') as string;
     const isAccepted = formData.get('isAccepted') as string;
     const result = previewSchema.safeParse({
-      isAccepted,
+      isAccepted: isAccepted === 'true',
     });
     if (!result.success) {
       return {
@@ -160,4 +158,34 @@ export const postPreview = async (
   return {
     errors: {},
   };
+};
+
+export const postCopyDeclaration = async (
+  {
+    id,
+  }: {
+    id: string;
+  },
+  _useFormState: DeleteFormState,
+  _formData: FormData
+): Promise<DeleteFormState> => {
+  let newDeclaration: Declaration | null = null;
+  try {
+    const { user } = await validateRequest();
+    if (!user) {
+      redirect(routes.login);
+    }
+    newDeclaration = await DeclarationService.copyDeclaration(id);
+  } catch (error) {
+    console.error(error);
+    return {
+      errors: {
+        _form: [
+          'An error occurred while copying declaration. Please try again later.',
+        ],
+      },
+    };
+  }
+  revalidatePath(routes.home);
+  redirect(routes.declarationId(newDeclaration.id));
 };

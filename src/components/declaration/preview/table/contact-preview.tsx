@@ -19,13 +19,13 @@ export default function ContactPreview({
         </div>
 
         <div className='grid md:grid-cols-2 md:gap-6 mb-2'>
-          <div className='grid grid-cols-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Mobile:
             </Typography>
             <Typography>{contact?.mobile}</Typography>
           </div>
-          <div className='grid grid-cols-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Telephone
             </Typography>
@@ -34,13 +34,13 @@ export default function ContactPreview({
         </div>
 
         <div className='grid md:grid-cols-2 md:gap-6 mb-2'>
-          <div className='grid grid-cols-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Permanent Address:
             </Typography>
             <Typography>{contact?.permanentAddress}</Typography>
           </div>
-          <div className='grid grid-cols-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Permanent District:
             </Typography>
@@ -48,13 +48,13 @@ export default function ContactPreview({
           </div>
         </div>
         <div className='grid md:grid-cols-2 md:gap-6 mb-2'>
-          <div className='grid grid-cols-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Present Address:
             </Typography>
             <Typography>{contact?.presentAddress}</Typography>
           </div>
-          <div className='grid grid-cols-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Present District:
             </Typography>
@@ -62,7 +62,7 @@ export default function ContactPreview({
           </div>
         </div>
         <div className='grid md:grid-cols-2 md:gap-6 mb-2'>
-          <div className='grid grid-cols-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Email
             </Typography>

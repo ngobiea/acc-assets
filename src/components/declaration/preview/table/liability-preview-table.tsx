@@ -16,13 +16,13 @@ export default function LiabilityPreviewGridTable({
     <Card className=''>
       <CardBody className='border-t border-blue-400 bg-blue-50/50 '>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               {`Debtor's Name:`}
             </Typography>
             <Typography>{liability?.debtorName}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Relation:
             </Typography>
@@ -30,13 +30,13 @@ export default function LiabilityPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Creditor:
             </Typography>
             <Typography>{liability?.creditor}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Creditor Location:
             </Typography>
@@ -44,7 +44,7 @@ export default function LiabilityPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Loan Amount:
             </Typography>
@@ -52,7 +52,7 @@ export default function LiabilityPreviewGridTable({
               {liability?.currency + liability.loanAmount}
             </Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Year Contracted:
             </Typography>
@@ -60,13 +60,13 @@ export default function LiabilityPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Loan Repayment:
             </Typography>
             <Typography>{liability?.loanRepayment}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Payment Period:
             </Typography>
@@ -74,13 +74,13 @@ export default function LiabilityPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Purpose of Loan:
             </Typography>
             <Typography>{liability?.loanPurpose}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Loan Outstanding:
             </Typography>
@@ -90,7 +90,7 @@ export default function LiabilityPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Maturity Date:
             </Typography>
@@ -98,7 +98,7 @@ export default function LiabilityPreviewGridTable({
               {liability?.maturityDate?.toLocaleDateString() || 'N/A'}
             </Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Remarks:
             </Typography>

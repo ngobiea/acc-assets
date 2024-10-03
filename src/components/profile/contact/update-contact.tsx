@@ -22,11 +22,14 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { contactUpdateSchema } from '@/utils/validators/setup';
 import { HiXMark } from 'react-icons/hi2';
+import SelectInput from '@/components/common/form/select-input';
+import TextInput from '@/components/common/form/text-input';
+import SwitchInput from '@/components/common/form/switch-input';
 export default function ContactUpdateForm({
   contact,
 }: {
   contact: ContactSetupAttributes;
-}) {
+  }) {
   const dispatch = useAppDispatch();
   const { isSameAsPermanent, isShowContactUpdateForm } = useAppSelector(
     (state) => state.setup
@@ -40,21 +43,21 @@ export default function ContactUpdateForm({
     setError,
     setValue,
     reset,
-  } = useForm<ContactFormClient>({
+  } = useForm<FormValues>({
     resolver: zodResolver(contactUpdateSchema),
   });
 
-  const onSubmit: SubmitHandler<ContactFormClient> = (data) => {
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    const submitted = data as ContactClientSetupForm;
     const formData = new FormData();
-    formData.append('telephone', data.telephone);
-    formData.append('mobile', data.mobile);
-    formData.append('permanentAddress', data.permanentAddress);
-    formData.append('permanentDistrict', data.permanentDistrict);
-    formData.append('presentAddress', data.presentAddress);
-    formData.append('presentDistrict', data.presentDistrict);
-    formData.append('termsAndConditions', data.termsAndConditions);
-      // action(formData);
-      console.log('data', data);
+    formData.append('telephone', submitted.telephone);
+    formData.append('mobile', submitted.mobile);
+    formData.append('permanentAddress', submitted.permanentAddress);
+    formData.append('permanentDistrict', submitted.permanentDistrict);
+    formData.append('isSameAsPermanent', submitted.isSameAsPermanent);
+    formData.append('presentAddress', submitted.presentAddress);
+    formData.append('presentDistrict', submitted.presentDistrict);
+    action(formData);
   };
   useEffect(() => {
    
@@ -99,7 +102,7 @@ export default function ContactUpdateForm({
       setValue('telephone', contact.telephone ?? '');
       setValue('mobile', contact.mobile ?? '');
       setValue('permanentAddress', contact.permanentAddress);
-      setValue('permanentDistrict', contact.permanentDistrict);
+      setValue('permanentDistrict', contact.permanentDistrict?? '');
       setValue('presentAddress', contact.presentAddress ?? '');
       setValue('presentDistrict', contact.presentDistrict ?? '');
       if (contact.permanentAddress === contact.presentAddress) {
@@ -154,152 +157,65 @@ export default function ContactUpdateForm({
           onSubmit={handleSubmit(onSubmit)}
           className='max-w-3xl mx-auto py-10'
         >
-          <Typography className=' text-center'>
-            All fields marked with * are required to be filled in.
-          </Typography>
           <div className='grid lg:grid-cols-2 lg:gap-6'>
-            <div className='w-full group mb-8'>
-              <Input
-                label='Telephone'
-                placeholder='Enter your telephone number'
-                {...register('telephone')}
-                color={errors.telephone ? 'red' : 'blue'}
-                className={` ${
-                  errors.telephone
-                    ? 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 dark:bg-gray-700 focus:border-red-500 block w-full p-2.5 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500'
-                    : ''
-                }`}
-              />
-              <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                {errors.telephone?.message}
-              </p>
-            </div>
-            <div className='w-full group mb-5'>
-              <Input
-                label='Mobile'
-                placeholder='Enter your mobile number'
-                {...register('mobile')}
-                color={errors.mobile ? 'red' : 'blue'}
-                className={` ${
-                  errors.mobile
-                    ? 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 dark:bg-gray-700 focus:border-red-500 block w-full p-2.5 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500'
-                    : ''
-                }`}
-              />
-              <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                {errors.mobile?.message}
-              </p>
-            </div>
+            <TextInput
+              errors={errors}
+              label='Telephone'
+              placeholder='Enter your telephone number'
+              register={register}
+              value='telephone'
+            />
+            <TextInput
+              errors={errors}
+              label='Mobile'
+              placeholder='Enter your mobile number'
+              register={register}
+              value='mobile'
+            />
           </div>
           <div className='grid lg:grid-cols-2 lg:gap-6'>
-            <div className='w-full group mb-8'>
-              <Input
-                label='Permanent Address*'
-                placeholder='Enter your permanent address'
-                {...register('permanentAddress')}
-                color='blue'
-                error={errors?.permanentAddress ? true : false}
-              />
-              <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                {errors.permanentAddress?.message}
-              </p>
-            </div>
-            <div className='w-full group mb-5'>
-              <select
-                {...register('permanentDistrict')}
-                className={`border text-sm rounded-lg  block w-full p-2.5 ${
-                  errors.permanentDistrict
-                    ? 'bg-red-50 border-red-300 focus:text-red-500 focus:ring-red-500  focus:border-red-500 outline-red-500'
-                    : 'bg-gray-50 border-blue-gray-300 focus:text-blue-500 focus:ring-blue-500 focus:border-blue-500 outline-blue-500'
-                }`}
-              >
-                <option value={''}>Select Permanent District*</option>
-                {SLDistricts.map(({ district, province }) => {
-                  return (
-                    <option
-                      key={district}
-                      value={`${district} - ${province}`}
-                      className=''
-                    >
-                      {`${district} - ${province}`}
-                    </option>
-                  );
-                })}
-              </select>
-              <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                {errors.permanentDistrict?.message}
-              </p>
-            </div>
-          </div>
-          <div>
-            <Switch
-              color='blue'
-              {...register('isSameAsPermanent')}
-              ripple={true}
-              checked={isSameAsPermanent}
-              onChange={() =>
-                dispatch(setIsSameAsPermanent(!isSameAsPermanent))
-              }
-              label={
-                <div>
-                  <Typography color='blue-gray' className='font-medium'>
-                    Present Address
-                  </Typography>
-                  <Typography
-                    variant='small'
-                    color='gray'
-                    className='font-normal'
-                  >
-                    Same as permanent address
-                  </Typography>
-                </div>
-              }
-              containerProps={{
-                className: '-mt-5',
-              }}
+            <TextInput
+              errors={errors}
+              label='Permanent Address*'
+              placeholder='Enter your permanent address'
+              register={register}
+              value='permanentAddress'
+            />
+            <SelectInput
+              errors={errors}
+              label='Select Permanent District*'
+              options={SLDistricts.map(({ district, province }) => {
+                return { id: district, value: `${district} - ${province}` };
+              })}
+              register={register}
+              value='permanentDistrict'
             />
           </div>
 
+          <SwitchInput
+            label='Present Address'
+            linkLabel='Same as permanent address'
+            register={register}
+            value='isSameAsPermanent'
+          />
           {!isSameAsPermanent && (
             <div className='grid lg:grid-cols-2 lg:gap-6'>
-              <div className='w-full group mb-8'>
-                <Input
-                  label='Present Address'
-                  placeholder='Enter your permanent address'
-                  {...register('presentAddress')}
-                  color='blue'
-                  error={errors?.presentAddress ? true : false}
-                />
-                <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                  {errors.presentAddress?.message}
-                </p>
-              </div>
-              <div className='w-full group mb-5'>
-                <select
-                  {...register('presentDistrict')}
-                  className={`border text-sm rounded-lg  block w-full p-2.5 ${
-                    errors.presentDistrict
-                      ? 'bg-red-50 border-red-300 focus:text-red-500 focus:ring-red-500  focus:border-red-500 outline-red-500'
-                      : 'bg-gray-50 border-blue-gray-300 focus:text-blue-500 focus:ring-blue-500 focus:border-blue-500 outline-blue-500'
-                  }`}
-                >
-                  <option value={''}>Select Present District</option>
-                  {SLDistricts.map(({ district, province }) => {
-                    return (
-                      <option
-                        key={district}
-                        value={`${district} - ${province}`}
-                        className=''
-                      >
-                        {`${district} - ${province}`}
-                      </option>
-                    );
-                  })}
-                </select>
-                <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                  {errors.presentDistrict?.message}
-                </p>
-              </div>
+              <TextInput
+                errors={errors}
+                label='Present Address'
+                placeholder='Enter your present address'
+                register={register}
+                value='presentAddress'
+              />
+              <SelectInput
+                errors={errors}
+                label='Select Present District'
+                options={SLDistricts.map(({ district, province }) => {
+                  return { id: district, value: `${district} - ${province}` };
+                })}
+                register={register}
+                value='presentDistrict'
+              />
             </div>
           )}
           {formState.errors._form && (

@@ -12,6 +12,7 @@ export const postNationalCard = async (
   formData: FormData
 ): Promise<NationalCardFormState> => {
   try {
+    // await new Promise((resolve) => setTimeout(resolve, 10000));
     const { user } = await validateRequest();
     if (!user) {
       redirect(routes.login);
@@ -46,7 +47,6 @@ export const postNationalCard = async (
     const isNationalCardCountryExist =
       await NationalCardService.isNationalCardCountryExist(country, user.id);
     if (isNationalCardCountryExist) {
-
       return {
         errors: {
           country: ['National card for this country already exists'],
@@ -76,33 +76,27 @@ export const postNationalCard = async (
   };
 };
 
-export const getNationalCards = async (): Promise<NationalCard[]> => {
-  try {
-    const { user } = await validateRequest();
-    if (!user) {
-      redirect(routes.login);
-    }
-    const nationalCards = await NationalCardService.getNationalCards(user.id);
-    return nationalCards;
-  } catch (error) {
-    console.log('Error fetching national cards:', error);
-    throw error;
-  }
-};
-
 export const deleteNationalCard = async (
-  id: string
-): Promise<string | null> => {
+  { id }: { id: string },
+  _useFormState: DeleteFormState,
+  _formData: FormData
+): Promise<DeleteFormState> => {
   try {
     const { user } = await validateRequest();
     if (!user) {
       redirect(routes.login);
     }
     await NationalCardService.deleteNationalCard(id);
-    revalidatePath('/profile');
-    return id;
   } catch (error) {
     console.log('Error deleting national card:', error);
-    throw error;
+    return {
+      errors: {
+        _form: ['An error occurs while deleting national card'],
+      },
+    };
   }
+  revalidatePath(routes.profile);
+  return {
+    errors: {},
+  };
 };

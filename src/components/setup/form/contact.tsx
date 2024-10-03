@@ -10,7 +10,7 @@ import { useFormState } from 'react-dom';
 import { postUserContact } from '@/actions/setup/contact';
 import { SLDistricts } from '@/utils/selectOptions';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { contactClientSetupSchema } from '@/utils/validators/setup';
@@ -38,7 +38,7 @@ export default function ContactForm({
     setError,
     unregister,
     setValue,
-    watch,
+    watch,  
   } = useForm<FormValues>({
     resolver: zodResolver(contactClientSetupSchema),
   });

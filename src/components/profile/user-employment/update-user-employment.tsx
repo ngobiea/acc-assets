@@ -5,7 +5,6 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userEmploymentSchema } from '@/utils/validators/setup';
 import { useEffect, useState } from 'react';
-import { MdCheckCircle } from 'react-icons/md';
 import { postUserEmployment } from '@/actions/setup/userEmployment';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
@@ -16,15 +15,10 @@ import {
   DialogBody,
   DialogHeader,
   IconButton,
-  Input,
-  Radio,
   Typography,
 } from '@/components/materialTailwind';
 import { sourceOfIncome } from '@/utils/selectOptions';
-import {
-  handleNextSetupStep,
-  setIsShowEmploymentUpdateForm,
-} from '@/store/slices/setupSlice/setupSlice';
+import { setIsShowEmploymentUpdateForm } from '@/store/slices/setupSlice/setupSlice';
 import { MDA } from '@prisma/client';
 import { HiXMark } from 'react-icons/hi2';
 import { isOtherOption } from '@/utils/user';
@@ -39,6 +33,7 @@ export default function UserEmploymentUpdateForm({
   mdas: MDA[];
 }) {
   const dispatch = useAppDispatch();
+  const { isShowEmploymentUpdateForm } = useAppSelector((state) => state.setup);
   const [formState, action] = useFormState(postUserEmployment, { errors: {} });
   const [showOtherInput, setShowOtherInput] = useState(
     !isOtherOption({
@@ -46,7 +41,6 @@ export default function UserEmploymentUpdateForm({
       options: sourceOfIncome,
     })
   );
-  const { isShowEmploymentUpdateForm } = useAppSelector((state) => state.setup);
   const {
     register,
     handleSubmit,
@@ -54,23 +48,25 @@ export default function UserEmploymentUpdateForm({
     setError,
     setValue,
     reset,
+    watch,
   } = useForm<FormValues>({
     resolver: zodResolver(userEmploymentSchema),
   });
-
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = event.target;
-
-    if (name === 'sourceOfIncome') {
-      if (value === 'Other') {
-        setShowOtherInput(true);
-      } else {
-        setShowOtherInput(false);
+  const watchSourceOfIncome = watch('sourceOfIncome');
+  useEffect(() => {
+    const subscription = watch((value, { name }) => {
+      const currentValues = value as UserEmploymentClientForm;
+      if (name === 'sourceOfIncome') {
+        if (currentValues.sourceOfIncome === 'Other') {
+          setShowOtherInput(true);
+        } else {
+          setShowOtherInput(false);
+        }
       }
-    }
-  };
+    });
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const submitted = data as UserEmploymentClientForm;
 
@@ -95,12 +91,11 @@ export default function UserEmploymentUpdateForm({
     } else {
       formData.append('otherSourceOfIncome', '');
     }
-    // console.log(data);
     action(formData);
   };
   useEffect(() => {
-    if (formState.data?.userEmployment) {
-      dispatch(handleNextSetupStep());
+    if (formState.data) {
+      dispatch(setIsShowEmploymentUpdateForm(false));
     }
     if (formState.errors.mdaId) {
       setError('mdaId', {
@@ -150,7 +145,7 @@ export default function UserEmploymentUpdateForm({
     setError,
   ]);
   useEffect(() => {
-    if (isShowEmploymentUpdateForm) {
+    if (employment) {
       setValue('mdaId', employment?.mdaId);
       setValue('employeeCategory', employment?.employeeCategory);
       setValue(
@@ -172,43 +167,25 @@ export default function UserEmploymentUpdateForm({
       );
       if (showOtherInput) {
         setValue('sourceOfIncome', 'Other');
+        setValue(
+          'otherSourceOfIncome',
+          employment?.sourceOfIncome ? employment?.sourceOfIncome : ''
+        );
       } else {
         setValue(
           'sourceOfIncome',
           employment?.sourceOfIncome ? employment?.sourceOfIncome : ''
         );
       }
-      setValue(
-        'otherSourceOfIncome',
-        employment?.sourceOfIncome ? employment?.sourceOfIncome : ''
-      );
-      setValue(
-        'isAdministrative',
-        employment?.isAdministrative ? 'true' : 'false'
-      );
-      setValue('isFinancial', employment?.isFinancial ? 'true' : 'false');
-      setValue('isPolitical', employment?.isPolitical ? 'true' : 'false');
-      setValue('isProfessional', employment?.isProfessional ? 'true' : 'false');
+
+      setValue('isAdministrative', employment?.isAdministrative ? 'Yes' : 'No');
+      setValue('isFinancial', employment?.isFinancial ? 'Yes' : 'No');
+      setValue('isPolitical', employment?.isPolitical ? 'Yes' : 'No');
+      setValue('isProfessional', employment?.isProfessional ? 'Yes' : 'No');
     } else {
       reset();
     }
-  }, [
-    employment?.currentPosting,
-    employment?.designation,
-    employment?.employeeCategory,
-    employment?.employeePin,
-    employment?.establishmentRegNo,
-    employment?.isAdministrative,
-    employment?.isFinancial,
-    employment?.isPolitical,
-    employment?.isProfessional,
-    employment?.mdaId,
-    employment?.rankOrGrade,
-    employment?.sourceOfIncome,
-    isShowEmploymentUpdateForm,
-    reset,
-    setValue,
-  ]);
+  }, [employment, reset, setValue]);
   return (
     <Dialog
       open={isShowEmploymentUpdateForm}
@@ -363,13 +340,8 @@ export default function UserEmploymentUpdateForm({
               </div>
             )}
             <div className='flex justify-end'>
-              {/* <Button  color='blue'
-          onClick={handlePrev}
-          >
-            Prev: Personal
-          </Button> */}
               <Button type='submit' color='blue'>
-                Next Step: Contact
+                Update
               </Button>
             </div>
           </CardFooter>

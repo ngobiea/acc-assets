@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { IoMdLogIn } from 'react-icons/io';
 import { changePassword } from '@/actions/auth/changePassword';
 import { useFormState } from 'react-dom';
+import React from 'react';
 const ChangePasswordPage = () => {
   const [formState, action] = useFormState(changePassword, {});
   return (

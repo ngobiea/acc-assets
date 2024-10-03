@@ -5,7 +5,7 @@ import { titleData, personalIds } from '@/utils/selectOptions';
 import { useEffect } from 'react';
 import { countries, acquireNationalityBy } from '@/utils/countries';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { CardBody, Button, Typography } from '@/components/materialTailwind';
+import { Button, Typography } from '@/components/materialTailwind';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { personalSchemaClient } from '@/utils/validators/setup';
@@ -165,21 +165,7 @@ export default function DeclarationPersonalForm({
     if (formState.errors.image) {
       setError('image', { message: formState.errors.image.join(', ') });
     }
-  }, [
-    dispatch,
-    formState?.data,
-    formState.errors.acquireBy,
-    formState.errors.country,
-    formState.errors.dateOfBirth,
-    formState.errors.firstName,
-    formState.errors.gender,
-    formState.errors.image,
-    formState.errors.maritalStatus,
-    formState.errors.pid,
-    formState.errors.surname,
-    formState.errors.title,
-    setError,
-  ]);
+  }, [dispatch, setError, formState]);
 
   return (
     <form className='' onSubmit={handleSubmit(onSubmit)}>

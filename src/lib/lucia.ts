@@ -12,11 +12,10 @@ const {
   DB_USERNAME_LOCAL,
   DB_HOST_LOCAL,
   DB_PORT,
-} = process.env;
+  DATABASE_URL
+} = process.env as Record<string, string>;
 
-const sql = neon(
-  'postgresql://acc-assets_owner:FUHuV5mGfi8Q@ep-red-bar-a2row8q1.eu-central-1.aws.neon.tech/acc-assets?sslmode=require'
-);
+const sql = neon(DATABASE_URL );
 const pool = new pg.Pool({
   database: DB_NAME_LOCAL,
   host: DB_HOST_LOCAL,
@@ -35,7 +34,7 @@ const adapter = new NodePostgresAdapter(pool, {
   session: 'sessions',
 });
 
-export const lucia = new Lucia(adapter, {
+export const lucia = new Lucia(neonAdapter, {
   sessionCookie: {
     expires: true,
     attributes: {

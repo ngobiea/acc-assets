@@ -108,13 +108,11 @@ export const postPersonal = async (
         country,
       });
     }
-
     revalidatePath(routes.setup);
-
     return {
       errors: {},
       data: {
-        personal,
+        personalId: personal.id,
       },
     };
   } catch (error) {

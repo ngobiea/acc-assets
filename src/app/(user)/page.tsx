@@ -6,8 +6,13 @@ import DeclarationTable from '@/components/declaration/declaration-table';
 import UserService from '@/services/user-service';
 import DeclarationService from '@/services/declaration-service';
 import DeclarationStartForm from '@/components/declaration/intro';
+import React from 'react';
 
-export default async function Home() {
+interface HomeProps {
+  searchParams: { tab: string };
+}
+
+export default async function Home({ searchParams }: HomeProps) {
   const { user } = await validateRequest();
   if (!user) {
     redirect(routes.login);
@@ -21,11 +26,14 @@ export default async function Home() {
   ) {
     redirect(routes.setup);
   }
-  const declarations = await DeclarationService.getDeclarations(user.id);
+  const declarations = await DeclarationService.getDeclarations({
+    userId: user.id,
+    tab: searchParams.tab ? searchParams.tab : 'all',
+  });
 
   return (
     <>
-      <DeclarationStartForm isAnyLastDeclaration={declarations.length > 0} />
+      <DeclarationStartForm  />
       <main className=''>
         <Sidebar />
         <DeclarationTable declarations={declarations} />

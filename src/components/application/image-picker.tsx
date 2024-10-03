@@ -52,6 +52,7 @@ export default function ImagePicker({
         style={{ display: 'none' }}
         onChange={handleImageChange}
         accept={'.png,.jpg,.jpeg'}
+        id='image'
       />
       <Avatar
         src={file ? URL.createObjectURL(file) : nullImage.src}

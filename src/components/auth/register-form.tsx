@@ -1,20 +1,23 @@
 'use client';
 import { useFormState } from 'react-dom';
 import { signup } from '@/actions/auth/register';
-import { Typography, Button, CardBody, CardFooter } from '../materialTailwind';
+import { Typography, CardBody, CardFooter, Button } from '../materialTailwind';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import routes from '@/utils/routes';
-import { FcGoogle } from 'react-icons/fc';
-import Divider from '../common/divider';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { registerSchema } from '@/utils/validators/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
-import SubmitButton from './button/submitButton';
 import TextInput from '../common/form/text-input';
+import { setSubmittingRegister } from '@/store/slices/authSlice/authSlice';
 import PasswordInput from '../common/form/password-input';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useRouter } from 'next/navigation';
+import routes from '@/utils/routes';
 
 const RegisterForm = () => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { isSubmittingRegister } = useAppSelector((state) => state.auth);
   const [formState, action] = useFormState(signup, { errors: {} });
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
@@ -28,29 +31,35 @@ const RegisterForm = () => {
   });
 
   useEffect(() => {
+    if (formState.data) {
+      dispatch(setSubmittingRegister(false));
+      router.push(routes.verify);
+    }
+    if (formState.errors._form) {
+      dispatch(setSubmittingRegister(false));
+    }
     if (formState.errors.email) {
+      dispatch(setSubmittingRegister(false));
       setError('email', {
         message: formState.errors.email.join(', '),
       });
     }
     if (formState.errors.password) {
+      dispatch(setSubmittingRegister(false));
       setError('password', {
         message: formState.errors.password.join(', '),
       });
     }
     if (formState.errors.passwordRepeat) {
+      dispatch(setSubmittingRegister(false));
       setError('passwordRepeat', {
         message: formState.errors.passwordRepeat.join(', '),
       });
     }
-  }, [
-    formState.errors.email,
-    formState.errors.password,
-    formState.errors.passwordRepeat,
-    setError,
-  ]);
+  }, [formState, setError, dispatch, router]);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
+    dispatch(setSubmittingRegister(true));
     const submitted = data as RegisterClientForm;
     const formData = new FormData();
     formData.append('email', submitted.email);
@@ -62,7 +71,7 @@ const RegisterForm = () => {
   return (
     <form className='space-y-7' onSubmit={handleSubmit(onSubmit)}>
       <CardBody className='flex flex-col gap-2'>
-        <div className='flex w-full justify-center'>
+        {/* <div className='flex w-full justify-center'>
           <Link href={routes.googleLogin}>
             <Button
               size='lg'
@@ -75,7 +84,7 @@ const RegisterForm = () => {
             </Button>
           </Link>
         </div>
-        <Divider />
+        <Divider /> */}
         <TextInput
           register={register}
           errors={errors}
@@ -110,7 +119,15 @@ const RegisterForm = () => {
       </CardBody>
       <CardFooter className='pt-0'>
         <div className='flex w-full justify-end'>
-          <SubmitButton title='Register' />
+          <Button
+            type='submit'
+            variant='gradient'
+            color='blue'
+            loading={isSubmittingRegister}
+            className=' hover:animate-bounce'
+          >
+            Register
+          </Button>
         </div>
         <Typography variant='small' className='mt-6  text-center'>
           Create an account to register yourself in Income, Assets & Liabilities

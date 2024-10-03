@@ -217,10 +217,23 @@ interface LiabilityFormState {
 
 interface DeleteFormState {
   errors: {
+    code?: string[];
+    _form?: string[];
+  };
+}
+interface VerifyEmailFormState {
+  errors: {
+    code?: string[];
     _form?: string[];
   };
 }
 
+interface ResendFormState {
+  errors: {
+    message?: string[];
+    _form?: string[];
+  };
+}
 interface PreviewFormState {
   errors: {
     isAccepted?: string[];

@@ -4,7 +4,6 @@ import { signUpEmail } from './verification';
 const user = process.env.GMAIL_USER;
 const pass = process.env.GMAIL_PASSWORD;
 
-
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 465,
@@ -17,21 +16,24 @@ const transporter = nodemailer.createTransport({
 export const sendVerificationEmail = async ({
   email,
   token,
+  name,
 }: {
   email: string;
   token: string;
+  name: string;
 }) => {
   try {
     const status = await transporter.sendMail({
       to: email,
       subject: 'Email Verification',
-      html: signUpEmail({ email, verificationLink: token }),
+      html: signUpEmail({ code: token, date: new Date().toDateString(), name }),
     });
     console.log('Email sent:', status);
-    return status;
+    
+    return status.messageId;
   } catch (error) {
     console.error('Error sending email:', error);
-    throw error;
+     return null
   }
 };
 export default transporter;

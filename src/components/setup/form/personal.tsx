@@ -1,7 +1,7 @@
 'use client';
 import { useFormState } from 'react-dom';
 import { titleData, personalIds } from '@/utils/selectOptions';
-import { useEffect, type ChangeEvent } from 'react';
+import { useEffect } from 'react';
 import { countries, acquireNationalityBy } from '@/utils/countries';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { CardBody, Typography, Button } from '@/components/materialTailwind';
@@ -85,7 +85,7 @@ const PersonalForm = ({ personal }: { personal: PersonalSetupAttributes }) => {
       }
     });
     return () => subscription.unsubscribe();
-  }, [watch]);
+  }, [dispatch, watch]);
   useEffect(() => {
     if (personal) {
       setValue('title', personal?.title);
@@ -100,30 +100,15 @@ const PersonalForm = ({ personal }: { personal: PersonalSetupAttributes }) => {
       setValue('country', personal?.country);
       setValue('acquireBy', personal?.acquireBy);
       setValue('idType', personal?.idType);
-
     } else {
       reset();
     }
-  }, [
-    personal?.aliases,
-    personal?.dateOfBirth,
-    personal?.firstName,
-    personal?.gender,
-    personal?.maritalStatus,
-    personal?.middleName,
-    personal?.pid,
-    personal?.surname,
-    personal?.title,
-    setValue,
-    reset,
-    personal?.country,
-    personal?.acquireBy,
-  ]);
+  }, [setValue, reset, personal]);
   useEffect(() => {
     if (file) {
       clearErrors('image');
     }
-  }, [file]);
+  }, [clearErrors, file]);
 
   useEffect(() => {
     if (formState?.data) {
@@ -172,25 +157,12 @@ const PersonalForm = ({ personal }: { personal: PersonalSetupAttributes }) => {
     if (formState.errors.image) {
       setError('image', { message: formState.errors.image.join(', ') });
     }
-  }, [
-    dispatch,
-    formState?.data,
-    formState.errors.title,
-    formState.errors.pid,
-    formState.errors.surname,
-    formState.errors.firstName,
-    formState.errors.dateOfBirth,
-    formState.errors.maritalStatus,
-    formState.errors.gender,
-    formState.errors.country,
-    formState.errors.acquireBy,
-    setError,
-  ]);
+  }, [dispatch, setError, formState]);
 
   return (
     <CardBody className='flex flex-col gap-4'>
       <form className='' onSubmit={handleSubmit(onSubmit)}>
-        <Typography className=' text-center'>
+        <Typography className=' text-center' id=''>
           All fields marked with * are required to be filled in.
         </Typography>
         <ImagePicker register={register} errors={errors} value='image' />

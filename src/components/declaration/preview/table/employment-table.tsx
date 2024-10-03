@@ -19,7 +19,7 @@ export default function EmploymentPreviewGridTable({
     <Card id={employment.id} className=''>
       <CardBody className='border-t border-blue-400 bg-blue-50/50 '>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Ministy / Dept / Agency:
             </Typography>
@@ -27,7 +27,7 @@ export default function EmploymentPreviewGridTable({
               {employment?.mda.abbreviation + ' - ' + employment?.mda.name}
             </Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Employee Category:
             </Typography>
@@ -35,7 +35,7 @@ export default function EmploymentPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 '>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               {reason === 'Appointment' || reason === 'Biennial Declaration'
                 ? 'Current Posting:'
@@ -45,7 +45,7 @@ export default function EmploymentPreviewGridTable({
                 ${employment?.posting ? employment.posting : 'N/A'}
             `}</Typography>
           </div>
-          <div className='grid grid-cols-2 '>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Job Title / Designation:
             </Typography>
@@ -53,13 +53,13 @@ export default function EmploymentPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3  gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Grade / Rank:
             </Typography>
             <Typography>{employment?.rank}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Annual Salary:
             </Typography>
@@ -69,7 +69,7 @@ export default function EmploymentPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Other Allowances:
             </Typography>
@@ -79,7 +79,7 @@ export default function EmploymentPreviewGridTable({
                 : 'N/A'}
             </Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Other Allowances Details:
             </Typography>
@@ -91,7 +91,7 @@ export default function EmploymentPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Social Security No(SSNo):
             </Typography>
@@ -99,7 +99,7 @@ export default function EmploymentPreviewGridTable({
               {employment?.SSNo ? employment.SSNo : 'N/A'}
             </Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Employee ID:
             </Typography>
@@ -107,7 +107,7 @@ export default function EmploymentPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Employee No:
             </Typography>
@@ -115,7 +115,7 @@ export default function EmploymentPreviewGridTable({
               {employment.employeeNo ? employment.employeeNo : 'N/A'}
             </Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Establishment Registration No:
             </Typography>
@@ -127,13 +127,13 @@ export default function EmploymentPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Contract Type:
             </Typography>
             <Typography>{employment?.contractType}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Start Date (mm/dd/yyyy):
             </Typography>
@@ -143,7 +143,7 @@ export default function EmploymentPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               End Date (mm/dd/yyyy):
             </Typography>
@@ -153,7 +153,7 @@ export default function EmploymentPreviewGridTable({
                 : 'N/A'}
             </Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Source of Income:
             </Typography>

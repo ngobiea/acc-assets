@@ -1,9 +1,9 @@
 'use server';
-import { redirect } from 'next/navigation';
 import UserService from '@/services/user-service';
 import { registerSchema } from '@/utils/validators/auth';
-import jsonwebtoken from 'jsonwebtoken';
-
+import { sixDigit } from '@/utils/declarations/id-generator';
+import { sendVerificationEmail } from '@/utils/email/node-mailer';
+import { createEmailSession } from '@/lib/email';
 export const signup = async (
   _useFormState: RegisterFormState,
   formData: FormData
@@ -19,6 +19,7 @@ export const signup = async (
       password,
       passwordRepeat,
     });
+
     if (!result.success) {
       return {
         errors: result.error.flatten().fieldErrors,
@@ -32,44 +33,49 @@ export const signup = async (
     if (existingUser) {
       return {
         errors: {
-          _form: ['A user with this email already exists'],
           email: ['A user with this email already exists'],
         },
       };
     }
     // password hashing
     const hashedPassword = await UserService.encryptUserPassword(password);
+    const getCode = sixDigit();
+
     // Create User
     const newUser = await UserService.createUser({
       email,
       password: hashedPassword,
+      code: getCode,
     });
-    console.log(newUser);
-    // Generate Confirmation Token and Send Email
-    // const token = jsonwebtoken.sign(
-    //   {
-    //     email: newUser.email,
-    //     id: newUser.id,
-    //   },
-    //   process.env.JWT_SECRET as string,
-    //   {
-    //     expiresIn: '1h',
-    //   }
-    // );
-    // const confirmationLink = `${process.env.NEXT_PUBLIC_BASE_URL}/confirm-email?token=${token}`;
-  } catch (err) {
-    console.log(err);
+    createEmailSession(email);
 
-    if (err instanceof Error) {
+    // Send Email
+    const mail = await sendVerificationEmail({
+      email,
+      token: getCode,
+      name: email,
+    });
+    if (!mail) {
       return {
         errors: {
-          _form: ['An error occur while registering, please try again'],
+          _form: [
+            'An error occur while sending verification email, please verify your email and try again',
+          ],
         },
       };
     }
+    return {
+      errors: {},
+      data: {
+        email,
+      },
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      errors: {
+        _form: ['An error occur while registering, please try again'],
+      },
+    };
   }
-  redirect('/login');
-  return {
-    errors: {},
-  };
 };

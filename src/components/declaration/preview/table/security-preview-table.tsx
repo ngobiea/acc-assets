@@ -11,13 +11,13 @@ export default function SecurityPreviewGridTable({
     <Card id={security.id} className=''>
       <CardBody className='border-t border-blue-400 bg-blue-50/50'>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               {`Owner's Name:`}
             </Typography>
             <Typography>{security?.ownerName}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Relation:
             </Typography>
@@ -25,13 +25,13 @@ export default function SecurityPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Registered Owner:
             </Typography>
             <Typography>{security?.registerOwner}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Security Name:
             </Typography>
@@ -39,13 +39,13 @@ export default function SecurityPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Security Type:
             </Typography>
             <Typography>{security?.type}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Certificate No.:
             </Typography>
@@ -53,13 +53,13 @@ export default function SecurityPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Number of Shares & Stocks:
             </Typography>
             <Typography>{security?.numberOfShares || 'N/A'}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Company / Business / Bank Name:
             </Typography>
@@ -67,13 +67,13 @@ export default function SecurityPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Shares Yearly Interest
             </Typography>
             <Typography>{security?.yearlyInterest || 'N/A'}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Nature of Shares:
             </Typography>
@@ -81,7 +81,7 @@ export default function SecurityPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Current Market Value:
             </Typography>
@@ -89,7 +89,7 @@ export default function SecurityPreviewGridTable({
               {security?.currency + security.currentMarketValue}
             </Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Acquisition Cost:
             </Typography>
@@ -99,13 +99,13 @@ export default function SecurityPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Acquisition Mode:
             </Typography>
             <Typography>{security?.acquisitionMode}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Acquisition Year:
             </Typography>
@@ -113,7 +113,7 @@ export default function SecurityPreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Finance Source:
             </Typography>

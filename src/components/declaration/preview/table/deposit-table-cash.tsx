@@ -15,13 +15,13 @@ export default function CashDepositGridTable({
     <Card id={cashDeposit.id} className=''>
       <CardBody className='border border-blue-400 '>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               {`Owner's Name:`}
             </Typography>
             <Typography>{cashDeposit?.ownerName}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Register Owner:
             </Typography>
@@ -43,13 +43,13 @@ export default function CashDepositGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3  gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Account No:
             </Typography>
             <Typography>{cashDeposit?.accountNo}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Institution Or Bank:
             </Typography>
@@ -57,13 +57,13 @@ export default function CashDepositGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3  gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Bank Location / Branch:
             </Typography>
             <Typography>{cashDeposit?.location || 'N/A'}</Typography>
           </div>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Account Balance:
             </Typography>
@@ -73,7 +73,7 @@ export default function CashDepositGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3  gap-3'>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Source of Deposit:
             </Typography>

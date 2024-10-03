@@ -16,13 +16,13 @@ export default function ImmovablePreviewGridTable({
     <Card id={immovable.id} className=''>
       <CardBody className='border-t border-blue-400 bg-blue-50/50 '>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2 '>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               {`Owner's Name:`}
             </Typography>
             <Typography>{immovable?.ownerName}</Typography>
           </div>
-          <div className='grid grid-cols-2  '>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Relation:
             </Typography>
@@ -30,13 +30,13 @@ export default function ImmovablePreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3 '>
-          <div className='grid grid-cols-2 '>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Registered Owner:
             </Typography>
             <Typography>{immovable?.registerOwner}</Typography>
           </div>
-          <div className='grid grid-cols-2 '>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Type of Asset:
             </Typography>
@@ -44,13 +44,13 @@ export default function ImmovablePreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3  gap-3'>
-          <div className='grid grid-cols-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Location:
             </Typography>
             <Typography>{immovable?.location}</Typography>
           </div>
-          <div className='grid grid-cols-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Plot No.:
             </Typography>
@@ -58,13 +58,13 @@ export default function ImmovablePreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Size / Acre:
             </Typography>
             <Typography>{immovable?.size || 'N/A'}</Typography>
           </div>
-          <div className='grid grid-cols-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Estimated Current Market Value:
             </Typography>
@@ -74,13 +74,13 @@ export default function ImmovablePreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Acquisition Mode:
             </Typography>
             <Typography>{immovable?.acquisitionMode || 'N/A'}</Typography>
           </div>
-          <div className='grid grid-cols-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Acquisition Cost:
             </Typography>
@@ -92,13 +92,13 @@ export default function ImmovablePreviewGridTable({
           </div>
         </div>
         <div className='grid md:grid-cols-2 mb-3 gap-3'>
-          <div className='grid grid-cols-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Acquisition Year:
             </Typography>
             <Typography>{immovable?.acquisitionYear || 'N/A'}</Typography>
           </div>
-          <div className='grid grid-cols-2'>
+          <div className='grid sm:grid-cols-2 sm:gap-2'>
             <Typography color='gray' className=' font-bold'>
               Finance Source:
             </Typography>

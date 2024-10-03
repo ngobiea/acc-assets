@@ -1,4 +1,5 @@
 import { Input } from '@/components/materialTailwind';
+import type { containerProps } from '@material-tailwind/react/types/components/input';
 import type { HTMLInputTypeAttribute } from 'react';
 import type { FieldErrors, Path, UseFormRegister } from 'react-hook-form';
 type TextInputProps = {
@@ -9,6 +10,9 @@ type TextInputProps = {
   errors: FieldErrors<FormValues>;
   placeholder: string;
   disabled?: boolean;
+  className?: string;
+  containerProps?: containerProps;
+  divClassName?: string;
 };
 export default function TextInput({
   register,
@@ -17,10 +21,13 @@ export default function TextInput({
   value,
   placeholder,
   type,
-  disabled
+  disabled,
+  className,
+  containerProps,
+  divClassName,
 }: TextInputProps) {
   return (
-    <div className='w-full group mb-5'>
+    <div className={divClassName ? divClassName : `w-full group mb-5 +`}>
       <Input
         disabled={disabled}
         {...register(value)}
@@ -30,6 +37,8 @@ export default function TextInput({
         error={(errors as any)[value] ? true : false}
         type={type}
         min={type === 'number' ? 0 : undefined}
+        className={className}
+        containerProps={containerProps}
       />
       <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
         {(errors as any)[value]?.message}

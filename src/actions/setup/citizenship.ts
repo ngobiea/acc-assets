@@ -4,7 +4,7 @@ import { validateRequest } from '@/lib/verify-auth';
 import { redirect } from 'next/navigation';
 import routes from '@/utils/routes';
 import { nationalitySchema } from '@/utils/validators/setup';
-import type { Citizenship } from '@prisma/client';
+import { revalidatePath } from 'next/cache';
 
 export const postNationality = async (
   _useFormState: NationalityFormState,
@@ -42,6 +42,7 @@ export const postNationality = async (
       acquireBy,
       userId: user.id,
     });
+    revalidatePath(routes.profile);
 
     return {
       errors: {},
@@ -59,23 +60,11 @@ export const postNationality = async (
   }
 };
 
-export const getCitizenships = async (): Promise<Citizenship[]> => {
-  try {
-    const { user } = await validateRequest();
-    if (!user) {
-      redirect(routes.login);
-      return [];
-    }
-    const citizenships = await CitizenshipService.getCitizenships(user.id);
-    console.log(citizenships);
-    return citizenships;
-  } catch (error) {
-    console.error('Error fetching citizenships:', error);
-    throw error;
-  }
-};
-
-export const deleteCitizenship = async (id: string): Promise<string | null> => {
+export const deleteCitizenship = async (
+  { id }: { id: string },
+  _useFormState: DeleteFormState,
+  _formData: FormData
+): Promise<DeleteFormState> => {
   try {
     const { user } = await validateRequest();
     if (!user) {
@@ -83,9 +72,16 @@ export const deleteCitizenship = async (id: string): Promise<string | null> => {
       // return null;
     }
     await CitizenshipService.deleteCitizenship(id);
-    return id;
   } catch (error) {
-    console.error('Error deleting citizenship:', error);
-    throw new Error('Error occurs while deleting citizenship');
+    console.log('Error deleting national card:', error);
+    return {
+      errors: {
+        _form: ['An error occurs while deleting national card'],
+      },
+    };
   }
+  revalidatePath(routes.profile);
+  return {
+    errors: {},
+  };
 };

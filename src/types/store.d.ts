@@ -30,11 +30,11 @@ interface AppSliceState {
 }
   
 interface DeclarationState {
+  isDeclarationFormOpen: boolean;
   isLastDeclarationStep: boolean;
   isFirstDeclarationStep: boolean;
   activeDeclarationStep: number;
   isLoadingDeclaration: boolean;
-  isStartDeclaration: boolean;
   isPersonalFormOpen: boolean;
   isEmploymentFormOpen: boolean;
   isPastEmploymentFormOpen: boolean;
@@ -62,4 +62,15 @@ interface DeclarationState {
   isDeletingPassport: boolean;
   isSubmittingNationalCard: boolean;
   isDeletingNationalCard: boolean;
+}
+interface AuthSliceState {
+  isSubmittingRegister: boolean;
+  isSubmittingLogin: boolean;
+  isSubmittingLogout: boolean;
+  isSubmittingForgotPassword: boolean;
+  isSubmittingResetPassword: boolean;
+  isSubmittingVerification: boolean;
+  isSubmittingResendVerification: boolean;
+  isSubmittingUpdatePassword: boolean;
+  
 }

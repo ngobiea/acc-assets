@@ -20,6 +20,7 @@ import {
   setIsShowCitizenshipUpdateForm,
 } from '@/store/slices/setupSlice/setupSlice';
 import { HiXMark } from 'react-icons/hi2';
+import SelectInput from '@/components/common/form/select-input';
 
 export default function CitizenUpdateForm() {
   const dispatch = useAppDispatch();
@@ -31,20 +32,23 @@ export default function CitizenUpdateForm() {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm<CitizenshipForm>({
+    reset,
+  } = useForm<FormValues>({
     resolver: zodResolver(nationalitySchema),
   });
 
-  const onSubmit: SubmitHandler<CitizenshipForm> = (data) => {
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     dispatch(setIsSubmittingCitizenship(true));
+    const submitted = data as CitizenshipForm;
     const formData = new FormData();
-    formData.append('country', data.country);
-    formData.append('acquireBy', data.acquireBy);
-    //   action(formData);
-      console.log(data);
+    formData.append('country', submitted.country);
+    formData.append('acquireBy', submitted.acquireBy);
+    action(formData);
   };
   useEffect(() => {
     if (formState?.data) {
+      dispatch(setIsShowCitizenshipUpdateForm(false));
+      dispatch(setIsSubmittingCitizenship(false));
     }
     if (
       formState.errors._form ||
@@ -71,6 +75,12 @@ export default function CitizenUpdateForm() {
     dispatch,
     setError,
   ]);
+
+  useEffect(() => {
+    if (!isShowCitizenshipUpdateForm) {
+      reset();
+    }
+  }, [isShowCitizenshipUpdateForm, reset]);
   return (
     <Dialog
       open={isShowCitizenshipUpdateForm}
@@ -82,7 +92,7 @@ export default function CitizenUpdateForm() {
     >
       <DialogHeader className='relative m-0 block'>
         <Typography variant='h4' color='gray' className=' text-center'>
-          Add National Card
+          Add Citizenship
         </Typography>
 
         <IconButton
@@ -101,69 +111,23 @@ export default function CitizenUpdateForm() {
           onSubmit={handleSubmit(onSubmit)}
           className='max-w-3xl mx-auto py-10'
         >
-          <Typography variant='h6' color='blue-gray'>
-            Other Nationalities Information
-          </Typography>
           <div className='grid lg:grid-cols-2 lg:gap-6'>
-            <div className='w-full group mb-5'>
-              <Typography
-                variant='small'
-                className='text-gray-800'
-                as={'label'}
-              >
-                Other Nationality*
-              </Typography>
-              <select
-                {...register('country')}
-                className={`border text-sm rounded-lg  block w-full p-2.5 ${
-                  errors.country
-                    ? 'bg-red-50 border-red-300 focus:text-red-500 focus:ring-red-500  focus:border-red-500 outline-red-500'
-                    : 'bg-gray-50 border-blue-gray-300 focus:text-blue-500 focus:ring-blue-500 focus:border-blue-500 outline-blue-500'
-                }`}
-              >
-                <option value={''}>Select Country</option>
-
-                {countries.map(({ id, value }) => {
-                  return (
-                    <option key={id} value={value} className=''>
-                      {value}
-                    </option>
-                  );
-                })}
-              </select>
-              <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                {errors.country?.message}
-              </p>
-            </div>
-            <div className='w-full group'>
-              <Typography
-                variant='small'
-                className='text-gray-800'
-                as={'label'}
-              >
-                Acquire By*
-              </Typography>
-              <select
-                {...register('acquireBy')}
-                className={`border text-sm rounded-lg  block w-full p-2.5 ${
-                  errors.acquireBy
-                    ? 'bg-red-50 border-red-300 focus:text-red-500 focus:ring-red-500  focus:border-red-500 outline-red-500'
-                    : 'bg-gray-50 border-blue-gray-300 focus:text-blue-500 focus:ring-blue-500 focus:border-blue-500 outline-blue-500'
-                }`}
-              >
-                <option value={''}>Select</option>
-                {acquireNationalityBy.map(({ id, value }) => {
-                  return (
-                    <option key={id} value={value} className=''>
-                      {value}
-                    </option>
-                  );
-                })}
-              </select>
-              <p className='text-red-500 mt-2 flex items-center gap-1 font-normal'>
-                {errors.acquireBy?.message}
-              </p>
-            </div>
+            <SelectInput
+              errors={errors}
+              options={countries}
+              register={register}
+              value='country'
+              label='Select Country*'
+              title='Select Country'
+            />
+            <SelectInput
+              errors={errors}
+              options={acquireNationalityBy}
+              register={register}
+              value='acquireBy'
+              label='Select'
+              title='Acquire By*'
+            />
           </div>
           {formState.errors._form && (
             <div className='flex w-full justify-between my-5 text-red-500'>

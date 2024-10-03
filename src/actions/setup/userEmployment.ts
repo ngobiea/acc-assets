@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import routes from '@/utils/routes';
 import type { UserEmployment } from '@prisma/client';
 import { userEmploymentSchema } from '@/utils/validators/setup';
+import { revalidatePath } from 'next/cache';
 export const postUserEmployment = async (
   _useFormState: UserEmploymentFormState,
   formData: FormData
@@ -93,7 +94,7 @@ export const postUserEmployment = async (
         userId: user.id,
       });
     }
-
+    revalidatePath(routes.setup);
     return {
       errors: {},
       data: {
@@ -110,16 +111,3 @@ export const postUserEmployment = async (
   }
 };
 
-export const getUserEmployment = async (): Promise<UserEmployment | null> => {
-  try {
-    const { user } = await validateRequest();
-    if (!user) {
-      redirect(routes.login);
-    }
-    const employment = await UserEmploymentService.getUserEmployment(user.id);
-    return employment;
-  } catch (error) {
-    console.log('Error fetching user employment:', error);
-    return null;
-  }
-};

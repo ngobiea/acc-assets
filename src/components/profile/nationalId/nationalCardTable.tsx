@@ -8,6 +8,7 @@ import {
 import { MdAdd, MdOutlineDelete } from 'react-icons/md';
 const TABLE_HEAD = ['ID', 'Country', 'Issue Date', 'Expiry Date', 'Action'];
 import AddNationalCardButton from './button-add-nationalCard';
+import DeleteNationalCardForm from './delete-nationalCard';
 
 export default function ProfileNationalTable({
   nationalCards,
@@ -106,16 +107,7 @@ export default function ProfileNationalTable({
                         </Typography>
                       </td>
                       <td className={classes}>
-                        <form action=''>
-                          <Button
-                            variant='text'
-                            color='red'
-                            className='flex items-center gap-1 hover:animate-bounce px-0'
-                          >
-                            <MdOutlineDelete className='h-4 w-4' />
-                            Delete
-                          </Button>
-                        </form>
+                        <DeleteNationalCardForm id={id} />
                       </td>
                     </tr>
                   );

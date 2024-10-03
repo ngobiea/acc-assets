@@ -1,6 +1,7 @@
 interface UserForm {
   email: string;
   password: string | null;
+  code: string| null;
 }
 interface PersonalForm {
   title: string;
@@ -48,6 +49,7 @@ interface PersonalClientForm {
   country: string;
   acquireBy: string;
   image: string;
+  id: string;
 }
 interface CitizenshipForm {
   country: string;

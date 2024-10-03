@@ -48,6 +48,7 @@ export const postDPersonal = async (
       id,
       image,
     });
+    console.log(image);
 
     if (!result.success) {
       return {
@@ -98,7 +99,7 @@ export const postDPersonal = async (
     return {
       errors: {},
       data: {
-        personal,
+        personalId: personal.id,
       },
     };
   } catch (error) {
