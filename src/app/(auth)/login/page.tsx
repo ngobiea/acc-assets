@@ -3,7 +3,7 @@ import LoginForm from '@/components/auth/login-form';
 import { CardHeader } from '@/components/materialTailwind';
 import React from 'react';
 
-const LoginPage: React.FC = () => {
+export default async function  LoginPag (){
   return (
     <>
       <CardHeader
@@ -20,7 +20,6 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
 
 /**
  *    <div className='p-6 max-w-sm mx-auto bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-lg shadow-lg space-y-4 text-white transform transition duration-300 ease-in-out hover:shadow-2xl hover:scale-105'>
