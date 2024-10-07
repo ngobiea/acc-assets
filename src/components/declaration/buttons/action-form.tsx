@@ -21,7 +21,6 @@ export default function ActionForm({
       : deleteDeclaration.bind(null, { id }),
     { errors: {} }
   );
-  console.log(formState);
   return (
     <form className='' action={formAction}>
       <Tooltip

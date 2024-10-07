@@ -59,8 +59,6 @@ export default function DeclarationStartForm() {
       setShowOtherInput(false);
     }
   }, [isDeclarationFormOpen, reset]);
-
-  console.log(formState.errors);
   useEffect(() => {
     if (formState.data) {
       dispatch(setIsDeclarationFormOpen(false));

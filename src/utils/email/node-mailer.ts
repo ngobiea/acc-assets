@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import { signUpEmail } from './verification';
+import { declarationEmail } from './declaration';
 
 const user = process.env.GMAIL_USER;
 const pass = process.env.GMAIL_PASSWORD;
@@ -36,4 +37,30 @@ export const sendVerificationEmail = async ({
      return null
   }
 };
+
+export const sendDeclarationEmail = async ({
+  email,
+  applicationId,
+  name,
+  submissionDate,
+}: {
+  email: string;
+  applicationId: string;
+  name: string;
+  submissionDate: string;
+}) => {
+  try {
+    const status = await transporter.sendMail({
+      to: email,
+      subject: 'Assets Declaration Submission Confirmation',
+      html: declarationEmail({ applicationId, name, submissionDate }),
+    });
+    console.log('Email sent:', status);
+    return status.messageId;
+  } catch (error) {
+    console.error('Error sending email:', error);
+    return null
+  }
+};
+
 export default transporter;

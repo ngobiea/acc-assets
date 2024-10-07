@@ -34,10 +34,10 @@ export default async function Home({ searchParams }: HomeProps) {
   return (
     <>
       <DeclarationStartForm  />
-      <main className=''>
+      <section className=''>
         <Sidebar />
         <DeclarationTable declarations={declarations} />
-      </main>
+      </section>
     </>
   );
 }

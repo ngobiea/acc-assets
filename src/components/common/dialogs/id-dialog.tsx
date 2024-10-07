@@ -7,8 +7,6 @@ import {
   DialogHeader,
   Typography,
 } from '@/components/materialTailwind';
-import { useContext } from 'react';
-import DialogContext from '@/context/dialog';
 import { MdOutlineWarningAmber } from 'react-icons/md';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setIsIDType } from '@/store/slices/setupSlice/setupSlice';
@@ -16,7 +14,6 @@ import { setIsIDType } from '@/store/slices/setupSlice/setupSlice';
 export default function IdDialog() {
   const dispatch = useAppDispatch();
   const { isIDType } = useAppSelector((state) => state.setup);
-  // const { handleOpenIdType, openIdType } = useContext(DialogContext);
 
   return (
     <Dialog open={isIDType} handler={() => {}}>

@@ -11,10 +11,10 @@ export default async function UserLayout({
 
       <Sidebar />
       {/* <MobileSidebar /> */}
-      <section className='p-4 xl:ml-80'>
+      <main className='p-4 xl:ml-80'>
         <UserNavbar />
         {children}
-      </section>
+      </main>
     </main>
   );
 }

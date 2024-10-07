@@ -38,7 +38,7 @@ export const postVerifyEmail = async (
         },
       };
     }
-    if (user.code !== code) {
+    if (user.data?.code !== code) {
       return {
         errors: {
           _form: ['Invalid code'],
@@ -63,23 +63,21 @@ export const resendVerificationEmail = async (
   try {
     const email = getEmailSession();
     if (!email) {
-   return {
-     errors: {
-       _form: [
-         'An error occur while resending verification email, please login with your valid email',
-       ],
-     },
-   };
+      return {
+        errors: {
+          _form: [
+            'An error occur while resending verification email, please login with your valid email',
+          ],
+        },
+      };
     }
     const user = await UserService.isUserExist({ email: email.value });
     if (!user) {
-    return {
-      errors: {
-        _form: [
-          'Email does not exist, please register with a valid email',
-        ],
-      },
-    };
+      return {
+        errors: {
+          _form: ['Email does not exist, please register with a valid email'],
+        },
+      };
     }
     const code = sixDigit();
     await UserService.updateCode({ email: email.value, code });

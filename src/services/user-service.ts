@@ -5,7 +5,7 @@ import { user } from '@/lib/db';
 import { type User } from '@prisma/client';
 
 class UserService {
-  static async createUser(newUser: UserForm): Promise<User> {
+  static async createUser(newUser: UserForm): Promise<AppResponse<User>> {
     try {
       const { email, password, code } = newUser;
       const createdUser = await user.create({
@@ -15,14 +15,25 @@ class UserService {
           code,
         },
       });
-      return createdUser;
+      return {
+        data: createdUser,
+        message: 'User created successfully',
+        status: 'success',
+      };
     } catch (error) {
-      console.error('Error creating user:', error);
-      throw error;
+      return {
+        message: 'Error creating user',
+        status: 'error',
+        data: null,
+      };
     }
   }
 
-  static async isUserExist({ email }: { email: string }): Promise<User | null> {
+  static async isUserExist({
+    email,
+  }: {
+    email: string;
+  }): Promise<AppResponse<User>> {
     try {
       const isExist = await user.findFirst({
         where: {
@@ -30,20 +41,26 @@ class UserService {
         },
       });
 
-      return isExist;
+      return {
+        data: isExist,
+        message: 'A user with this email already exists, please login',
+        status: 'success',
+      };
     } catch (error) {
-      console.error('Error checking user existence:', error);
-      throw error;
+      return {
+        message: 'Error checking user',
+        status: 'error',
+        data: null,
+      };
     }
   }
 
-  static async encryptUserPassword(password: string): Promise<string> {
+  static async encryptUserPassword(password: string): Promise<string | null> {
     try {
       const salt = await bcrypt.genSalt(10);
       return await bcrypt.hash(password, salt);
     } catch (error) {
-      console.error('Error encrypting password:', error);
-      throw error;
+      return null;
     }
   }
 
@@ -54,8 +71,7 @@ class UserService {
     try {
       return await bcrypt.compare(password, hash);
     } catch (error) {
-      console.error('Error validating password:', error);
-      throw error;
+      return false;
     }
   }
   // static async getUserEmail()
@@ -72,7 +88,7 @@ class UserService {
 
   static async getUserSetup(
     userId: string
-  ): Promise<UserSetupAttributes | null> {
+  ): Promise<AppResponse<UserSetupAttributes>> {
     try {
       const foundUser = await user.findUnique({
         where: {
@@ -93,59 +109,25 @@ class UserService {
           nationalCards: true,
         },
       });
-      return foundUser;
+      return {
+        data: foundUser,
+        message: 'User found',
+        status: 'success',
+      };
     } catch (error) {
-      console.error('Error fetching user:', error);
-      throw error;
+      return {
+        message: 'Error fetching user',
+        status: 'error',
+        data: null,
+      };
     }
   }
 
-  static async getUserPersonalCitizenship(
-    userId: string
-  ): Promise<UserPersonalCitizenship | null> {
-    try {
-      const foundUser = await user.findUnique({
-        where: {
-          id: userId,
-        },
-        select: {
-          id: true,
-          email: true,
-          personal: true,
-          citizenships: true,
-        },
-      });
-      return foundUser;
-    } catch (error) {
-      console.error('Error fetching user:', error);
-      throw error;
-    }
-  }
-
-  static async getUserContactPassportNationalCard(
-    userId: string
-  ): Promise<UserContactPassportNationalCard | null> {
-    try {
-      const foundUser = await user.findUnique({
-        where: {
-          id: userId,
-        },
-        select: {
-          id: true,
-          email: true,
-          contact: true,
-          passports: true,
-          nationalCards: true,
-        },
-      });
-      return foundUser;
-    } catch (error) {
-      console.error('Error fetching user:', error);
-      throw error;
-    }
-  }
-
-  static async verifyEmail({ email }: { email: string }): Promise<User | null> {
+  static async verifyEmail({
+    email,
+  }: {
+    email: string;
+  }): Promise<AppResponse<User>> {
     try {
       const foundUser = await user.update({
         where: {
@@ -155,10 +137,17 @@ class UserService {
           isVerified: true,
         },
       });
-      return foundUser;
+      return {
+        data: foundUser,
+        message: 'Email verified',
+        status: 'success',
+      };
     } catch (error) {
-      console.error('Error fetching user:', error);
-      throw error;
+      return {
+        message: 'Error verifying email',
+        status: 'error',
+        data: null,
+      };
     }
   }
 
@@ -168,7 +157,7 @@ class UserService {
   }: {
     email: string;
     code: string | null;
-  }) {
+  }): Promise<AppResponse<User>> {
     try {
       const updatedUser = await user.update({
         where: {
@@ -178,10 +167,17 @@ class UserService {
           code,
         },
       });
-      return updatedUser;
+      return {
+        data: updatedUser,
+        message: 'Code updated',
+        status: 'success',
+      };
     } catch (error) {
-      console.error('Error updating code:', error);
-      throw error;
+      return {
+        message: 'Error updating code',
+        status: 'error',
+        data: null,
+      };
     }
   }
 }

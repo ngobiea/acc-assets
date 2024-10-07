@@ -27,6 +27,7 @@ interface SetupState {
 interface AppSliceState {
   mdas: MDAAttributes[];
   file: File | null;
+  openSidenav: boolean;
 }
   
 interface DeclarationState {

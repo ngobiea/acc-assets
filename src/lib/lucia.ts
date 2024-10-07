@@ -34,7 +34,7 @@ const adapter = new NodePostgresAdapter(pool, {
   session: 'sessions',
 });
 
-export const lucia = new Lucia(neonAdapter, {
+export const lucia = new Lucia(adapter, {
   sessionCookie: {
     expires: true,
     attributes: {

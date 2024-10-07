@@ -6,3 +6,9 @@ interface MDAAttributes{
     createdAt: Date,
     updatedAt: Date
 }
+
+interface AppResponse<T> {
+    message: string;
+    status: 'success' | 'error' | 'warning' | 'info';
+    data: T | null;
+}

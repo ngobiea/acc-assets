@@ -2,8 +2,11 @@
 
 import { loginSchema } from '@/utils/validators/auth';
 import UserService from '@/services/user-service';
-import { createEmailSession } from '@/lib/email';
+import { createEmailSession, deleteEmailSession } from '@/lib/email';
+import { destroySession } from '@/lib/auth';
 // import { sendVerificationEmail } from '@/utils/email/node-mailer';
+import { redirect } from 'next/navigation';
+import routes from '@/utils/routes';
 
 export const login = async (
   _useFormState: LoginFormState,
@@ -13,7 +16,6 @@ export const login = async (
   const password = formData.get('password') as string;
   // await new Promise((resolve) => setTimeout(resolve, 5000));
 
-  try {
     const result = loginSchema.safeParse({
       email: formData.get('email'),
       password: formData.get('password'),
@@ -25,7 +27,7 @@ export const login = async (
     }
     //
     const user = await UserService.isUserExist({ email });
-    if (!user) {
+    if (!user.data) {
       return {
         errors: {
           email: ['User does not exist. Please sign up'],
@@ -33,7 +35,7 @@ export const login = async (
       };
     }
     createEmailSession(email);
-    if (!user.isVerified) {
+    if (!user.data.isVerified) {
       return {
         errors: {
           emailVerified: ['Email not verified yet. Please verify your email'],
@@ -43,7 +45,7 @@ export const login = async (
     //
     const isValidPassword = await UserService.isValidUserPassword(
       password,
-      user.password as string
+      user.data.password || ''
     );
 
     if (!isValidPassword) {
@@ -54,19 +56,25 @@ export const login = async (
       };
     }
     //
-    await UserService.crateUserSession(user.id as string);
+   await UserService.crateUserSession(user.data.id as string);
     return {
       errors: {},
       data: {
-        email: user.email,
+        email: user.data.email,
       },
     };
-  } catch (error) {
     console.error('Error logging in:', error);
     return {
       errors: {
         _form: ['An error occurred while logging in. Please try again'],
       },
     };
-  }
+};
+
+export const logout = async (
+  _useFormState: DeleteFormState,
+  formData: FormData
+): Promise<DeleteFormState> => {
+  const sessionStatus = await destroySession();
+  redirect(routes.login);
 };

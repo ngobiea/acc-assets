@@ -1,7 +1,53 @@
-import { Declaration } from '@prisma/client';
+import type {
+  Declaration,
+  CashAtHand,
+  CashDeposit,
+  DContact,
+  DPersonal,
+  Citizenship,
+  Contact,
+  Employment,
+  Family,
+  File,
+  ImmovableAsset,
+  Liability,
+  MDA,
+  MovableAsset,
+  NationalCard,
+  OtherAsset,
+  Passport,
+  PastEmployment,
+  Personal,
+  Security,
+  Session,
+  User,
+  UserEmployment,
+} from '@prisma/client';
 import { declaration } from '@/lib/db';
 import type { DeclarationData } from '@/utils/declaration';
 import { nanoid } from '@/utils/declarations/id-generator';
+interface DeclarationCopy {
+  id: string;
+  reason: string;
+  status: string;
+  place: string | null;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  cashAtHand: CashAtHand | null;
+  cashDeposits: CashDeposit[];
+  contact: DContact | null;
+  employments: Employment[];
+  families: Family[];
+  immovableAssets: ImmovableAsset[];
+  liabilities: Liability[];
+  movableAssets: MovableAsset[];
+  otherAssets: OtherAsset[];
+  pastEmployments: PastEmployment[];
+  securities: Security[];
+  personal: DPersonal | null;
+  user: User;
+}
 
 class DeclarationService {
   static async createDeclaration(
@@ -154,7 +200,7 @@ class DeclarationService {
       const declarations = await declaration.findMany({
         where: {
           userId,
-          ...(tab==='all' ? {} : { status: tab.toUpperCase() }),
+          ...(tab === 'all' ? {} : { status: tab.toUpperCase() }),
         },
       });
 
@@ -164,7 +210,6 @@ class DeclarationService {
       throw error;
     }
   }
-
 
   static async isDeclarationExist(
     declarationId: string
@@ -184,9 +229,39 @@ class DeclarationService {
       throw error;
     }
   }
+  static async getDeclarationForCopy(
+    declarationId: string
+  ): Promise<DeclarationCopy | null> {
+    try {
+      const declarationForCopy = await declaration.findUnique({
+        where: {
+          id: declarationId,
+        },
+        include: {
+          cashAtHand: true,
+          cashDeposits: true,
+          contact: true,
+          employments: true,
+          families: true,
+          immovableAssets: true,
+          liabilities: true,
+          movableAssets: true,
+          otherAssets: true,
+          pastEmployments: true,
+          personal: true,
+          securities: true,
+          user: true,
+        },
+      });
+      return declarationForCopy;
+    } catch (error) {
+      console.error('Error getting declaration for copy:', error);
+      throw error;
+    }
+  }
   static async copyDeclaration(declarationId: string): Promise<Declaration> {
     try {
-      const lastDeclaration = await this.getDeclaration(declarationId);
+      const lastDeclaration = await this.getDeclarationForCopy(declarationId);
       if (!lastDeclaration) {
         throw new Error('No previous declaration found');
       }
@@ -198,7 +273,7 @@ class DeclarationService {
           userId: lastDeclaration.userId,
           employments: {
             create: lastDeclaration.employments.map((employment) => ({
-              annualSalary: employment.annualSalary.replace(',',''),
+              annualSalary: employment.annualSalary,
               contractEndDate: employment.contractEndDate,
               contractStartDate: employment.contractStartDate,
               contractType: employment.contractType,
@@ -208,7 +283,7 @@ class DeclarationService {
               employeeId: employment.employeeId,
               mdaId: employment.mdaId,
               rank: employment.rank,
-              allowances: employment.allowances?.replace(',',''),
+              allowances: employment.allowances,
               allowancesCurrency: employment.allowancesCurrency,
               allowancesDescription: employment.allowancesDescription,
               employeeNo: employment.employeeNo,
@@ -221,7 +296,7 @@ class DeclarationService {
           cashAtHand: lastDeclaration.cashAtHand
             ? {
                 create: {
-                  amount: lastDeclaration.cashAtHand?.amount.replace(',',''),
+                  amount: lastDeclaration.cashAtHand?.amount,
                   currency: lastDeclaration.cashAtHand?.currency,
                   details: lastDeclaration.cashAtHand?.details,
                   jointIncome: lastDeclaration.cashAtHand?.jointIncome,
@@ -230,7 +305,7 @@ class DeclarationService {
             : undefined,
           cashDeposits: {
             create: lastDeclaration.cashDeposits.map((cashDeposit) => ({
-              accountBalance: cashDeposit.accountBalance.replace(',',''),
+              accountBalance: cashDeposit.accountBalance,
               accountNo: cashDeposit.accountNo,
               currency: cashDeposit.currency,
               institutionOrBank: cashDeposit.institutionOrBank,
@@ -268,7 +343,7 @@ class DeclarationService {
             create: lastDeclaration.immovableAssets.map((immovableAsset) => ({
               assetType: immovableAsset.assetType,
               currency: immovableAsset.currency,
-              estimatedValue: immovableAsset.estimatedValue.replace(',',''),
+              estimatedValue: immovableAsset.estimatedValue,
               financeSource: immovableAsset.financeSource,
               location: immovableAsset.location,
               ownerName: immovableAsset.ownerName,
@@ -276,7 +351,7 @@ class DeclarationService {
               relation: immovableAsset.relation,
               plotNo: immovableAsset.plotNo,
               size: immovableAsset.size,
-              acquisitionCost: immovableAsset.acquisitionCost.replace(',',''),
+              acquisitionCost: immovableAsset.acquisitionCost,
               acquisitionCurrency: immovableAsset.acquisitionCurrency,
               acquisitionMode: immovableAsset.acquisitionMode,
               acquisitionYear: immovableAsset.acquisitionYear,
@@ -288,8 +363,8 @@ class DeclarationService {
               currency: liability.currency,
               currencyOutstanding: liability.currencyOutstanding,
               debtorName: liability.debtorName,
-              loanAmount: liability.loanAmount.replace(',',''),
-              loanOutstanding: liability.loanOutstanding.replace(',',''),
+              loanAmount: liability.loanAmount,
+              loanOutstanding: liability.loanOutstanding,
               loanPurpose: liability.loanPurpose,
               loanRepayment: liability.loanRepayment,
               paymentPeriod: liability.paymentPeriod,
@@ -304,7 +379,7 @@ class DeclarationService {
             create: lastDeclaration.movableAssets.map((movableAsset) => ({
               assetType: movableAsset.assetType,
               currency: movableAsset.currency,
-              estimatedValue: movableAsset.estimatedValue.replace(',',''),
+              estimatedValue: movableAsset.estimatedValue,
               financeSource: movableAsset.financeSource,
               ownerName: movableAsset.ownerName,
               purpose: movableAsset.purpose,
@@ -313,7 +388,7 @@ class DeclarationService {
               relation: movableAsset.relation,
               description: movableAsset.description,
               location: movableAsset.location,
-              acquisitionCost: movableAsset.acquisitionCost.replace(',',''),
+              acquisitionCost: movableAsset.acquisitionCost,
               acquisitionCurrency: movableAsset.acquisitionCurrency,
               acquisitionMode: movableAsset.acquisitionMode,
               acquisitionYear: movableAsset.acquisitionYear,
@@ -324,13 +399,13 @@ class DeclarationService {
               ownerName: otherAsset.ownerName,
               assetType: otherAsset.assetType,
               currency: otherAsset.currency,
-              estimatedValue: otherAsset.estimatedValue.replace(',',''),
+              estimatedValue: otherAsset.estimatedValue,
               financeSource: otherAsset.financeSource,
               relation: otherAsset.relation,
               registerOwner: otherAsset.registerOwner,
               location: otherAsset.location,
               remarks: otherAsset.remarks,
-              acquisitionCost: otherAsset.acquisitionCost.replace(',',''),
+              acquisitionCost: otherAsset.acquisitionCost,
               acquisitionCurrency: otherAsset.acquisitionCurrency,
               acquisitionMode: otherAsset.acquisitionMode,
               acquisitionYear: otherAsset.acquisitionYear,
@@ -338,13 +413,13 @@ class DeclarationService {
           },
           pastEmployments: {
             create: lastDeclaration.pastEmployments.map((pastEmployments) => ({
-              annualSalary: pastEmployments.annualSalary.replace(',',''),
+              annualSalary: pastEmployments.annualSalary,
               contractEndDate: pastEmployments.contractEndDate,
               contractStartDate: pastEmployments.contractStartDate,
               currency: pastEmployments.currency,
               designation: pastEmployments.designation,
               rank: pastEmployments.rank,
-              allowances: pastEmployments.allowances?.replace(',',''),
+              allowances: pastEmployments.allowances,
               allowancesCurrency: pastEmployments.allowancesCurrency,
               allowancesDescription: pastEmployments.allowancesDescription,
               employerName: pastEmployments.employerName,
@@ -353,14 +428,14 @@ class DeclarationService {
           },
           securities: {
             create: lastDeclaration.securities.map((security) => ({
-              acquisitionCost: security.acquisitionCost.replace(',',''),
+              acquisitionCost: security.acquisitionCost,
               acquisitionCurrency: security.acquisitionCurrency,
               acquisitionMode: security.acquisitionMode,
               acquisitionYear: security.acquisitionYear,
               certificateNo: security.certificateNo,
               company: security.company,
               currency: security.currency,
-              currentMarketValue: security.currentMarketValue.replace(',',''),
+              currentMarketValue: security.currentMarketValue,
               financeSource: security.financeSource,
               ownerName: security.ownerName,
               registerOwner: security.registerOwner,

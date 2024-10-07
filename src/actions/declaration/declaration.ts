@@ -14,6 +14,7 @@ import ContactService from '@/services/contact-service';
 import DContactService from '@/services/d-contact-service';
 import { revalidatePath } from 'next/cache';
 import type { Declaration } from '@prisma/client';
+import { sendDeclarationEmail } from '@/utils/email/node-mailer';
 
 export const postDeclaration = async (
   _useFormState: DeclarationFormState,
@@ -143,6 +144,21 @@ export const postPreview = async (
         errors: result.error.flatten().fieldErrors,
       };
     }
+    const declaration = await DeclarationService.getDeclaration(declarationId);
+    if (!declaration) {
+      return {
+        errors: {
+          _form: ['Declaration not found'],
+        },
+      };
+    }
+    sendDeclarationEmail({
+      applicationId: declaration.id,
+      email: user.email,
+      name: `${declaration.personal?.title} ${declaration.personal?.firstName} ${declaration.personal?.surname}`,
+      submissionDate: new Date().toDateString(),
+    });
+
     await DeclarationService.declare(declarationId);
   } catch (error) {
     console.error(error);
